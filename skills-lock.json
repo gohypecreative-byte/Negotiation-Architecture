@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "frontend_design": {
+      "source": "krishnakanthb13/antigravity_global_skills",
+      "sourceType": "github",
+      "skillPath": "frontend_design/SKILL.md",
+      "computedHash": "e77b24a3960d88251687008c55be36afd5bc64d68cf41abe5b6acc9617292dd7"
+    }
+  }
+}
