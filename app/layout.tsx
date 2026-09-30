@@ -1,35 +1,44 @@
 import type { Metadata } from "next";
-import { Archivo, Cormorant_Garamond, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./landing.css";
-import { cn } from "@/lib/utils";
 
-const archivo = Archivo({subsets:['latin'],variable:'--font-body'});
-
-const display = Cormorant_Garamond({
+const displayFont = Cormorant_Garamond({
+  subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-display",
-  subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sansFont = Geist({
   subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const monoFont = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Negotiation Architecture ? Dr. Tarun Rochwani",
-  description: "Private advisory and coaching for leaders whose conversations carry consequence.",
+  title: "Negotiation Architecture — Dr. Tarun Rochwani",
+  description:
+    "A discipline of constructed outcomes for leaders whose conversations carry consequence.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const viewport = {
+  themeColor: "#FFFFFF",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html
-      lang="en"
-      className={cn("h-full", "antialiased", display.variable, geistMono.variable, "font-sans", archivo.variable)}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}>
+      <body className="bg-white text-[#152540] antialiased selection:bg-[#E67400]/20 selection:text-[#152540]">
+        {children}
+      </body>
     </html>
   );
 }

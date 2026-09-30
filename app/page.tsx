@@ -1,5 +1,5 @@
-import { LandingPage } from "@/components/landing-page";
+import { CodropsHome } from "@/components/codrops-home";
 
 export default function Home() {
-  return <LandingPage />;
+  return <CodropsHome />;
 }
