@@ -20,7 +20,7 @@ export const STAGES: StageInfo[] = [
   },
   {
     id: 2,
-    title: "ANALYSE",
+    title: "ANALYSIS",
     minProgress: 0.12,
     maxProgress: 0.31,
   },
