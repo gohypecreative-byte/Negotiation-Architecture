@@ -111,109 +111,103 @@ export function AnimatedSvgTextPath({
       pathLength = 1100;
     }
 
-    // Position Y relative to document
-    let svgRect = svgEl.getBoundingClientRect();
-    let positionY = svgRect.top + window.pageYOffset;
-
     const onResize = () => {
-      svgRect = svgEl.getBoundingClientRect();
-      positionY = svgRect.top + window.pageYOffset;
       try {
         const len = pathEl.getTotalLength();
         if (len > 0) pathLength = len;
       } catch {}
+      onScroll();
     };
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize, { passive: true });
 
-    // Codrops computeOffset function:
-    // When element is entering bottom of viewport: positionY - scrollY = window.innerHeight -> offset = pathLength
-    // When element is at top of viewport: positionY - scrollY = 0 -> offset = -pathLength / 2
-    const computeOffset = () => {
-      const viewportY = positionY - window.pageYOffset;
-      const winH = window.innerHeight;
+    // Dynamic computeTarget using live bounding client rect
+    const computeTarget = () => {
+      const viewportY = svgEl.getBoundingClientRect().top;
+      const winH = window.innerHeight || 800;
+      const startThreshold = winH * 1.1;
+      const endThreshold = -winH * 0.4;
       if (reverse) {
-        return map(viewportY, winH, 0, -pathLength * 0.5, pathLength * 0.9);
+        return map(viewportY, startThreshold, endThreshold, -pathLength * 0.25, pathLength * 0.85);
       }
-      return map(viewportY, winH, 0, pathLength, -pathLength * 0.6);
+      return map(viewportY, startThreshold, endThreshold, pathLength * 0.85, -pathLength * 0.35);
     };
 
-    // Interpolation state as in Codrops
-    const startOffset = {
-      value: computeOffset(),
-      amt: 0.22,
-    };
-    startOffset.value = computeOffset();
-    textPathEl.setAttribute("startOffset", `${startOffset.value}`);
+    let targetOffset = computeTarget();
+    let currentOffset = targetOffset;
+    textPathEl.setAttribute("startOffset", `${currentOffset.toFixed(1)}`);
 
-    const scroll = {
-      value: window.pageYOffset,
-      amt: 0.17,
-    };
-
-    let entered = false;
     let isVisible = false;
+    let isTicking = false;
     let rafId: number | null = null;
+    let lastScrollY = window.pageYOffset;
 
-    // IntersectionObserver as in Codrops
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        isVisible = entry.intersectionRatio > 0;
-        if (!isVisible) {
-          entered = false;
-          // update on exit to keep consistent
-          update();
-        }
-      });
-    });
+    const tick = () => {
+      const diff = targetOffset - currentOffset;
+      if (Math.abs(diff) > 0.15) {
+        // High-fidelity smooth interpolation: responsive with natural momentum glide
+        currentOffset += diff * 0.16;
+        textPathEl.setAttribute("startOffset", `${currentOffset.toFixed(1)}`);
 
-    observer.observe(svgEl);
-
-    // Codrops update loop
-    const update = () => {
-      const currentOffset = computeOffset();
-      startOffset.value = !entered
-        ? currentOffset
-        : lerp(startOffset.value, currentOffset, startOffset.amt);
-      textPathEl.setAttribute("startOffset", `${startOffset.value.toFixed(1)}`);
-
-      // SVG Filter velocity mapping
-      const currentScroll = window.pageYOffset;
-      scroll.value = !entered
-        ? currentScroll
-        : lerp(scroll.value, currentScroll, scroll.amt);
-      const distance = Math.abs(scroll.value - currentScroll);
-
-      if (primitiveEl) {
-        if (!isDistortion) {
-          const dev = clamp(map(distance, 0, 400, minVal, maxVal), minVal, maxVal);
-          primitiveEl.setAttribute("stdDeviation", dev.toFixed(2));
-        } else {
-          const scale = clamp(map(distance, 0, 200, minVal, maxVal), minVal, maxVal);
-          if ((primitiveEl as any).scale?.baseVal !== undefined) {
-            (primitiveEl as any).scale.baseVal = scale;
-          } else {
-            primitiveEl.setAttribute("scale", scale.toFixed(1));
+        // Handle SVG filter if enabled
+        if (primitiveEl) {
+          const currentScroll = window.pageYOffset;
+          const scrollDiff = Math.abs(currentScroll - lastScrollY);
+          lastScrollY = currentScroll;
+          if (!isDistortion) {
+            const dev = clamp(map(scrollDiff, 0, 40, minVal, maxVal), minVal, maxVal);
+            primitiveEl.setAttribute("stdDeviation", dev.toFixed(1));
           }
         }
-      }
 
-      if (!entered) {
-        entered = true;
+        rafId = requestAnimationFrame(tick);
+      } else {
+        currentOffset = targetOffset;
+        textPathEl.setAttribute("startOffset", `${currentOffset.toFixed(1)}`);
+        if (primitiveEl && !isDistortion) {
+          primitiveEl.setAttribute("stdDeviation", "0");
+        }
+        isTicking = false;
       }
     };
 
-    const render = () => {
-      if (isVisible) {
-        update();
+    const onScroll = () => {
+      if (!isVisible) return;
+      targetOffset = computeTarget();
+      if (!isTicking) {
+        isTicking = true;
+        rafId = requestAnimationFrame(tick);
       }
-      rafId = requestAnimationFrame(render);
     };
 
-    rafId = requestAnimationFrame(render);
+    // IntersectionObserver so off-screen curves consume 0% CPU
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            targetOffset = computeTarget();
+            if (!isTicking) {
+              isTicking = true;
+              rafId = requestAnimationFrame(tick);
+            }
+          }
+        });
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(svgEl);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Initial positioning
+    targetOffset = computeTarget();
+    currentOffset = targetOffset;
+    textPathEl.setAttribute("startOffset", `${currentOffset.toFixed(1)}`);
 
     return () => {
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
       if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
     };
@@ -244,6 +238,11 @@ export function AnimatedSvgTextPath({
       width="120%"
       preserveAspectRatio="xMidYMid meet"
       viewBox={viewBox}
+      style={{
+        transform: "translateZ(0)",
+        willChange: "transform",
+        contain: "paint",
+      }}
     >
       <path ref={pathRef} id={pathId} d={d} fill="none" />
       <text

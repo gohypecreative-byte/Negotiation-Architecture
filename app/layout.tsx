@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono, Anton } from "next/font/google";
 import "./globals.css";
 
 const displayFont = Cormorant_Garamond({
@@ -7,6 +7,12 @@ const displayFont = Cormorant_Garamond({
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-display",
+});
+
+const antonFont = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-headline",
 });
 
 const sansFont = Geist({
@@ -18,6 +24,8 @@ const monoFont = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
+import { SmoothScrollProvider } from "@/components/smooth-scroll";
 
 export const metadata: Metadata = {
   title: "Negotiation Architecture — Dr. Tarun Rochwani",
@@ -35,9 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} ${antonFont.variable}`}>
       <body className="bg-white text-[#152540] antialiased selection:bg-[#E67400]/20 selection:text-[#152540]">
-        {children}
+        <SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );

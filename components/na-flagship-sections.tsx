@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+
+import StickyContentWrapper, { StickyContentItem } from "@/components/ui/sticky-content-wrapper";
 
 interface FlagshipProps {
   theme?: "vellum" | "navy";
@@ -13,172 +15,120 @@ interface FlagshipProps {
 export function StartHereSection({ theme = "vellum" }: FlagshipProps) {
   const isVellum = theme === "vellum";
 
-  const pathways = [
+  const pathways: StickyContentItem[] = [
     {
       num: "01",
       category: "Diagnostic",
-      title: "Take the Assessment",
-      desc: "Uncover your instinctive dealmaking pattern across 5 high-stakes pressure situations.",
+      heading: "Enter the Simulation",
+      paragraph:
+        "Test your tactical instincts in the Foundation Dynamics laboratory under clinical pressure.",
       duration: "60 Seconds",
-      badge: "Instant Profile",
-      href: "#assess",
+      list: [
+        "Live high-stakes supplier price demand scenario",
+        "Instant archetype diagnostic classification report",
+        "Pre-briefing baseline prior to executive advisory counsel",
+      ],
+      link: {
+        href: "#simulation",
+        text: "Enter Pathway",
+      },
+      image: "/images/gallery/dr-tarun-01.jpg",
+      alt: "Diagnostic Assessment - Dr. Tarun Rochwani",
     },
     {
       num: "02",
       category: "Blueprint",
-      title: "Read the Prospectus",
-      desc: "Examine the doctoral research foundations, 24 curriculum modules, and deal frameworks.",
+      heading: "Read the Prospectus",
+      paragraph:
+        "Examine the doctoral research foundations, 24 curriculum modules, and deal frameworks.",
       duration: "10 Minutes",
-      badge: "Institutional Guide",
-      href: "#prospectus",
+      list: [
+        "Doctoral empirical research foundations & behavioral economics",
+        "24 institutional curriculum modules and case archives",
+        "Multi-stakeholder negotiation governance architecture",
+      ],
+      link: {
+        href: "#prospectus",
+        text: "Enter Pathway",
+      },
+      image: "/images/gallery/dr-tarun-02.jpg",
+      alt: "Architectural Blueprint Prospectus",
     },
     {
       num: "03",
       category: "Simulation",
-      title: "Join a Masterclass",
-      desc: "Participate in an intensive clinical laboratory with senior cross-industry dealmakers.",
+      heading: "Join a Masterclass",
+      paragraph:
+        "Participate in an intensive clinical laboratory with senior cross-industry dealmakers.",
       duration: "One Evening",
-      badge: "Live Laboratory",
-      href: "#simulation",
+      list: [
+        "Real-time live multi-party transaction simulations",
+        "Tactical debriefing and counterparty response analytics",
+        "Executive cohort of cross-border enterprise dealmakers",
+      ],
+      link: {
+        href: "#simulation",
+        text: "Enter Pathway",
+      },
+      image: "/images/gallery/dr-tarun-03.jpg",
+      alt: "Clinical Negotiation Simulation Lab",
     },
     {
       num: "04",
       category: "Advisory",
-      title: "Speak with Faculty",
-      desc: "Private, confidential strategic briefing on active corporate transactions or training.",
+      heading: "Speak with Faculty",
+      paragraph:
+        "Private, confidential strategic briefing on active corporate transactions or training.",
       duration: "30 Minutes",
-      badge: "Private Briefing",
-      href: "#contact",
+      list: [
+        "Strict NDA transaction architecture and strategic counsel",
+        "Counterparty psychological profiling & game theory strategy",
+        "Bespoke executive & institutional retained counsel",
+      ],
+      link: {
+        href: "#contact",
+        text: "Enter Pathway",
+      },
+      image: "/images/gallery/dr-tarun-08.jpg",
+      alt: "Executive Faculty Advisory Briefing",
     },
   ];
 
   return (
-    <div
-      className={`w-full border-y relative z-20 transition-colors duration-400 ${
-        isVellum
-          ? "bg-[#FAF7F2] border-[#DFD7C7]"
-          : "bg-[#0A1526]/95 border-white/10 backdrop-blur-md"
-      }`}
+    <section
+      id="start-here"
+      className="relative w-full bg-[#070B12] text-white border-b border-white/10"
     >
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12 py-7 md:py-9">
-        {/* Top Eyebrow / Orientation Header */}
-        <div
-          className={`flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b gap-3 ${
-            isVellum ? "border-stone-200/80" : "border-white/10"
-          }`}
-        >
+      {/* ARCHITECTURAL SECTION HEADING */}
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 pt-14 md:pt-20 pb-6 border-b border-white/10">
+        {/* Eyebrow Row */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2.5">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isVellum ? "bg-[#A8741F]" : "bg-[#D3A75E]"
-              } animate-pulse`}
-            />
-            <span
-              className={`text-[10.5px] font-mono tracking-[0.24em] uppercase font-bold ${
-                isVellum ? "text-[#A8741F]" : "text-[#D3A75E]"
-              }`}
-            >
-              Start Here · Direct Pathways
-            </span>
-            <span className="hidden sm:inline text-stone-300">|</span>
-            <span
-              className={`hidden sm:inline text-xs font-sans ${
-                isVellum ? "text-stone-500" : "text-stone-400"
-              }`}
-            >
-              Select your mode of engagement based on immediate deal priorities
+            <span className="w-2 h-2 rounded-full bg-[#D3A75E] animate-pulse" />
+            <span className="text-[11px] font-mono tracking-[0.26em] uppercase font-bold text-white">
+              Start Here &middot; Direct Pathways
             </span>
           </div>
-          <span
-            className={`text-[10px] font-mono tracking-widest uppercase ${
-              isVellum ? "text-stone-400" : "text-stone-500"
-            }`}
-          >
-            Zero Sales Pressure · Direct Access
+          <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/50 font-semibold">
+            Zero Sales Pressure &middot; Direct Access
           </span>
         </div>
 
-        {/* 4 Architectural Pathway Tiles */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-          {pathways.map((item) => (
-            <a
-              key={item.num}
-              href={item.href}
-              className={`group relative flex flex-col justify-between p-5 md:p-6 rounded-xl border transition-all duration-300 ${
-                isVellum
-                  ? "bg-white/90 border-[#E5DECF] hover:border-[#A8741F] hover:shadow-[0_12px_28px_-8px_rgba(21,37,64,0.12)] hover:-translate-y-1"
-                  : "bg-white/[0.03] border-white/10 hover:border-[#D3A75E] hover:bg-white/[0.06] hover:shadow-[0_12px_28px_-8px_rgba(0,0,0,0.5)] hover:-translate-y-1"
-              }`}
-            >
-              {/* Top Accent Line on hover */}
-              <div
-                className={`absolute top-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${
-                  isVellum ? "bg-[#A8741F]" : "bg-[#D3A75E]"
-                }`}
-              />
-
-              <div>
-                {/* Meta header */}
-                <div className="flex items-center justify-between mb-3">
-                  <span
-                    className={`font-mono text-xs font-bold ${
-                      isVellum ? "text-[#152540]" : "text-white"
-                    }`}
-                  >
-                    [{item.num}]
-                  </span>
-                  <span
-                    className={`text-[9.5px] font-mono tracking-wider uppercase px-2 py-0.5 rounded font-semibold ${
-                      isVellum
-                        ? "bg-[#F3EBDE] text-[#A8741F]"
-                        : "bg-white/10 text-[#D3A75E]"
-                    }`}
-                  >
-                    {item.category}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h4
-                  className={`text-lg md:text-xl font-serif font-bold mb-2 transition-colors ${
-                    isVellum
-                      ? "text-[#152540] group-hover:text-[#A8741F]"
-                      : "text-white group-hover:text-[#D3A75E]"
-                  }`}
-                >
-                  {item.title}
-                </h4>
-
-                {/* Description */}
-                <p
-                  className={`text-xs md:text-[13px] leading-relaxed mb-6 font-sans ${
-                    isVellum ? "text-stone-600" : "text-stone-300"
-                  }`}
-                >
-                  {item.desc}
-                </p>
-              </div>
-
-              {/* Bottom Duration & Action Link */}
-              <div
-                className={`pt-3.5 border-t flex items-center justify-between text-xs font-mono transition-colors ${
-                  isVellum
-                    ? "border-stone-100 text-stone-500 group-hover:text-[#152540]"
-                    : "border-white/10 text-stone-400 group-hover:text-white"
-                }`}
-              >
-                <span className="flex items-center gap-1.5 text-[11px]">
-                  <span className={isVellum ? "text-[#A8741F]" : "text-[#D3A75E]"}>⏱</span> {item.duration}
-                </span>
-                <span className="text-[11px] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  Enter <span>→</span>
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
+        {/* Authoritative Primary Headline */}
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight uppercase text-white leading-[1.05] mt-2">
+          Four Modes of Engagement.
+        </h2>
+        <p className="text-xs sm:text-sm md:text-base font-sans text-white/60 leading-relaxed mt-2 max-w-2xl">
+          Calibrated to your immediate transaction priorities. Advance through the pathways below to select your entry point.
+        </p>
       </div>
-    </div>
+
+      {/* GSAP PINNED SPLIT-SCREEN EXPERIENCE */}
+      <StickyContentWrapper
+        items={pathways}
+        bgColor="#070B12"
+      />
+    </section>
   );
 }
 
@@ -986,129 +936,263 @@ export function DistinctionSection() {
 // 9. INTERACTIVE SIMULATION LAB: THE PRICE DEMAND
 // -------------------------------------------------------------
 export function SimulationLabSection() {
-  const [selectedMove, setSelectedMove] = useState<string | null>(null);
+  const [selectedMove, setSelectedMove] = useState<string | null>("d");
 
-  const moves: Record<string, { verdict: string; title: string; body: string; color: string; mechanisms: string[] }> = {
+  const moves: Record<
+    string,
+    {
+      num: string;
+      label: string;
+      dialogue: string;
+      verdict: string;
+      verdictType: "costly" | "partial" | "architect";
+      title: string;
+      consequence: string;
+      mechanisms: string[];
+    }
+  > = {
     a: {
+      num: "01",
+      label: "Push Back Immediately",
+      dialogue:
+        "“Twelve per cent is impossible. We need to talk about eight at most.”",
       verdict: "Costly Move",
-      title: "Force meets force",
-      color: "text-red-600",
-      body: "An immediate counter concedes the frame: you are now negotiating the size of an increase you never examined. Aggression triggers counter-aggression.",
-      mechanisms: ["Quiet Control", "Directional Questioning"],
+      verdictType: "costly",
+      title: "Force Meets Force (The Counter-Anchor Trap)",
+      consequence:
+        "An immediate counter concedes the core premise: you have just accepted that an increase is warranted and are now merely bargaining over its size. Aggression triggers reflexive defensiveness and surrenders strategic silence.",
+      mechanisms: [
+        "Premise Concession",
+        "Loss of Frame Control",
+        "Adrenaline Escalation",
+      ],
     },
     b: {
+      num: "02",
+      label: "Protect Relationship",
+      dialogue:
+        "“I understand costs are rising. Let me see what I can get approved.”",
       verdict: "Costly Move",
-      title: "The accommodation trap",
-      color: "text-red-600",
-      body: "Warmth without structure is a concession pattern. 'Let me see what I can get approved' legitimises the demand before checking a single cost line.",
-      mechanisms: ["Negotiation Triangle", "Concession Design"],
+      verdictType: "costly",
+      title: "The Accommodation Trap (Unilateral Softening)",
+      consequence:
+        "Empathy without structural discipline is a concession pattern. Promising to 'see what I can get approved' legitimises the supplier's unsubstantiated demand before auditing a single cost driver.",
+      mechanisms: [
+        "Premature Validation",
+        "Asymmetric Softening",
+        "Unilateral Concession",
+      ],
     },
     c: {
+      num: "03",
+      label: "Buy Time",
+      dialogue: "“Let me take this away and come back to you.”",
       verdict: "Partial Move",
-      title: "Time without design",
-      color: "text-amber-600",
-      body: "Buying time beats reacting — but leaving without a diagnostic question means you return with no new leverage while their anchor settles in.",
-      mechanisms: ["Momentum Architecture", "Preparation Architecture"],
+      verdictType: "partial",
+      title: "Time Without Architecture (Static Delay)",
+      consequence:
+        "Pausing is better than reacting emotionally, but retreating without a diagnostic question allows the counterparty's 12% anchor to solidify within their leadership while yielding zero structural leverage.",
+      mechanisms: [
+        "Unleveraged Pause",
+        "Anchor Solidification",
+        "Surrendered Momentum",
+      ],
     },
     d: {
+      num: "04",
+      label: "Pause, Then Open the Number",
+      dialogue:
+        "“Twelve per cent. Help me understand what's driving that number — walk me through the cost lines that moved.”",
       verdict: "The Architect's Move",
-      title: "Pause, then open the number",
-      color: "text-emerald-700",
-      body: "The pause neutralises the adrenaline response. The question transfers the burden of proof and unbundles the demand into negotiable variables.",
-      mechanisms: ["Quiet Control", "Directional Questioning", "Deal Unbundling"],
+      verdictType: "architect",
+      title: "Engineered Silence & Burden Reversal",
+      consequence:
+        "The calculated 4-second silence dissipates room adrenaline. Repeating 'Twelve per cent' mirrors their anchor neutrally without accepting it. The diagnostic question immediately reverses the burden of proof, unbundling an arbitrary demand into verifiable variables.",
+      mechanisms: [
+        "Tactical Silence",
+        "Neutral Mirroring",
+        "Burden Reversal",
+        "Variable Unbundling",
+      ],
     },
   };
 
+  const active = selectedMove ? moves[selectedMove] : moves.d;
+
   return (
-    <section className="py-20 md:py-28 px-6 md:px-12 bg-[#F3EBDE]/50 border-y border-stone-200 relative z-20" id="simulation">
-      <div className="max-w-[1300px] mx-auto">
-        <div className="flex justify-between items-end border-b border-stone-300 pb-3 mb-10">
-          <span className="text-[10.5px] font-bold tracking-[0.3em] uppercase text-[#A8741F] flex items-center gap-3">
-            <span className="w-6 h-[1px] bg-[#A8741F]"></span>
-            Experience the Method
-          </span>
-          <span className="text-[9.5px] font-mono tracking-[0.24em] uppercase text-stone-500">
-            Sheet 09 · Sixty-Second Laboratory
-          </span>
+    <section
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-white border-y border-stone-200 relative z-20"
+      id="simulation"
+    >
+      <div className="max-w-[1320px] mx-auto">
+        {/* Clean Architectural Eyebrow & Headline */}
+        <div className="max-w-3xl mb-10 md:mb-12">
+          <div className="flex items-center gap-2.5 mb-3">
+            <span className="w-5 h-[1.5px] bg-[#A8741F]" />
+            <span className="text-[11px] font-mono font-bold uppercase tracking-[0.25em] text-[#A8741F]">
+              Diagnostic Simulation &middot; Sheet 09
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-black tracking-tight leading-[1.1] mb-3">
+            How would you negotiate this?
+          </h2>
+          <p className="text-stone-600 text-base md:text-lg leading-relaxed">
+            One clinical transaction from the Foundation Dynamics laboratory. Select a tactical response to inspect how the architecture unbundles counterparty leverage.
+          </p>
         </div>
 
-        <h2 className="text-3xl md:text-5xl font-serif font-semibold text-[#152540] mb-4">
-          How would you negotiate this?
-        </h2>
-        <p className="text-stone-600 max-w-2xl text-base md:text-lg mb-12">
-          One scenario from the Foundation Dynamics laboratory. Choose your move, then inspect what
-          the framework reveals about it.
-        </p>
-
-        <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-stone-200 shadow-md">
-          <span className="text-[10px] font-bold tracking-[0.28em] uppercase text-[#A8741F] block mb-2">
-            Simulation · The Price Demand
-          </span>
-          <blockquote className="font-serif italic text-xl md:text-2xl text-[#152540] mb-4">
-            &ldquo;Our costs have gone up. The price increases by twelve per cent from next month — I&apos;m
-            afraid that&apos;s simply the situation.&rdquo;
-          </blockquote>
-          <p className="text-stone-600 text-sm mb-8">
-            Your key supplier, three years into a good partnership, delivers this at the opening of your
-            quarterly review. The room goes quiet. What do you do?
-          </p>
-
-          {!selectedMove ? (
-            <div className="space-y-3">
-              <button
-                onClick={() => setSelectedMove("a")}
-                className="w-full text-left p-4 rounded-lg bg-stone-50 hover:bg-[#152540] hover:text-white border border-stone-200 text-sm transition-all"
-              >
-                1. Push back immediately: &ldquo;Twelve per cent is impossible. We need to talk about eight at most.&rdquo;
-              </button>
-              <button
-                onClick={() => setSelectedMove("b")}
-                className="w-full text-left p-4 rounded-lg bg-stone-50 hover:bg-[#152540] hover:text-white border border-stone-200 text-sm transition-all"
-              >
-                2. Protect relationship: &ldquo;I understand costs are rising. Let me see what I can get approved.&rdquo;
-              </button>
-              <button
-                onClick={() => setSelectedMove("c")}
-                className="w-full text-left p-4 rounded-lg bg-stone-50 hover:bg-[#152540] hover:text-white border border-stone-200 text-sm transition-all"
-              >
-                3. Buy time: &ldquo;Let me take this away and come back to you.&rdquo;
-              </button>
-              <button
-                onClick={() => setSelectedMove("d")}
-                className="w-full text-left p-4 rounded-lg bg-stone-50 hover:bg-[#152540] hover:text-white border border-stone-200 text-sm transition-all"
-              >
-                4. Pause. Then: &ldquo;Twelve per cent. Help me understand what&apos;s driving that number — walk me through the cost lines that moved.&rdquo;
-              </button>
-            </div>
-          ) : (
-            <div className="p-6 bg-stone-50 rounded-xl border border-stone-200">
-              <span className={`text-xs font-bold tracking-widest uppercase ${moves[selectedMove].color}`}>
-                {moves[selectedMove].verdict}
-              </span>
-              <h4 className="font-serif text-2xl font-bold text-[#152540] mt-1 mb-3">
-                {moves[selectedMove].title}
-              </h4>
-              <p className="text-stone-700 text-sm md:text-base leading-relaxed mb-6">
-                {moves[selectedMove].body}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {moves[selectedMove].mechanisms.map((m, i) => (
-                  <span
-                    key={i}
-                    className="text-xs px-3 py-1 bg-white border border-[#A8741F]/40 text-[#A8741F] font-semibold"
-                  >
-                    {m}
-                  </span>
-                ))}
+        {/* Unified 2-Column Architectural Board */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          {/* Left Column: The Case Dossier (Clean, structured, editorial) */}
+          <div className="lg:col-span-5 bg-stone-50 border border-stone-200 p-7 sm:p-8 flex flex-col justify-between">
+            <div>
+              {/* Case Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-6">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-stone-500">
+                  Case 01 &middot; Live Transaction
+                </span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 bg-black text-white">
+                  Active Scenario
+                </span>
               </div>
-              <button
-                onClick={() => setSelectedMove(null)}
-                className="px-6 py-2.5 bg-[#152540] text-white text-xs font-bold tracking-wider uppercase"
-              >
-                Try Another Move
-              </button>
+
+              {/* The Ultimatum */}
+              <div className="mb-6">
+                <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-stone-400 block mb-2 font-semibold">
+                  The Counterparty Demand:
+                </span>
+                <blockquote className="font-serif italic text-xl sm:text-2xl text-black leading-snug border-l-2 border-black pl-4 py-1">
+                  &ldquo;Our costs have gone up. The price increases by twelve per cent from next month &mdash; I&apos;m afraid that&apos;s simply the situation.&rdquo;
+                </blockquote>
+              </div>
+
+              {/* Context Description */}
+              <p className="text-sm text-stone-600 leading-relaxed font-sans mb-8">
+                Your key supplier, three years into a critical partnership, delivers this ultimatum at the opening of your quarterly review. The room goes silent.
+              </p>
             </div>
-          )}
+
+            {/* Structured Telemetry Ledger */}
+            <div className="pt-6 border-t border-stone-200 space-y-2.5">
+              <div className="flex justify-between items-center text-xs font-mono">
+                <span className="text-stone-500 uppercase tracking-wider">
+                  Counterparty Anchor
+                </span>
+                <span className="text-black font-bold tracking-widest">
+                  +12.0% Fixed
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-xs font-mono">
+                <span className="text-stone-500 uppercase tracking-wider">
+                  Room Dynamic
+                </span>
+                <span className="text-stone-800">High Pressure Silence</span>
+              </div>
+              <div className="flex justify-between items-center text-xs font-mono">
+                <span className="text-stone-500 uppercase tracking-wider">
+                  Tactical Objective
+                </span>
+                <span className="text-[#A8741F] font-bold">
+                  Reverse Burden of Proof
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: 4 Tactical Moves (2x2 Grid) + Instant Diagnostic Report */}
+          <div className="lg:col-span-7 flex flex-col justify-between gap-5">
+            {/* 4 Moves in a Clean 2x2 Grid */}
+            <div>
+              <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-stone-500 font-bold block mb-3">
+                Select Your Tactical Move:
+              </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {Object.entries(moves).map(([key, item]) => {
+                  const isSelected = selectedMove === key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => setSelectedMove(key)}
+                      className={`text-left p-4 border transition-all duration-150 flex flex-col justify-between ${
+                        isSelected
+                          ? "bg-black text-white border-black shadow-sm"
+                          : "bg-white text-black border-stone-200 hover:border-black"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-2 w-full">
+                        <span
+                          className={`text-xs font-mono font-bold ${
+                            isSelected ? "text-[#D3A75E]" : "text-stone-400"
+                          }`}
+                        >
+                          {item.num}
+                        </span>
+                        <span
+                          className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+                            isSelected ? "text-stone-300" : "text-stone-500"
+                          }`}
+                        >
+                          {item.label}
+                        </span>
+                      </div>
+                      <p
+                        className={`text-xs sm:text-[13px] font-serif italic leading-snug line-clamp-2 ${
+                          isSelected ? "text-white" : "text-stone-700"
+                        }`}
+                      >
+                        {item.dialogue}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Diagnostic Result Dossier */}
+            <div className="p-6 sm:p-7 border border-stone-200 bg-stone-50/70 border-l-4 border-l-black">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span
+                  className={`text-xs font-mono font-bold uppercase tracking-[0.2em] ${
+                    active.verdictType === "architect"
+                      ? "text-[#A8741F]"
+                      : "text-stone-600"
+                  }`}
+                >
+                  {active.verdictType === "architect" ? "★ " : "• "}
+                  {active.verdict}
+                </span>
+                <span className="text-[10.5px] font-mono uppercase tracking-wider text-stone-400">
+                  Diagnostic Analysis
+                </span>
+              </div>
+
+              <h4 className="font-serif text-xl sm:text-2xl font-bold text-black mb-2">
+                {active.title}
+              </h4>
+
+              <p className="text-stone-700 text-sm sm:text-[15px] leading-relaxed mb-5">
+                {active.consequence}
+              </p>
+
+              {/* Tactical Mechanisms */}
+              <div className="pt-4 border-t border-stone-200">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-500 block mb-2 font-semibold">
+                  Mechanisms Activated:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {active.mechanisms.map((m, i) => (
+                    <span
+                      key={i}
+                      className="text-[11px] px-2.5 py-1 bg-white border border-stone-300 text-stone-800 font-mono uppercase tracking-wider"
+                    >
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

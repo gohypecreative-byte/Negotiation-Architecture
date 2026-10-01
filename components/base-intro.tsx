@@ -40,9 +40,67 @@ const WORDS_DATA = [
   { text: "design.", isGold: false, isItalic: true },
 ];
 
+function CountUpNumber({
+  end,
+  prefix = "",
+  suffix = "",
+  duration = 1600,
+}: {
+  end: number;
+  prefix?: string;
+  suffix?: string;
+  duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !startedRef.current) {
+          startedRef.current = true;
+          let startTime: number | null = null;
+
+          const step = (timestamp: number) => {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(easedProgress * end));
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              setCount(end);
+            }
+          };
+
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {prefix && <span>{prefix}</span>}
+      {count}
+      {suffix && <span className="text-[#A8741F] ml-0.5">{suffix}</span>}
+    </span>
+  );
+}
+
 export function BaseIntro({ theme = "vellum" }: BaseIntroProps) {
   const isVellum = theme === "vellum";
   const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const lastProgressRef = useRef<number>(-1);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -57,15 +115,23 @@ export function BaseIntro({ theme = "vellum" }: BaseIntroProps) {
         const rect = el.getBoundingClientRect();
         const windowH = window.innerHeight;
 
-        // Starts filling when top of text enters around 80% of screen height
-        // Fully fills when it reaches ~28% of screen height
-        const startY = windowH * 0.82;
-        const endY = windowH * 0.28;
+        // Starts filling with a slight delay when text is well into the viewport
+        const startY = windowH * 0.74;
+        const endY = windowH * 0.25;
 
         const currentY = rect.top;
         const raw = (startY - currentY) / (startY - endY);
         const clamped = Math.max(0, Math.min(1, raw));
-        setScrollProgress(clamped);
+
+        // Skip state update if value hasn't meaningfully changed (prevents re-renders)
+        if (
+          Math.abs(clamped - lastProgressRef.current) > 0.008 ||
+          (clamped === 0 && lastProgressRef.current !== 0) ||
+          (clamped === 1 && lastProgressRef.current !== 1)
+        ) {
+          lastProgressRef.current = clamped;
+          setScrollProgress(clamped);
+        }
       });
     };
 
@@ -171,133 +237,113 @@ export function BaseIntro({ theme = "vellum" }: BaseIntroProps) {
           Stop improvising. Start architecting every pause, every currency, and every pivot.
         </p>
 
-        {/* 4-Column Horizontal Track Record Strip (Clean cards) */}
+        {/* Architectural Track Record Ledger (Clean, Animated Count-Up) */}
         <div
-          className={`mt-14 pt-10 border-t grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 ${
-            isVellum ? "border-slate-200" : "border-white/10"
+          className={`mt-14 border-y transition-colors duration-500 ${
+            isVellum
+              ? "border-stone-300/80 bg-white"
+              : "border-white/10 bg-[#070F1C]/60"
           }`}
         >
-          {/* Metric 1 */}
-          <div
-            className={`p-5 rounded-2xl border shadow-xs hover:shadow-md transition-shadow ${
-              isVellum
-                ? "border-slate-200 bg-white"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div
-              className={`text-3xl sm:text-4xl md:text-5xl font-mono font-bold ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              25+
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-stone-200/90 dark:divide-white/10">
+            {/* Metric 01 */}
+            <div className="py-7 md:py-9 px-5 sm:px-6 lg:px-8 group transition-colors duration-300 hover:bg-stone-50/70">
+              <div
+                className={`text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-none ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                <CountUpNumber end={25} suffix="+" />
+              </div>
+              <div
+                className={`text-xs font-mono uppercase font-bold tracking-[0.16em] mt-3.5 ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                Years Practice
+              </div>
+              <p
+                className={`text-xs font-sans leading-relaxed mt-1 ${
+                  isVellum ? "text-stone-500" : "text-stone-400"
+                }`}
+              >
+                Live corporate advisory
+              </p>
             </div>
-            <div
-              className={`text-xs font-sans uppercase font-bold tracking-wider mt-2 ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              Years Practice
-            </div>
-            <div
-              className={`text-[11px] font-sans mt-0.5 ${
-                isVellum ? "text-[#6B7280]" : "text-stone-400"
-              }`}
-            >
-              Live corporate advisory
-            </div>
-          </div>
 
-          {/* Metric 2 */}
-          <div
-            className={`p-5 rounded-2xl border shadow-xs hover:shadow-md transition-shadow ${
-              isVellum
-                ? "border-slate-200 bg-white"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div
-              className={`text-3xl sm:text-4xl md:text-5xl font-mono font-bold ${
-                isVellum ? "text-[#A8741F]" : "text-[#D3A75E]"
-              }`}
-            >
-              26
+            {/* Metric 02 */}
+            <div className="py-7 md:py-9 px-5 sm:px-6 lg:px-8 group transition-colors duration-300 hover:bg-stone-50/70">
+              <div
+                className={`text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-none ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                <CountUpNumber end={26} />
+              </div>
+              <div
+                className={`text-xs font-mono uppercase font-bold tracking-[0.16em] mt-3.5 ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                Countries Advised
+              </div>
+              <p
+                className={`text-xs font-sans leading-relaxed mt-1 ${
+                  isVellum ? "text-stone-500" : "text-stone-400"
+                }`}
+              >
+                Cross-border jurisdictions
+              </p>
             </div>
-            <div
-              className={`text-xs font-sans uppercase font-bold tracking-wider mt-2 ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              Countries Advised
-            </div>
-            <div
-              className={`text-[11px] font-sans mt-0.5 ${
-                isVellum ? "text-[#6B7280]" : "text-stone-400"
-              }`}
-            >
-              Cross-border jurisdictions
-            </div>
-          </div>
 
-          {/* Metric 3 */}
-          <div
-            className={`p-5 rounded-2xl border shadow-xs hover:shadow-md transition-shadow ${
-              isVellum
-                ? "border-slate-200 bg-white"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div
-              className={`text-3xl sm:text-4xl md:text-5xl font-mono font-bold ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              $10B+
+            {/* Metric 03 */}
+            <div className="py-7 md:py-9 px-5 sm:px-6 lg:px-8 group transition-colors duration-300 hover:bg-stone-50/70">
+              <div
+                className={`text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-none ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                <CountUpNumber end={10} prefix="$" suffix="B+" />
+              </div>
+              <div
+                className={`text-xs font-mono uppercase font-bold tracking-[0.16em] mt-3.5 ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                Deals Structured
+              </div>
+              <p
+                className={`text-xs font-sans leading-relaxed mt-1 ${
+                  isVellum ? "text-stone-500" : "text-stone-400"
+                }`}
+              >
+                M&amp;A &amp; sovereign disputes
+              </p>
             </div>
-            <div
-              className={`text-xs font-sans uppercase font-bold tracking-wider mt-2 ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              Deals Structured
-            </div>
-            <div
-              className={`text-[11px] font-sans mt-0.5 ${
-                isVellum ? "text-[#6B7280]" : "text-stone-400"
-              }`}
-            >
-              M&amp;A &amp; sovereign disputes
-            </div>
-          </div>
 
-          {/* Metric 4 */}
-          <div
-            className={`p-5 rounded-2xl border shadow-xs hover:shadow-md transition-shadow ${
-              isVellum
-                ? "border-slate-200 bg-white"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div
-              className={`text-3xl sm:text-4xl md:text-5xl font-mono font-bold ${
-                isVellum ? "text-[#A8741F]" : "text-[#D3A75E]"
-              }`}
-            >
-              100%
-            </div>
-            <div
-              className={`text-xs font-sans uppercase font-bold tracking-wider mt-2 ${
-                isVellum ? "text-[#152540]" : "text-white"
-              }`}
-            >
-              Privilege
-            </div>
-            <div
-              className={`text-[11px] font-sans mt-0.5 ${
-                isVellum ? "text-[#6B7280]" : "text-stone-400"
-              }`}
-            >
-              Strict non-disclosure standards
+            {/* Metric 04 */}
+            <div className="py-7 md:py-9 px-5 sm:px-6 lg:px-8 group transition-colors duration-300 hover:bg-stone-50/70">
+              <div
+                className={`text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-none ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                <CountUpNumber end={100} suffix="%" />
+              </div>
+              <div
+                className={`text-xs font-mono uppercase font-bold tracking-[0.16em] mt-3.5 ${
+                  isVellum ? "text-[#152540]" : "text-white"
+                }`}
+              >
+                Privilege
+              </div>
+              <p
+                className={`text-xs font-sans leading-relaxed mt-1 ${
+                  isVellum ? "text-stone-500" : "text-stone-400"
+                }`}
+              >
+                Strict non-disclosure standards
+              </p>
             </div>
           </div>
         </div>

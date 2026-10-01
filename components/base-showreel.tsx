@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Hls from "hls.js";
 
 interface BaseShowreelProps {
   theme?: "vellum" | "navy";
@@ -9,185 +10,145 @@ interface BaseShowreelProps {
 
 export function BaseShowreel({ theme = "vellum" }: BaseShowreelProps) {
   const isVellum = theme === "vellum";
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
-    let rafId: number;
+    if (!isPlaying) return;
+    const video = videoRef.current;
+    if (!video) return;
 
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const winH = window.innerHeight || 800;
+    const videoSrc =
+      "https://stream.mux.com/WMeTm00eoM2sKOeyvwdKXE01AvzZT1swHe6cpxCpDQ3HI.m3u8";
 
-      // Start expansion as section enters from bottom of screen (rect.top <= winH)
-      // Maximize expansion when centered in viewport (rect.top <= winH * 0.25)
-      const start = winH;
-      const end = winH * 0.18;
-      const rawProgress = (start - rect.top) / (start - end);
-      const clamped = Math.min(Math.max(rawProgress, 0), 1);
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+      });
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      hlsRef.current = hls;
 
-      setProgress(clamped);
-    };
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(() => {});
+      });
 
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(handleScroll);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  // Smooth scroll-driven interpolation
-  // Scale smoothly increases from 0.78 to 1.05 as you scroll into the section
-  const scale = 0.78 + progress * 0.27;
-  // Width increases from 74% to 98%
-  const widthPercent = 74 + progress * 24;
-  // Max width expands from 880px to 1420px
-  const maxWidth = 880 + progress * 540;
-  // Border radius smoothly tightens from 28px to 18px as it expands
-  const borderRadius = 28 - progress * 10;
-  // Ambient aura glow expands with the video
-  const glowScale = 0.9 + progress * 0.35;
-  const glowOpacity = 0.15 + progress * 0.25;
+      return () => {
+        hls.destroy();
+      };
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = videoSrc;
+      video.play().catch(() => {});
+    }
+  }, [isPlaying]);
 
   return (
     <section
-      ref={sectionRef}
       id="showreel"
-      className={`relative pt-6 md:pt-10 pb-6 md:pb-10 px-4 md:px-8 lg:px-12 overflow-hidden transition-colors duration-500 ${
-        isVellum ? "bg-white border-b border-slate-200" : "bg-[#070F1C]"
+      className={`relative pt-16 md:pt-24 pb-0 px-0 transition-colors duration-500 border-b overflow-hidden ${
+        isVellum
+          ? "bg-white text-[#152540] border-slate-200/80"
+          : "bg-[#070F1C] text-white border-white/10"
       }`}
     >
-      {/* Ambient gradient aura that expands dynamically with scroll */}
-      <div
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[500px] pointer-events-none blur-3xl transition-all duration-300 ease-out"
-        style={{
-          transform: `scale(${glowScale})`,
-          opacity: glowOpacity,
-          background: isVellum
-            ? "radial-gradient(ellipse at center, #A8741F 0%, #152540 60%, transparent 80%)"
-            : "radial-gradient(ellipse at center, #E67400 0%, #152540 60%, transparent 80%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="relative z-10 w-full mx-auto">
-        {/* Section Heading */}
-        <div className="text-center mb-10 md:mb-14">
+      {/* Section Heading Header */}
+      <div className="text-center max-w-3xl mx-auto px-6 md:px-12 mb-10 md:mb-14">
+        <div
+          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 border transition-colors ${
+            isVellum
+              ? "bg-slate-50 border-slate-200/90 text-slate-600"
+              : "bg-white/5 border-white/10 text-white/70"
+          }`}
+        >
           <span
-            className={`text-xs uppercase font-mono tracking-[0.3em] font-semibold ${
-              isVellum ? "text-[#A8741F]" : "text-[#E67400]"
+            className={`w-2 h-2 rounded-full ${
+              isVellum ? "bg-[#A8741F]" : "bg-[#D3A75E]"
             }`}
-          >
-            Executive Focus
+          />
+          <span className="text-xs font-mono uppercase tracking-[0.2em] font-medium">
+            Executive Keynote Reel
           </span>
-          <h2
-            className={`text-3xl md:text-5xl lg:text-6xl font-sans font-bold tracking-tight uppercase mt-2 ${
-              isVellum ? "text-[#152540]" : "text-white"
-            }`}
-          >
-            Discipline Over Improvisation
-          </h2>
-          <p
-            className={`text-xs md:text-sm font-sans uppercase tracking-[0.2em] mt-3 max-w-lg mx-auto ${
-              isVellum ? "text-[#6B7280]" : "text-white/60"
-            }`}
-          >
-            Live Keynote Symposium &middot; London &middot; Dubai &middot; Geneva
-          </p>
         </div>
 
-        {/* Dynamic Expanding Video Container (Scroll-Driven Zoom) */}
-        <div
-          className="relative mx-auto transition-all duration-200 ease-out will-change-transform"
-          style={{
-            width: `${widthPercent}%`,
-            maxWidth: `${maxWidth}px`,
-            transform: `scale(${scale})`,
-            transformOrigin: "center center",
-          }}
+        <h2
+          className={`text-3xl md:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-[1.08] ${
+            isVellum ? "text-[#152540]" : "text-white"
+          }`}
         >
+          Discipline Over Improvisation
+        </h2>
+
+        <p
+          className={`text-xs md:text-sm font-sans uppercase tracking-[0.18em] mt-3.5 max-w-xl mx-auto ${
+            isVellum ? "text-slate-500" : "text-white/60"
+          }`}
+        >
+          Live Keynote Symposium &middot; London &middot; Dubai &middot; Geneva
+        </p>
+      </div>
+
+      {/* Video Container (Edge-to-Edge Full Width, 0px Radius / No Roundness, No Floating Badges) */}
+      <div className="relative w-full aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/9] max-h-[82vh] overflow-hidden bg-slate-950 border-y border-slate-200/80 group">
+        {isPlaying ? (
+          <div className="relative w-full h-full bg-black">
+            <video
+              ref={videoRef}
+              controls
+              autoPlay
+              className="w-full h-full object-cover"
+            />
+            <button
+              onClick={() => setIsPlaying(false)}
+              className="absolute top-6 right-6 z-20 px-4 py-2 rounded-full bg-black/70 hover:bg-black text-white text-xs font-sans tracking-wide uppercase backdrop-blur-md border border-white/20 transition-colors"
+            >
+              Close Video &times;
+            </button>
+          </div>
+        ) : (
           <div
-            onClick={() => setIsPlaying(!isPlaying)}
-            className={`relative overflow-hidden shadow-2xl group aspect-[16/9] cursor-pointer border transition-all duration-300 ${
-              isVellum
-                ? "border-[#DFD7C7] bg-[#FBF8F2] shadow-xl hover:shadow-2xl"
-                : "border-white/20 bg-black/40 shadow-2xl hover:border-white/40"
-            }`}
-            style={{
-              borderRadius: `${borderRadius}px`,
-            }}
+            onClick={() => setIsPlaying(true)}
+            className="relative w-full h-full cursor-pointer select-none"
           >
-            {/* Poster Imagery */}
+            {/* Poster Image */}
             <Image
               src="/images/gallery/dr-tarun-09.jpg"
               alt="Dr. Tarun Rochwani presenting keynote symposium"
               fill
-              className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-              sizes="(max-width: 1400px) 100vw, 1400px"
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              sizes="100vw"
               priority
             />
 
-            {/* Cinematic Gradient Masking */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/35 pointer-events-none transition-opacity duration-300 group-hover:opacity-75" />
+            {/* Ambient Vignette Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/35 transition-opacity duration-300 group-hover:opacity-75" />
 
-            {/* Center Play Button with Hover Zoom */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="flex flex-col items-center gap-3">
+            {/* Center Play Button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-3.5">
                 <div
-                  className={`w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:scale-115 shadow-2xl ${
+                  className={`w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 group-hover:scale-110 ${
                     isVellum
-                      ? "bg-[#152540]/85 text-[#FBF8F2] border border-[#DFD7C7]"
-                      : "bg-[#E67400]/90 text-white border border-white/40"
+                      ? "bg-white text-[#152540] group-hover:bg-[#A8741F] group-hover:text-white"
+                      : "bg-[#E67400] text-white group-hover:bg-white group-hover:text-[#152540]"
                   }`}
                 >
                   <svg
-                    className="w-7 h-7 md:w-8 md:h-8 ml-1"
+                    className="w-7 h-7 md:w-9 md:h-9 ml-1"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
-                <span className="text-xs uppercase font-sans tracking-[0.25em] text-white font-semibold drop-shadow-md">
-                  Watch Methodology Reel
-                </span>
-              </div>
-            </div>
-
-            {/* Bottom Floating Bar */}
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between pointer-events-none">
-              <div className="bg-black/60 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2.5 shadow-lg">
-                <p className="text-xs text-white font-sans font-semibold uppercase tracking-wider">
-                  Live Keynote Symposium &middot; London
-                </p>
-                <p className="text-[11px] text-white/70">
-                  &quot;The Architecture of Tactical Concessions&quot;
-                </p>
-              </div>
-
-              <div className="hidden sm:block text-right">
-                <span
-                  className={`inline-block px-3.5 py-1.5 rounded-full text-white text-[11px] font-mono font-bold tracking-wider shadow-md ${
-                    isVellum ? "bg-[#A8741F]" : "bg-[#E67400]"
-                  }`}
-                >
-                  DOCTORAL RESEARCH &middot; LIVE DEALS
+                <span className="text-xs uppercase font-sans tracking-[0.24em] text-white font-semibold drop-shadow-md">
+                  Watch Methodology Reel &middot; 3:45 MIN
                 </span>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
