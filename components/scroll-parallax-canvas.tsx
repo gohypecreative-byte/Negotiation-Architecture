@@ -1,164 +1,119 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
+import type { MotionValue } from "framer-motion";
+import manifest from "@/public/Nagotition_Architect_WebP_Frames/manifest.json";
 
-const TOTAL_FRAMES = 600;
+const frameUrl = (frame: number) =>
+  `/Nagotition_Architect_WebP_Frames/frame_${String(frame).padStart(4, "0")}.webp`;
 
-function getFrameUrl(index: number): string {
-  const clamped = Math.min(Math.max(Math.round(index), 1), TOTAL_FRAMES);
-  const pad = String(clamped).padStart(4, "0");
-  return `/negotiation_parallax_frames_HQ/negotiation_parallax_frames/frame_${pad}.jpg`;
-}
-
-interface ScrollParallaxCanvasProps {
-  progress: number;
+export function ScrollParallaxCanvas({ progress, className = "" }: {
+  progress: MotionValue<number>;
   className?: string;
-}
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-export function ScrollParallaxCanvas({
-  progress,
-  className = "",
-}: ScrollParallaxCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_FRAMES + 1).fill(null));
-  const loadedIndicesRef = useRef<Set<number>>(new Set());
-  const currentFrameRef = useRef<number>(1);
-  const targetFrameRef = useRef<number>(1);
-  const [firstFrameReady, setFirstFrameReady] = useState(false);
-
-  // Helper to draw a specific frame index to canvas
-  const drawFrame = useCallback((frameIndex: number) => {
+  useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return;
+    const context = canvas?.getContext("2d", { alpha: false });
+    if (!canvas || !context) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const cache = new Map<number, ImageBitmap>();
+    const pending = new Set<number>();
+    const failed = new Set<number>();
+    const controller = new AbortController();
+    let disposed = false;
+    let target = 1;
+    let drawn = 0;
+    let direction = 1;
+    let raf = 0;
 
-    let img = imagesRef.current[frameIndex];
+    function draw() {
+      raf = 0;
+      if (disposed || !canvas || !context) return;
+      const nearest = [...cache.keys()].sort((a, b) => Math.abs(a - target) - Math.abs(b - target))[0];
+      if (nearest === undefined || nearest === drawn) return;
+      const image = cache.get(nearest)!;
+      if (canvas.width !== image.width || canvas.height !== image.height) {
+        canvas.width = image.width;
+        canvas.height = image.height;
+      }
+      context.drawImage(image, 0, 0);
+      canvas.style.opacity = "1";
+      drawn = nearest;
+    }
 
-    // If target frame is still loading, find nearest loaded frame
-    if (!img) {
-      let nearest = 1;
-      let minDiff = Infinity;
-      for (const loadedIdx of loadedIndicesRef.current) {
-        const diff = Math.abs(loadedIdx - frameIndex);
-        if (diff < minDiff) {
-          minDiff = diff;
-          nearest = loadedIdx;
+    function scheduleDraw() {
+      if (!raf && !disposed) raf = requestAnimationFrame(draw);
+    }
+
+    async function load(frame: number) {
+      pending.add(frame);
+      try {
+        const response = await fetch(frameUrl(frame), { signal: controller.signal });
+        if (!response.ok) throw new Error(`Frame ${frame}: ${response.status}`);
+        const image = await createImageBitmap(await response.blob(), {
+          resizeWidth: window.innerWidth < 768 ? 960 : 1440,
+          resizeQuality: "high",
+        });
+        if (disposed) { image.close(); return; }
+        cache.set(frame, image);
+        // Keep decoded memory bounded, even after scrolling through the entire sequence.
+        while (cache.size > 36) {
+          const furthest = [...cache.keys()].sort((a, b) => Math.abs(b - target) - Math.abs(a - target))[0];
+          cache.get(furthest)?.close();
+          cache.delete(furthest);
+        }
+        scheduleDraw();
+      } catch {
+        if (!disposed) failed.add(frame);
+      } finally {
+        pending.delete(frame);
+        if (!disposed) pump();
+      }
+    }
+
+    function pump() {
+      const wanted = [target];
+      if (!reducedMotion.matches) {
+        for (let distance = 1; distance <= 12; distance++) {
+          wanted.push(target + distance * direction, target - distance * direction);
         }
       }
-      img = imagesRef.current[nearest];
+      for (const frame of wanted) {
+        if (pending.size >= 4) break;
+        if (frame < 1 || frame > manifest.frameCount || cache.has(frame) || pending.has(frame) || failed.has(frame)) continue;
+        void load(frame);
+      }
     }
 
-    if (img && img.complete && img.naturalWidth > 0) {
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    function update(value: number) {
+      const next = reducedMotion.matches ? 1 : 1 + Math.round(Math.min(1, Math.max(0, value)) * (manifest.frameCount - 1));
+      direction = next >= target ? 1 : -1;
+      target = next;
+      scheduleDraw();
+      pump();
     }
-  }, []);
-
-  // Map incoming scroll progress to target frame
-  useEffect(() => {
-    const target = Math.min(
-      Math.max(Math.round(progress * (TOTAL_FRAMES - 1)) + 1, 1),
-      TOTAL_FRAMES
-    );
-    targetFrameRef.current = target;
+    const onPreferenceChange = () => update(progress.get());
+    const unsubscribe = progress.on("change", update);
+    reducedMotion.addEventListener("change", onPreferenceChange);
+    update(progress.get());
+    return () => {
+      disposed = true;
+      controller.abort();
+      unsubscribe();
+      reducedMotion.removeEventListener("change", onPreferenceChange);
+      cancelAnimationFrame(raf);
+      cache.forEach((image) => image.close());
+    };
   }, [progress]);
 
-  // Smooth inertial interpolation loop
-  useEffect(() => {
-    let animId: number;
-
-    const tick = () => {
-      const diff = targetFrameRef.current - currentFrameRef.current;
-      if (Math.abs(diff) > 0.05) {
-        // Smooth inertia lerp
-        currentFrameRef.current += diff * 0.16;
-        const frameToRender = Math.round(currentFrameRef.current);
-        drawFrame(frameToRender);
-      }
-      animId = requestAnimationFrame(tick);
-    };
-
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, [drawFrame]);
-
-  // Progressive preloader: Tier 1 (Immediate) -> Tier 2 (Keyframes) -> Tier 3 (Intermediate)
-  useEffect(() => {
-    let isCancelled = false;
-
-    const loadSingleFrame = (idx: number): Promise<void> => {
-      if (imagesRef.current[idx]) return Promise.resolve();
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = getFrameUrl(idx);
-        img.onload = () => {
-          if (!isCancelled) {
-            imagesRef.current[idx] = img;
-            loadedIndicesRef.current.add(idx);
-            if (idx === 1) {
-              setFirstFrameReady(true);
-              drawFrame(1);
-            }
-          }
-          resolve();
-        };
-        img.onerror = () => resolve();
-      });
-    };
-
-    // Tier 1: Immediately load frame 1, then the first 30 frames
-    loadSingleFrame(1).then(async () => {
-      if (isCancelled) return;
-      const initialBatch: Promise<void>[] = [];
-      for (let i = 2; i <= 30; i++) {
-        initialBatch.push(loadSingleFrame(i));
-      }
-      await Promise.all(initialBatch);
-
-      if (isCancelled) return;
-
-      // Tier 2: Preload keyframes every 4th frame (32, 36, 40... 600)
-      const keyframeBatch: Promise<void>[] = [];
-      for (let i = 32; i <= TOTAL_FRAMES; i += 4) {
-        keyframeBatch.push(loadSingleFrame(i));
-      }
-      await Promise.all(keyframeBatch);
-
-      if (isCancelled) return;
-
-      // Tier 3: Fill in all remaining intermediate frames in smaller chunks
-      for (let i = 31; i <= TOTAL_FRAMES; i++) {
-        if (isCancelled) break;
-        if (!imagesRef.current[i]) {
-          await loadSingleFrame(i);
-        }
-      }
-    });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [drawFrame]);
-
   return (
-    <div className={`relative w-full h-full overflow-hidden ${className}`}>
-      {/* Instant fallback poster for frame 0001 */}
+    <div className={`sequence-visual ${className}`}>
+      {/* The poster remains visible if loading fails or JavaScript is unavailable. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/negotiation_parallax_frames_HQ/negotiation_parallax_frames/frame_0001.jpg"
-        alt="Negotiation Architecture 3D Simulation Preview"
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 pointer-events-none ${
-          firstFrameReady ? "opacity-0" : "opacity-100"
-        }`}
-      />
-
-      {/* High-Performance 60fps Smooth Canvas */}
-      <canvas
-        ref={canvasRef}
-        width={1920}
-        height={1080}
-        className="w-full h-full object-cover pointer-events-none block"
-      />
+      <img src={frameUrl(1)} alt="A negotiation map connecting people, needs, interests, risks and options" fetchPriority="high" width={1920} height={1080} />
+      <canvas ref={canvasRef} aria-hidden="true" style={{ opacity: 0 }} />
     </div>
   );
 }

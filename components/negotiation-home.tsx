@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { BaseHeroBanner } from "./base-hero-banner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -229,6 +230,37 @@ function VideoModal({
 
 function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [withinHeroSequence, setWithinHeroSequence] = useState(false);
+
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+
+    let frame = 0;
+    const updateVisibility = () => {
+      frame = 0;
+      const bounds = hero.getBoundingClientRect();
+      // Match the sequence's start/start → end/end scroll range.
+      setWithinHeroSequence(bounds.top < -24 && bounds.bottom > window.innerHeight + 1);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = requestAnimationFrame(updateVisibility);
+    };
+    const observer = new ResizeObserver(scheduleUpdate);
+    observer.observe(hero);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    scheduleUpdate();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, []);
+
+  const hidden = withinHeroSequence && !mobileOpen;
 
   const navLinks = [
     { label: "Home", href: "#hero" },
@@ -242,7 +274,7 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#080E1B]/85 backdrop-blur-md border-b border-white/[0.08] transition-all">
+      <header inert={hidden} data-hidden={hidden} className="site-header fixed top-0 left-0 w-full z-50 bg-[#080E1B]/85 backdrop-blur-md border-b border-white/[0.08]">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
           {/* Brand Monogram & Wordmark */}
           <a href="#hero" className="flex items-center gap-3.5 group">
@@ -345,98 +377,6 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 // =========================================================================
 // SECTION 2: HERO SECTION
 // =========================================================================
-
-function HeroSection({
-  onOpenConsult,
-  onOpenVideo,
-}: {
-  onOpenConsult: () => void;
-  onOpenVideo: () => void;
-}) {
-  return (
-    <section
-      id="hero"
-      className="relative w-full bg-[#070D18] text-white overflow-hidden pt-20 min-h-[680px] sm:min-h-[740px] lg:h-[calc(100vw*821/1916+80px)] lg:max-h-[901px] flex items-center"
-    >
-      {/* Full Uncropped High-Definition Background Image positioned cleanly below the 80px fixed header */}
-      <div className="absolute inset-0 top-20 z-0">
-        <Image
-          src="/images/web/hero-balcony.png"
-          alt="Dr. Tarun Rochwani - Negotiation Architecture"
-          fill
-          sizes="100vw"
-          className="object-cover object-top sm:object-center"
-          priority
-        />
-        {/* Subtle, soft architectural gradient on the left for crisp text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/95 via-[#070D18]/70 via-40% to-transparent pointer-events-none" />
-
-        {/* Seamless edge transitions */}
-        <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-[#070D18]/80 to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#070D18] to-transparent pointer-events-none" />
-      </div>
-
-      {/* Hero Content Container shifted down with clear spacing */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 w-full relative z-10 pt-8 sm:pt-12 lg:pt-10 pb-12 sm:pb-16 flex items-center">
-        <div className="max-w-xl lg:max-w-[580px] xl:max-w-[620px] flex flex-col justify-center">
-          {/* Eyebrow Categories */}
-          <div className="flex items-center gap-2 flex-wrap mb-4 sm:mb-5">
-            <span className="text-[#C89B59] font-sans font-semibold tracking-[0.2em] text-xs sm:text-[13px] uppercase">
-              NEGOTIATION
-            </span>
-            <span className="text-[#C89B59]/40 font-mono text-xs">|</span>
-            <span className="text-[#C89B59] font-sans font-semibold tracking-[0.2em] text-xs sm:text-[13px] uppercase">
-              PERSUASION
-            </span>
-            <span className="text-[#C89B59]/40 font-mono text-xs">|</span>
-            <span className="text-[#C89B59] font-sans font-semibold tracking-[0.2em] text-xs sm:text-[13px] uppercase">
-              STRATEGY
-            </span>
-            <span className="text-[#C89B59]/40 font-mono text-xs">|</span>
-            <span className="text-[#C89B59] font-sans font-semibold tracking-[0.2em] text-xs sm:text-[13px] uppercase">
-              HUMAN BEHAVIOUR
-            </span>
-          </div>
-
-          {/* Editorial Serif Display Headline */}
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[68px] font-normal leading-[1.04] tracking-[-0.02em] text-white mb-5 sm:mb-6">
-            The<br />
-            Architecture<br />
-            of <span className="text-[#C89B59]">Better</span><br />
-            <span className="text-[#C89B59]">Outcomes</span>
-          </h1>
-
-          {/* Subtitle Description */}
-          <p className="text-slate-200 font-sans text-sm sm:text-base lg:text-[17px] leading-relaxed max-w-lg mb-8 font-normal drop-shadow-sm">
-            A research-led approach to negotiation, influence and decision-making for leaders,
-            professionals and organisations across industries and geographies.
-          </p>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <a
-              href="#methodology"
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-xs sm:text-sm px-7 sm:px-8 py-3.5 rounded-full transition-all shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
-            >
-              <span>Explore the Methodology</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-
-            <button
-              onClick={onOpenVideo}
-              className="border border-white/20 hover:border-white/50 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white font-sans font-medium text-xs sm:text-sm px-6 sm:px-7 py-3.5 rounded-full transition-all flex items-center justify-center gap-3 group cursor-pointer shadow-sm"
-            >
-              <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-[#C89B59] group-hover:text-slate-950 transition-colors">
-                <Play className="w-2.5 h-2.5 fill-current translate-x-0.5" />
-              </div>
-              <span>Watch Introduction</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // =========================================================================
 // SECTION 3: KEY PILLARS RIBBON
@@ -2022,10 +1962,7 @@ export function NegotiationHome() {
       <SiteHeader onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 2. Hero */}
-      <HeroSection
-        onOpenConsult={() => setConsultOpen(true)}
-        onOpenVideo={() => setVideoOpen(true)}
-      />
+      <BaseHeroBanner />
 
       {/* 3. 4 Pillars Bar */}
       <PillarsBar />

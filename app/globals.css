@@ -629,3 +629,44 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+/* Full-viewport scroll sequence, with no text or controls over the frames. */
+.sequence-hero {
+  height: 360svh;
+  position: relative;
+  background: #f1edde;
+}
+.sequence-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.sequence-visual {
+  position: absolute;
+  inset: 0;
+}
+.sequence-visual img, .sequence-visual canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.site-header {
+  transition: transform 350ms var(--ease), opacity 350ms var(--ease);
+}
+.site-header[data-hidden="true"] {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .sequence-hero { height: 300svh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .sequence-hero { height: auto; }
+  .sequence-pin { position: relative; }
+  .site-header { transition: none; }
+}
