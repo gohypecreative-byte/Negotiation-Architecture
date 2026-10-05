@@ -410,11 +410,28 @@ export function StickyContentComp({
               className="absolute inset-0 w-full h-full opacity-0"
             >
               {item.image && (
-                <img
-                  src={item.image}
-                  alt={item.alt || item.heading || `pathway-visual-${index + 1}`}
-                  className="w-full h-full object-cover object-center"
-                />
+                <div className="relative w-full h-full overflow-hidden bg-[#070B12]">
+                  <img
+                    src={item.image}
+                    alt={item.alt || item.heading || `pathway-visual-${index + 1}`}
+                    className="w-full h-full object-cover object-center filter grayscale contrast-[1.25] brightness-[0.88]"
+                  />
+                  {/* Black & Blue Duotone Gradient Tint */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-tr from-[#050D1A] via-[#0F2D69] to-[#2563EB] mix-blend-color pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  {/* Deep Black Shadow Vignette */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-[#070B12] via-transparent to-[#070B12]/60 mix-blend-multiply pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  {/* Atmospheric Deep Blue Screen Accent */}
+                  <div
+                    className="absolute inset-0 bg-[#0A1E3F]/35 mix-blend-screen pointer-events-none"
+                    aria-hidden="true"
+                  />
+                </div>
               )}
             </div>
           ))}

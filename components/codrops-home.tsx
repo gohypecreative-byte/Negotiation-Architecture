@@ -6,10 +6,8 @@ import { BaseHeader } from "@/components/base-header";
 import { BaseHeroBanner } from "@/components/base-hero-banner";
 import { BaseIntro } from "@/components/base-intro";
 import { BaseShowreel } from "@/components/base-showreel";
-import { AnimatedSvgTextPath } from "@/components/text-on-path";
-import { SvgFilters } from "@/components/svg-filters";
+
 import {
-  StartHereSection,
   RecognitionSection,
   TransformationSection,
   FiveStagesSection,
@@ -61,44 +59,14 @@ export function CodropsHome() {
         isVellum ? "bg-white text-[#152540]" : "navy-bg text-white"
       }`}
     >
-      {/* SVG Motion Blur & Distortion Filters */}
-      <SvgFilters />
-
       {/* Base Structures Fixed Header with Hamburger & Nav Panel */}
       <BaseHeader theme={theme} />
 
       {/* Base Structures Full-Screen Hero Banner */}
       <BaseHeroBanner theme={theme} />
 
-      {/* Start Here Quick Ladder */}
-      <StartHereSection theme={theme} />
-
       {/* Base Structures Blueprint Intro Section */}
       <BaseIntro theme={theme} />
-
-      {/* SVG Text Path 1 & 2 (Kinetic Motion along Curves directly from Codrops) */}
-      <div className="relative py-6 overflow-hidden">
-        <AnimatedSvgTextPath
-          d="M 0 100 Q 250 200 500 100 Q 750 0 1000 100"
-          text="STOP IMPROVISING. EVERY HIGH-STAKES CONVERSATION IS AN ARCHITECTURAL OPPORTUNITY."
-          filterType="none"
-          viewBox="0 0 1000 200"
-          fontSize={38}
-          textColor={isVellum ? "#152540" : "#ffffff"}
-          repeatCount={2}
-        />
-        <AnimatedSvgTextPath
-          d="M 0 100 Q 250 0 500 100 Q 750 200 1000 100"
-          text="WHEN THE ROOM GOES SILENT, THE UNPREPARED HEAR PANIC. THE ARCHITECT EXERCISES LEVERAGE."
-          filterType="none"
-          viewBox="0 0 1000 200"
-          fontSize={34}
-          reverse={true}
-          textColor={isVellum ? "#9B6817" : "#E67400"}
-          className="mt-2 md:mt-4"
-          repeatCount={2}
-        />
-      </div>
 
       {/* Base Structures Executive Spotlight / Showreel Section */}
       <BaseShowreel theme={theme} />
@@ -152,29 +120,7 @@ export function CodropsHome() {
         </ScrollComeUp>
       </div>
 
-      {/* SVG Text Path 3 & 4 (Kinetic Curves directly from Codrops) */}
-      <div className="relative py-6 overflow-hidden">
-        <AnimatedSvgTextPath
-          d="M 0 50 Q 100 0 200 100 Q 300 200 650 50 C 750 0 750 150 1000 50"
-          text="PREPARATION WITHOUT ARCHITECTURE IS MERELY REHEARSED HOPE."
-          filterType="none"
-          viewBox="0 0 1000 200"
-          fontSize={40}
-          textColor={isVellum ? "#9B6817" : "#E67400"}
-          repeatCount={2}
-        />
-        <AnimatedSvgTextPath
-          d="M 0 200 Q 150 300 300 200 Q 700 0 1000 150"
-          text="PRESSURE TRIGGERS CONCESSIONS ONLY WHEN STRUCTURE IS ABSENT."
-          filterType="none"
-          viewBox="0 0 1000 300"
-          fontSize={36}
-          reverse={true}
-          textColor={isVellum ? "#152540" : "#ffffff"}
-          className="mt-2 md:mt-4"
-          repeatCount={2}
-        />
-      </div>
+
 
       {/* The Five Stages of Negotiation Architecture */}
       <FiveStagesSection />
@@ -241,18 +187,7 @@ export function CodropsHome() {
       {/* Certification Curriculum & 24 Modules */}
       <CertificationCurriculumSection />
 
-      {/* SVG Text Path 5 (Codrops Arch Curve) */}
-      <div className="relative py-6 overflow-hidden">
-        <AnimatedSvgTextPath
-          d="M 0 0 Q 200 150 500 150 Q 850 150 1000 0"
-          text="EVERY NEGOTIATION IS DESIGNED. THE QUESTION IS — WHO DESIGNED YOURS?"
-          filterType="none"
-          viewBox="0 0 1000 200"
-          fontSize={38}
-          textColor={isVellum ? "#8A5A12" : "#E67400"}
-          repeatCount={2}
-        />
-      </div>
+
 
       {/* Prospectus Section */}
       <ProspectusSection />

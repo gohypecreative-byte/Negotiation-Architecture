@@ -1,5 +1,6 @@
-import { CodropsHome } from "@/components/codrops-home";
+import { NegotiationHome } from "@/components/negotiation-home";
 
 export default function Home() {
-  return <CodropsHome />;
+  return <NegotiationHome />;
 }
+

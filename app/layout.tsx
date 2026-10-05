@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist, Geist_Mono, Anton } from "next/font/google";
+import { Cormorant_Garamond, Inter, Geist_Mono, Alex_Brush } from "next/font/google";
 import "./globals.css";
 
-const displayFont = Cormorant_Garamond({
+const serifFont = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
+  variable: "--font-serif",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const antonFont = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-headline",
-});
-
-const sansFont = Geist({
+const sansFont = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
 });
 
 const monoFont = Geist_Mono({
@@ -25,16 +20,23 @@ const monoFont = Geist_Mono({
   variable: "--font-mono",
 });
 
+const signatureFont = Alex_Brush({
+  subsets: ["latin"],
+  variable: "--font-signature",
+  weight: ["400"],
+  display: "swap",
+});
+
 import { SmoothScrollProvider } from "@/components/smooth-scroll";
 
 export const metadata: Metadata = {
   title: "Negotiation Architecture — Dr. Tarun Rochwani",
   description:
-    "A discipline of constructed outcomes for leaders whose conversations carry consequence.",
+    "The Architecture of Better Outcomes. A research-led approach to negotiation, influence and decision-making for leaders, professionals and organisations.",
 };
 
 export const viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#080E1B",
 };
 
 export default function RootLayout({
@@ -43,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} ${antonFont.variable}`}>
-      <body className="bg-white text-[#152540] antialiased selection:bg-[#E67400]/20 selection:text-[#152540]">
+    <html lang="en" className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable} ${signatureFont.variable}`}>
+      <body className="bg-white text-[#111827] antialiased selection:bg-[#C89B59]/25 selection:text-slate-900">
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
