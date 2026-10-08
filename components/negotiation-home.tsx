@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
+import { GlobalMap } from "./global-map";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -22,12 +25,8 @@ import {
   Scale,
   Trophy,
   Mic,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
   Plus,
   Minus,
-  Mail,
   Check,
   X,
   Menu,
@@ -37,7 +36,7 @@ import {
 // MODALS
 // =========================================================================
 
-function ConsultationModal({
+export function ConsultationModal({
   isOpen,
   onClose,
 }: {
@@ -46,14 +45,21 @@ function ConsultationModal({
 }) {
   const [submitted, setSubmitted] = useState(false);
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+    <AnimatePresence>
+      {isOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-lg bg-[#0C1322] border border-[#C89B59]/30 rounded-2xl p-6 sm:p-8 text-white shadow-2xl"
       >
         <button
@@ -162,7 +168,9 @@ function ConsultationModal({
           </div>
         )}
       </motion.div>
-    </div>
+    </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -173,14 +181,21 @@ function VideoModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <AnimatePresence>
+      {isOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-4xl bg-black border border-white/20 rounded-2xl overflow-hidden shadow-2xl aspect-video"
       >
         <button
@@ -192,10 +207,10 @@ function VideoModal({
         </button>
         <div className="relative w-full h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-[#080E1B] to-[#121E36] overflow-hidden">
           <Image
-            src="/images/web/hero-portrait.png"
+            src="/website pictures formal and informal/IMG_7043.jpeg"
             alt="Dr. Tarun Rochwani"
             fill
-            className="object-cover opacity-25 pointer-events-none"
+            className="editorial-photo object-cover opacity-25 pointer-events-none"
           />
           <div className="absolute inset-0 bg-[#080E1B]/75 backdrop-blur-[2px] pointer-events-none" />
           <div className="w-20 h-20 rounded-full bg-[#C89B59]/20 border border-[#C89B59]/50 flex items-center justify-center mb-6 relative z-10">
@@ -220,7 +235,9 @@ function VideoModal({
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -228,7 +245,7 @@ function VideoModal({
 // SECTION 1: HEADER & NAVIGATION
 // =========================================================================
 
-function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [withinHeroSequence, setWithinHeroSequence] = useState(false);
 
@@ -263,21 +280,28 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
   const hidden = withinHeroSequence && !mobileOpen;
 
   const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "About", href: "#about" },
-    { label: "Methodology", href: "#methodology" },
-    { label: "Programs", href: "#programs" },
-    { label: "Research", href: "#research" },
-    { label: "Insights", href: "#insights" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Methodology", href: "/methodology" },
+    { label: "Programs", href: "/programs" },
+    { label: "Research", href: "/research" },
+    { label: "Insights", href: "/insights" },
+    { label: "Contact", href: "/contact" },
   ];
+  const pathname = usePathname();
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <>
       <header inert={hidden} data-hidden={hidden} className="site-header fixed top-0 left-0 w-full z-50 bg-[#080E1B]/85 backdrop-blur-md border-b border-white/[0.08]">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
+        <motion.div
+          initial={{ y: -16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-[1400px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between"
+        >
           {/* Brand Monogram & Wordmark */}
-          <a href="#hero" className="flex items-center gap-3.5 group">
+          <Link href="/" className="flex items-center gap-3.5 group">
             <div className="relative w-8 h-8 flex items-center justify-center">
               <Image
                 src="/images/brand/na-monogram-white.png"
@@ -296,21 +320,23 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
                 Architecture<sup className="text-[9px] font-normal">®</sup>
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-sans font-medium text-slate-200">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="relative py-1 hover:text-[#C89B59] transition-colors group"
               >
                 {link.label}
-                {link.label === "Home" && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#C89B59]" />
-                )}
-              </a>
+                <span
+                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#C89B59] origin-left transition-transform duration-300 ease-out ${
+                    isActive(link.href) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
+              </Link>
             ))}
           </nav>
 
@@ -318,7 +344,7 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
           <div className="flex items-center gap-4">
             <button
               onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-xs sm:text-sm px-5 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-xs sm:text-sm px-5 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer"
             >
               <span>Book a Consultation</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -333,7 +359,7 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {/* Mobile Drawer */}
@@ -347,21 +373,21 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="text-slate-200 hover:text-[#C89B59] font-sans font-medium py-2 text-base border-b border-white/5"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <button
                 onClick={() => {
                   setMobileOpen(false);
                   onOpenConsult();
                 }}
-                className="w-full mt-2 bg-[#C89B59] text-slate-950 font-medium py-3 rounded-full text-sm flex items-center justify-center gap-2"
+                className="w-full mt-2 bg-[#C89B59] text-white font-medium py-3 rounded-full text-sm flex items-center justify-center gap-2"
               >
                 <span>Book a Consultation</span>
                 <ArrowRight className="w-4 h-4" />
@@ -382,7 +408,7 @@ function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 3: KEY PILLARS RIBBON
 // =========================================================================
 
-function PillarsBar() {
+export function PillarsBar() {
   const pillars = [
     {
       title: "Research-Led Methodology",
@@ -415,8 +441,7 @@ function PillarsBar() {
             return (
               <div
                 key={idx}
-                className="flex items-center gap-4 px-4 sm:px-6 py-2 group hover:bg-slate-50/80 rounded-lg transition-colors"
-              >
+                className="flex items-center gap-4 px-4 sm:px-6 py-2 group hover:bg-slate-50/80 rounded-lg transition-colors">
                 <div className="w-10 h-10 rounded-full bg-[#C89B59]/10 text-[#C89B59] flex items-center justify-center shrink-0 group-hover:bg-[#C89B59] group-hover:text-slate-950 transition-colors">
                   <Icon className="w-5 h-5" />
                 </div>
@@ -438,113 +463,126 @@ function PillarsBar() {
 }
 
 // =========================================================================
-// SECTION 4: WHAT IS NEGOTIATION ARCHITECTURE
+// SHARED SECTION PRIMITIVES
 // =========================================================================
 
-function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function SectionIntro({
+  eyebrow,
+  title,
+  lede,
+  dark = false,
+  className = "",
+}: {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  dark?: boolean;
+  className?: string;
+}) {
   return (
-    <section id="about" className="w-full bg-[#F9F8F5] py-20 sm:py-28 relative">
+    <div className={`max-w-2xl ${className}`}>
+      <span
+        className={`block mb-3 font-sans font-semibold text-xs tracking-[0.22em] uppercase ${
+          dark ? "text-[#C89B59]" : "text-[#A8741F]"
+        }`}
+      >
+        {eyebrow}
+      </span>
+      <h2
+        className={`font-serif text-4xl sm:text-5xl font-normal leading-[1.1] ${
+          dark ? "text-white" : "text-[#111827]"
+        }`}
+      >
+        {title}
+      </h2>
+      {lede && (
+        <p
+          className={`mt-5 font-sans text-base sm:text-lg leading-relaxed ${
+            dark ? "text-slate-300" : "text-slate-600"
+          }`}
+        >
+          {lede}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function PrimaryButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-sm px-7 py-3 rounded-full transition-colors cursor-pointer"
+    >
+      <span>{children}</span>
+      <ArrowRight className="w-4 h-4" />
+    </button>
+  );
+}
+
+export function TextLink({
+  onClick,
+  href,
+  dark = false,
+  children,
+}: {
+  onClick?: () => void;
+  href?: string;
+  dark?: boolean;
+  children: React.ReactNode;
+}) {
+  const cls = `inline-flex items-center gap-1.5 font-sans text-sm font-semibold transition-colors cursor-pointer ${
+    dark ? "text-[#C89B59] hover:text-[#D9AB64]" : "text-[#A8741F] hover:text-[#8F6218]"
+  }`;
+  if (href) {
+    return (
+      <Link href={href} className={cls}>
+        <span>{children}</span>
+        <ArrowRight className="w-3.5 h-3.5" />
+      </Link>
+    );
+  }
+  return (
+    <button onClick={onClick} className={cls}>
+      <span>{children}</span>
+      <ArrowRight className="w-3.5 h-3.5" />
+    </button>
+  );
+}
+
+// =========================================================================
+// SECTION 4: WHAT IS NEGOTIATION ARCHITECTURE (ABOUT)
+// =========================================================================
+
+export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+  return (
+    <section id="about" className="w-full bg-[#F9F8F5] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column: Narrative */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-4">
-              WHAT IS NEGOTIATION ARCHITECTURE
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.12] text-[#111827] mb-6">
-              A Structured Approach to Human Decisions
-            </h2>
-            <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-8">
-              Negotiation Architecture is a research-based framework that integrates strategy,
-              human behaviour, influence and structured thinking to help individuals and
-              organisations achieve better outcomes in complex interactions.
-            </p>
-
-            <div className="flex items-center gap-6 sm:gap-8 flex-wrap pt-2">
-              <button
-                onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3.5 rounded-full transition-all flex items-center gap-2 group shadow-sm hover:shadow-lg hover:shadow-[#C89B59]/20 cursor-pointer"
-              >
-                <span>Learn More</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-
-              {/* Dr. Tarun Rochwani Executive Signature */}
-              <div className="flex items-center gap-4 pl-1 sm:pl-3 border-l border-slate-200/90 py-1">
-                <div className="flex flex-col select-none">
-                  <div className="relative inline-flex items-center">
-                    <span className="font-signature text-3xl sm:text-[36px] text-[#1E293B] tracking-wide font-normal -rotate-2 transform leading-tight py-0.5 inline-block">
-                      Dr. Tarun Rochwani
-                    </span>
-                    <svg
-                      className="absolute -bottom-1 left-2 w-36 h-2 text-[#C89B59]/70 pointer-events-none"
-                      viewBox="0 0 144 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M2 5.5C35 2 85 1.5 142 5"
-                        stroke="currentColor"
-                        strokeWidth="1.2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-[10px] tracking-[0.22em] uppercase font-sans font-semibold text-slate-400 pl-1 -mt-0.5">
-                    Dr. Tarun L. Rochwani, DBA
-                  </span>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-6">
+            <SectionIntro
+              eyebrow="What is Negotiation Architecture"
+              title="A Structured Approach to Human Decisions"
+              lede="Negotiation Architecture is a research-based framework that integrates strategy, human behaviour, influence and structured thinking to help individuals and organisations achieve better outcomes in complex interactions."
+            />
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <PrimaryButton onClick={onOpenConsult}>Learn More</PrimaryButton>
+              <div className="font-sans text-sm">
+                <span className="block font-semibold text-[#111827]">Dr. Tarun L. Rochwani, DBA</span>
+                <span className="block text-slate-500">Founder, Negotiation Architecture</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: 3D Stack Diagram with 6 Labels */}
-          <div className="lg:col-span-6 relative flex items-center justify-center">
-            <div className="relative w-full max-w-[560px] aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 shadow-2xl bg-[#080E1B] group">
+          <div className="lg:col-span-6">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
               <Image
-                src="/images/web/isometric-architecture.png"
-                alt="Negotiation Architecture Multi-Tier Structure"
+                src="/website pictures formal and informal/unnamed.jpg"
+                alt="Dr. Tarun Rochwani presenting Negotiation Strategy"
                 fill
-                sizes="(max-width: 768px) 100vw, 600px"
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="editorial-photo object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
-
-              {/* Top Left: Strategy */}
-              <div className="absolute top-4 left-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg">
-                <div className="font-sans font-semibold text-xs text-white">Strategy</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">The bigger picture</div>
-              </div>
-
-              {/* Middle Left: Behaviour */}
-              <div className="absolute top-1/2 -translate-y-1/2 left-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg">
-                <div className="font-sans font-semibold text-xs text-white">Behaviour</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">Understanding people</div>
-              </div>
-
-              {/* Bottom Left: Communication */}
-              <div className="absolute bottom-4 left-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg">
-                <div className="font-sans font-semibold text-xs text-white">Communication</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">Clarity and impact</div>
-              </div>
-
-              {/* Top Right: Leverage */}
-              <div className="absolute top-4 right-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg text-right">
-                <div className="font-sans font-semibold text-xs text-white">Leverage</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">Creating options</div>
-              </div>
-
-              {/* Middle Right: Relationships */}
-              <div className="absolute top-1/2 -translate-y-1/2 right-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg text-right">
-                <div className="font-sans font-semibold text-xs text-white">Relationships</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">Long-term value</div>
-              </div>
-
-              {/* Bottom Right: Outcomes */}
-              <div className="absolute bottom-4 right-4 bg-black/65 backdrop-blur-md border border-white/15 rounded-xl px-3.5 py-2 shadow-lg text-right">
-                <div className="font-sans font-semibold text-xs text-white">Outcomes</div>
-                <div className="font-sans text-[11px] text-[#C89B59]">Sustainable results</div>
-              </div>
             </div>
           </div>
         </div>
@@ -557,115 +595,40 @@ function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 5: THE METHODOLOGY (5-Step Framework)
 // =========================================================================
 
-function MethodologySection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const steps = [
-    {
-      num: "01",
-      title: "Understand",
-      desc: "Map the context, stakeholders and true interests.",
-      icon: Compass,
-    },
-    {
-      num: "02",
-      title: "Analyse",
-      desc: "Identify leverage, risk and opportunities.",
-      icon: TrendingUp,
-    },
-    {
-      num: "03",
-      title: "Design",
-      desc: "Create strategic options and influence approach.",
-      icon: LayersIcon,
-    },
-    {
-      num: "04",
-      title: "Engage",
-      desc: "Execute with clarity, adaptability and trust.",
-      icon: Users,
-    },
-    {
-      num: "05",
-      title: "Achieve",
-      desc: "Deliver and sustain better outcomes.",
-      icon: Award,
-    },
+    { num: "01", title: "Understand", desc: "Map the context, stakeholders and true interests." },
+    { num: "02", title: "Analyse", desc: "Identify leverage, risk and opportunities." },
+    { num: "03", title: "Design", desc: "Create strategic options and an influence approach." },
+    { num: "04", title: "Engage", desc: "Execute with clarity, adaptability and trust." },
+    { num: "05", title: "Achieve", desc: "Deliver and sustain better outcomes." },
   ];
 
-  function LayersIcon(props: React.SVGProps<SVGSVGElement>) {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <polygon points="12 2 2 7 12 12 22 7 12 2" />
-        <polyline points="2 17 12 22 22 17" />
-        <polyline points="2 12 12 17 22 12" />
-      </svg>
-    );
-  }
-
   return (
-    <section id="methodology" className="w-full bg-[#070E1A] text-white py-24 sm:py-32 relative">
+    <section id="methodology" className="w-full bg-white border-y border-slate-200 py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-14">
-          <span className="text-[#C89B59] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
-            THE METHODOLOGY
-          </span>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-[54px] font-normal leading-tight text-white mb-5">
-            A Tested Framework for Real-World Impact
-          </h2>
-          <p className="font-sans text-slate-300 text-base sm:text-lg leading-relaxed mb-8">
-            The Negotiation Architecture methodology integrates principles from negotiation
-            science, behavioural insights and real-world experience into a structured, practical
-            framework.
-          </p>
-          <button
-            onClick={onOpenConsult}
-            className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer"
-          >
-            <span>Explore the Framework</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-
-        {/* 5-Step Connected Progression */}
-        <div className="relative mt-16">
-          {/* Golden connecting line (hidden on small mobile) */}
-          <div className="hidden lg:block absolute top-[36px] left-[5%] right-[5%] h-[1px] bg-gradient-to-r from-transparent via-[#C89B59]/40 to-transparent z-0" />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4 relative z-10">
-            {steps.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={idx}
-                  className="flex flex-col items-center text-center group p-4 rounded-xl hover:bg-white/[0.03] transition-colors"
-                >
-                  {/* Number Badge with Golden Ring */}
-                  <div className="relative w-[72px] h-[72px] rounded-full bg-[#0E1B2F] border-2 border-[#C89B59]/50 flex flex-col items-center justify-center mb-6 group-hover:border-[#C89B59] group-hover:scale-105 transition-all shadow-[0_0_20px_rgba(200,155,89,0.15)]">
-                    <Icon className="w-4 h-4 text-[#C89B59] mb-0.5" />
-                    <span className="font-mono text-xs font-bold text-white tracking-wider">
-                      {step.num}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif text-2xl text-white mb-2 group-hover:text-[#C89B59] transition-colors">
-                    {step.title}
-                  </h3>
-                  <p className="font-sans text-xs sm:text-[13px] text-slate-400 leading-relaxed max-w-[200px]">
-                    {step.desc}
-                  </p>
-                </div>
-              );
-            })}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <SectionIntro
+            eyebrow="The Methodology"
+            title="A Tested Framework for Real-World Impact"
+            lede="Principles from negotiation science, behavioural insight and real-world experience, brought together in one structured, practical framework."
+          />
+          <div className="shrink-0">
+            <PrimaryButton onClick={onOpenConsult}>Explore the Framework</PrimaryButton>
           </div>
         </div>
+
+        <ol className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-10">
+          {steps.map((step) => (
+            <li key={step.num} className="border-l-2 border-[#C89B59] pl-5">
+              <span className="block font-sans text-xs font-semibold tracking-[0.2em] text-[#A8741F]">
+                STEP {step.num}
+              </span>
+              <h3 className="mt-3 font-serif text-2xl text-[#111827]">{step.title}</h3>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-slate-600">{step.desc}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -675,7 +638,7 @@ function MethodologySection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 6: WHO IT IS FOR
 // =========================================================================
 
-function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const audiences = [
     {
       id: "01",
@@ -743,76 +706,39 @@ function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   ];
 
   return (
-    <section className="w-full bg-[#FAF9F5] py-20 sm:py-28 border-t border-b border-slate-200/70">
+    <section className="w-full bg-[#F9F8F5] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Header Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C89B59]/10 border border-[#C89B59]/25 text-[#A8741F] font-sans font-semibold text-xs tracking-[0.2em] uppercase mb-4">
-              <span>Target Profiles</span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#111827] leading-[1.15] tracking-tight">
-              Designed for Professionals<br className="hidden sm:block" /> Across Industries
-            </h2>
-          </div>
-
-          <div className="lg:max-w-md flex flex-col items-start lg:items-end">
-            <p className="font-sans text-slate-600 text-sm sm:text-[15px] leading-relaxed mb-4 lg:text-right">
-              The principles and frameworks are engineered for high-stake environments across sectors, roles, and geographies — wherever decisions carry significant consequence.
-            </p>
-            <button
-              onClick={onOpenConsult}
-              className="group bg-[#070D18] hover:bg-[#C89B59] text-white hover:text-slate-950 font-sans font-medium text-xs sm:text-sm px-6 py-3 rounded-full transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-lg hover:shadow-[#C89B59]/20"
-            >
-              <span>Explore Custom Alignment</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <SectionIntro
+            eyebrow="Who It Is For"
+            title="Designed for Professionals Across Industries"
+            lede="The principles and frameworks are built for high-stakes environments across sectors, roles and geographies, wherever decisions carry significant consequence."
+          />
+          <div className="shrink-0">
+            <PrimaryButton onClick={onOpenConsult}>Explore Custom Alignment</PrimaryButton>
           </div>
         </div>
 
-        {/* 3x3 Premium Executive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        <ul className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {audiences.map((aud) => {
             const Icon = aud.icon;
             return (
-              <div
+              <li
                 key={aud.id}
-                className="group relative bg-white rounded-2xl p-7 sm:p-8 border border-slate-200/80 hover:border-[#C89B59]/60 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(200,155,89,0.12)] transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                className="rounded-2xl border border-slate-200 bg-white p-7 transition-colors hover:border-[#C89B59]/60"
               >
-                <div>
-                  {/* Top Bar with Icon & Numerical ID */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-[#FAF9F5] group-hover:bg-[#C89B59]/15 border border-slate-200/60 group-hover:border-[#C89B59]/30 text-slate-700 group-hover:text-[#A8741F] flex items-center justify-center transition-colors duration-300 shadow-sm">
-                      <Icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                    </div>
-                    <span className="font-mono text-xs font-semibold text-slate-400 group-hover:text-[#A8741F] transition-colors tracking-wider">
-                      {aud.id}
-                    </span>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <h3 className="font-serif text-xl sm:text-[22px] font-semibold text-slate-900 group-hover:text-[#A8741F] transition-colors leading-snug mb-1.5">
-                    {aud.title}
-                  </h3>
-                  <div className="text-[12px] font-sans font-semibold tracking-wide text-slate-500 uppercase mb-3.5">
-                    {aud.subtitle}
-                  </div>
-
-                  {/* Description */}
-                  <p className="font-sans text-slate-600 text-[13.5px] leading-relaxed mb-6">
-                    {aud.desc}
-                  </p>
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#C89B59]/10 text-[#A8741F]">
+                  <Icon className="h-5 w-5" />
                 </div>
-
-                {/* Bottom link indicator */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-sans font-semibold text-slate-400 group-hover:text-[#A8741F] transition-colors">
-                  <span className="tracking-wide">Applicable Architecture</span>
-                  <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform duration-300" />
-                </div>
-              </div>
+                <h3 className="mt-6 font-serif text-2xl text-[#111827] leading-snug">{aud.title}</h3>
+                <p className="mt-1 font-sans text-xs font-semibold tracking-[0.16em] uppercase text-[#A8741F]">
+                  {aud.subtitle}
+                </p>
+                <p className="mt-4 font-sans text-sm leading-relaxed text-slate-600">{aud.desc}</p>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -822,7 +748,7 @@ function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 7: PROFESSIONAL EXPERIENCE
 // =========================================================================
 
-function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const credentials = [
     {
       metric: "25+",
@@ -878,12 +804,12 @@ function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
           <div className="lg:col-span-4 flex justify-center">
             <div className="relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
               <Image
-                src="/images/web/standing-terrace.png"
-                alt="Dr. Tarun Rochwani"
+                src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG"
+                alt="Dr. Tarun Rochwani beside the waterfront"
                 fill
                 sizes="(max-width: 768px) 100vw, 450px"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                style={{ objectPosition: "73% 20%" }}
+                className="editorial-photo object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{ objectPosition: "50% 35%" }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B]/80 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
@@ -912,8 +838,7 @@ function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
               return (
                 <div
                   key={idx}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#C89B59]/40 transition-colors"
-                >
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#C89B59]/40 transition-colors">
                   <div className="w-11 h-11 rounded-full bg-[#C89B59]/15 text-[#C89B59] flex items-center justify-center shrink-0">
                     <Icon className="w-5 h-5" />
                   </div>
@@ -939,88 +864,67 @@ function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 8: PROGRAMS & COACHING
 // =========================================================================
 
-function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const programs = [
     {
       title: "Executive Coaching",
-      desc: "Personalised coaching for leaders and decision-makers.",
-      image: "/images/web/coaching-advisory.png",
+      desc: "Personalised, one-to-one coaching for leaders and decision-makers facing high-stakes negotiations.",
+      image: "/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG",
+      photoAlt: "Seated portrait of Dr. Tarun Rochwani",
     },
     {
       title: "Corporate Programs",
-      desc: "Customised programs for teams and organisations.",
-      image: "/images/web/corporate-boardroom.png",
+      desc: "Customised programs that build a shared negotiation capability across teams and organisations.",
+      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG",
+      photoAlt: "Dr. Tarun Rochwani presenting at Procuretech",
     },
     {
       title: "Workshops & Masterclasses",
-      desc: "Interactive learning for practical impact.",
-      image: "/images/web/masterclass-hall.png",
+      desc: "Interactive, case-based sessions designed for immediate practical impact.",
+      image: "/website pictures formal and informal/present (1).jpg",
+      photoAlt: "Dr. Tarun Rochwani presenting Mastering Negotiations",
     },
   ];
 
   return (
-    <section id="programs" className="w-full bg-[#F9F8F5] py-24 sm:py-32">
+    <section id="programs" className="w-full bg-[#F9F8F5] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <div>
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
-              PROGRAMS & COACHING
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
-              Build Your Negotiation Capability
-            </h2>
-          </div>
-
-          <div className="lg:max-w-md flex flex-col items-start lg:items-end">
-            <p className="font-sans text-slate-600 text-sm sm:text-[15px] leading-relaxed mb-4 lg:text-right">
-              Practical, structured and high-impact programs designed for individuals, teams and
-              organisations.
-            </p>
-            <button
-              onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>View All Programs</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <SectionIntro
+            eyebrow="Programs & Coaching"
+            title="Build Your Negotiation Capability"
+            lede="Practical, structured and high-impact programs for individuals, teams and organisations."
+          />
+          <div className="shrink-0">
+            <PrimaryButton onClick={onOpenConsult}>View All Programs</PrimaryButton>
           </div>
         </div>
 
-        {/* 3 Program Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {programs.map((prog, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all group flex flex-col"
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {programs.map((prog) => (
+            <article
+              key={prog.title}
+              className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C89B59]/60 transition-colors flex flex-col"
             >
-              <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-100">
+              <div className="relative w-full aspect-[4/3] bg-slate-100">
                 <Image
                   src={prog.image}
-                  alt={prog.title}
+                  alt={prog.photoAlt}
                   fill
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className="editorial-photo object-cover object-center"
                 />
               </div>
-              <div className="p-7 flex flex-col grow justify-between">
+              <div className="p-7 flex flex-col grow">
+                <h3 className="font-serif text-2xl text-[#111827]">{prog.title}</h3>
+                <p className="mt-2 mb-6 font-sans text-sm text-slate-600 leading-relaxed grow">
+                  {prog.desc}
+                </p>
                 <div>
-                  <h3 className="font-serif text-2xl text-[#111827] mb-2 group-hover:text-[#A8741F] transition-colors">
-                    {prog.title}
-                  </h3>
-                  <p className="font-sans text-sm text-slate-600 leading-relaxed mb-6">
-                    {prog.desc}
-                  </p>
+                  <TextLink onClick={onOpenConsult}>Learn more</TextLink>
                 </div>
-                <button
-                  onClick={onOpenConsult}
-                  className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-2 border border-slate-300 hover:border-[#C89B59] px-5 py-2.5 rounded-full text-xs font-semibold text-slate-800 hover:text-[#A8741F] transition-colors cursor-pointer"
-                >
-                  <span>Learn More</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -1032,79 +936,55 @@ function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 9: RESEARCH & INSIGHTS
 // =========================================================================
 
-function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const articles = [
+export function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+  const themes = [
     {
       title: "The Psychology of Concession",
-      image: "/images/web/insight_2_hd.jpg",
+      desc: "Why people give ground, and how to structure concessions so they build value rather than erode it.",
     },
     {
       title: "Creating and Managing Leverage",
-      image: "/images/web/insight_3_hd.jpg",
+      desc: "Where leverage really comes from, and how to design it before the conversation begins.",
     },
     {
       title: "Negotiation in a Complex World",
-      image: "/images/web/insight_1_hd.jpg",
+      desc: "Multi-party, cross-border and long-horizon deals, and the frameworks that keep them coherent.",
     },
   ];
 
   return (
-    <section id="research" className="w-full bg-[#070E1A] text-white py-24 sm:py-32">
+    <section id="research" className="w-full bg-[#070E1A] text-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
-            <span className="text-[#C89B59] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-4 block">
-              RESEARCH & INSIGHTS
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal leading-tight text-white mb-6">
-              Advancing the Science of Negotiation
-            </h2>
-            <p className="font-sans text-slate-300 text-base leading-relaxed mb-8">
-              Articles, research, frameworks and practical insights for better decision-making.
-            </p>
-            <div>
-              <button
-                onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer"
-              >
-                <span>Explore Insights</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <SectionIntro
+              dark
+              eyebrow="Research"
+              title="Advancing the Science of Negotiation"
+              lede="Articles, research and frameworks that turn evidence into better decisions."
+            />
+            <div className="mt-8">
+              <PrimaryButton onClick={onOpenConsult}>Explore the Research</PrimaryButton>
             </div>
           </div>
 
-          {/* Right Column: 3 Editorial Cards */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {articles.map((art, idx) => (
-              <div
-                key={idx}
-                className="bg-[#0D182B] border border-white/10 rounded-xl overflow-hidden hover:border-[#C89B59]/60 transition-all group flex flex-col"
-              >
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-900">
-                  <Image
-                    src={art.image}
-                    alt={art.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 300px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+          <ul className="lg:col-span-7 divide-y divide-white/10 border-t border-white/10">
+            {themes.map((t) => (
+              <li key={t.title} className="py-7 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
+                <div className="grow">
+                  <h3 className="font-serif text-2xl text-white">{t.title}</h3>
+                  <p className="mt-2 font-sans text-sm sm:text-[15px] text-slate-400 leading-relaxed max-w-xl">
+                    {t.desc}
+                  </p>
                 </div>
-                <div className="p-5 flex flex-col grow justify-between">
-                  <h4 className="font-serif text-lg text-white mb-4 group-hover:text-[#C89B59] transition-colors leading-snug">
-                    {art.title}
-                  </h4>
-                  <a
-                    href="#insights"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C89B59] hover:text-[#D9AB64] transition-colors"
-                  >
-                    <span>Read Article</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </a>
+                <div className="shrink-0 sm:pt-2">
+                  <TextLink dark href="/insights">
+                    Read
+                  </TextLink>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
@@ -1115,7 +995,7 @@ function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 10: SPEAKING & THOUGHT LEADERSHIP
 // =========================================================================
 
-function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
     <section className="w-full bg-[#FFFFFF] py-24 sm:py-32">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
@@ -1147,159 +1027,13 @@ function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }) {
           <div className="lg:col-span-6">
             <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
               <Image
-                src="/images/web/global-summit.png"
-                alt="Dr. Tarun Rochwani Keynote Speaker at Global Forums"
+                src="/website pictures formal and informal/present (1).jpg"
+                alt="Dr. Tarun Rochwani presenting Mastering Negotiations"
                 fill
                 sizes="(max-width: 768px) 100vw, 600px"
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                className="editorial-photo object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 11: SELECTED ENGAGEMENTS LOGOS
-// =========================================================================
-
-function LogosSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = direction === "left" ? -280 : 280;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
-
-  return (
-    <section className="w-full bg-[#FFFFFF] border-y border-slate-200/80 py-12 sm:py-16">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.25em] uppercase block mb-1">
-              SELECTED ENGAGEMENTS
-            </span>
-            <p className="font-serif text-lg sm:text-xl text-[#111827] font-normal">
-              Academic Institutions, Global Enterprises & Executive Forums
-            </p>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => scroll("left")}
-              aria-label="Scroll left"
-              className="w-8 h-8 rounded-full border border-slate-300 hover:border-[#C89B59] hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-[#A8741F] transition-all cursor-pointer shadow-xs"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              aria-label="Scroll right"
-              className="w-8 h-8 rounded-full border border-slate-300 hover:border-[#C89B59] hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-[#A8741F] transition-all cursor-pointer shadow-xs"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Brand Logos Carousel / Grid */}
-        <div
-          ref={scrollRef}
-          className="flex items-center justify-between gap-8 sm:gap-12 md:gap-16 overflow-x-auto no-scrollbar scroll-smooth py-4 px-1"
-        >
-          {/* 1. Harvard Law School */}
-          <div className="flex items-center gap-3 shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <div className="w-9 h-10 shrink-0 relative flex items-center justify-center">
-              <svg className="w-9 h-10" viewBox="0 0 32 36" fill="none">
-                <path d="M16 2L3 5.5V18C3 27 16 34 16 34C16 34 29 27 29 18V5.5L16 2Z" fill="#A51C30" />
-                <rect x="7" y="8" width="8" height="6" rx="0.5" fill="white" />
-                <rect x="17" y="8" width="8" height="6" rx="0.5" fill="white" />
-                <rect x="12" y="16" width="8" height="6" rx="0.5" fill="white" />
-                <text x="11" y="12.5" fontSize="3.8" fontFamily="serif" fontWeight="bold" fill="#A51C30" textAnchor="middle">VE</text>
-                <text x="21" y="12.5" fontSize="3.8" fontFamily="serif" fontWeight="bold" fill="#A51C30" textAnchor="middle">RI</text>
-                <text x="16" y="20.5" fontSize="3.8" fontFamily="serif" fontWeight="bold" fill="#A51C30" textAnchor="middle">TAS</text>
-              </svg>
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="font-serif font-bold text-sm tracking-wider text-slate-900 group-hover:text-[#A51C30] transition-colors">
-                HARVARD
-              </span>
-              <span className="font-serif text-[10px] tracking-widest text-slate-500 font-semibold">
-                LAW SCHOOL
-              </span>
-            </div>
-          </div>
-
-          {/* 2. Middle East Procuretech */}
-          <div className="flex items-center gap-3 shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <div className="w-8 h-8 rounded-lg bg-[#003366] flex items-center justify-center text-white font-sans font-black text-xs shrink-0 shadow-sm">
-              ME
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="font-sans font-semibold text-xs text-[#003366] tracking-tight">
-                Middle East
-              </span>
-              <span className="font-sans font-black text-base text-[#002244] tracking-tight">
-                Procuretech
-              </span>
-              <span className="font-sans text-[8px] tracking-widest text-slate-400 uppercase mt-0.5 font-medium">
-                Summit & Awards
-              </span>
-            </div>
-          </div>
-
-          {/* 3. ivalua */}
-          <div className="flex items-center shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <div className="flex flex-col items-start leading-none">
-              <span className="font-sans font-black text-2xl text-[#002855] tracking-tight lowercase">
-                <span className="text-[#00B4D8]">i</span>valua
-              </span>
-              <svg className="w-16 h-2 -mt-0.5" viewBox="0 0 64 8" fill="none">
-                <path d="M2 2C22 7 42 7 62 2" stroke="#00B4D8" strokeWidth="2.5" strokeLinecap="round" />
-              </svg>
-            </div>
-          </div>
-
-          {/* 4. hellmann Worldwide Logistics */}
-          <div className="flex flex-col shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <div className="flex items-center leading-none">
-              <span className="font-sans font-black text-2xl text-[#E30613] tracking-tighter lowercase">
-                hellmann
-              </span>
-              <span className="text-[#E30613] text-[10px] font-bold ml-0.5 -mt-2">®</span>
-            </div>
-            <span className="font-sans text-[8px] font-bold text-slate-600 tracking-[0.2em] uppercase mt-1">
-              WORLDWIDE LOGISTICS
-            </span>
-          </div>
-
-          {/* 5. Procol */}
-          <div className="flex items-center gap-2.5 shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <svg className="w-7 h-7 shrink-0" viewBox="0 0 28 28" fill="none">
-              <circle cx="7" cy="7" r="3.5" fill="#3B82F6" />
-              <circle cx="21" cy="7" r="3.5" fill="#10B981" />
-              <circle cx="14" cy="21" r="4" fill="#6366F1" />
-              <line x1="7" y1="7" x2="14" y2="21" stroke="#CBD5E1" strokeWidth="2" />
-              <line x1="21" y1="7" x2="14" y2="21" stroke="#CBD5E1" strokeWidth="2" />
-            </svg>
-            <span className="font-sans font-extrabold text-xl text-slate-900 tracking-tight">
-              Procol
-            </span>
-          </div>
-
-          {/* 6. Promena */}
-          <div className="flex items-center gap-2.5 shrink-0 py-2 px-3 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50/70 transition-all group cursor-default">
-            <svg className="w-7 h-7 shrink-0" viewBox="0 0 28 28" fill="none">
-              <circle cx="14" cy="14" r="11" stroke="#F58220" strokeWidth="2.5" />
-              <circle cx="14" cy="14" r="5.5" stroke="#F58220" strokeWidth="2.5" />
-              <circle cx="14" cy="14" r="2" fill="#F58220" />
-            </svg>
-            <span className="font-sans font-bold text-xl text-slate-900 tracking-tight">
-              Promena
-            </span>
           </div>
         </div>
       </div>
@@ -1311,8 +1045,14 @@ function LogosSection() {
 // SECTION 12: CLIENT FEEDBACK (Testimonials)
 // =========================================================================
 
-function TestimonialsSection() {
+export function TestimonialsSection() {
   const [activeIdx, setActiveIdx] = useState(0);
+
+  // Auto-advance the highlighted testimonial
+  useEffect(() => {
+    const id = setInterval(() => setActiveIdx((i) => (i + 1) % 3), 5000);
+    return () => clearInterval(id);
+  }, []);
 
   const testimonials = [
     {
@@ -1349,8 +1089,15 @@ function TestimonialsSection() {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-[#C89B59] hover:shadow-md transition-all"
-            >
+              className="relative bg-white rounded-2xl p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-[#C89B59] hover:shadow-md transition-all">
+              {activeIdx === idx && (
+                <motion.span
+                  layoutId="testimonial-ring"
+                  aria-hidden
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="pointer-events-none absolute -inset-px rounded-2xl ring-2 ring-[#C89B59]"
+                />
+              )}
               <div>
                 <span className="font-serif text-4xl text-[#C89B59] leading-none mb-4 block">
                   “
@@ -1390,7 +1137,7 @@ function TestimonialsSection() {
 // SECTION 13: CALL TO ACTION BANNER (Ready to Design Better Outcomes?)
 // =========================================================================
 
-function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
     <section className="w-full bg-[#070D18] text-white py-16 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
@@ -1408,28 +1155,28 @@ function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={onOpenConsult}
-                  className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-md"
+                  className="bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-sm px-7 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-md"
                 >
                   <span>Book a Consultation</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <a
-                  href="#contact"
+                <Link
+                  href="/contact"
                   className="border border-white/20 hover:border-white/50 bg-white/5 text-white font-sans font-medium text-sm px-6 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <span>Get in Touch</span>
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </div>
 
             {/* Right Architectural Graphic */}
             <div className="lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
               <Image
-                src="/images/web/keynote-speaking.png"
-                alt="Negotiation Architecture Practice"
+                src="/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG"
+                alt="Dr. Tarun Rochwani speaking at Procuretech"
                 fill
-                className="object-cover object-center"
+                className="editorial-photo object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#080E1B] via-[#080E1B]/50 to-transparent lg:block hidden pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B] via-transparent to-transparent lg:hidden pointer-events-none" />
@@ -1445,86 +1192,64 @@ function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 14: LATEST INSIGHTS
 // =========================================================================
 
-function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const articles = [
     {
       title: "Negotiation in a Complex and Uncertain World",
       date: "12 Sep 2024",
-      image: "/images/web/insight_1_hd.jpg",
+      image: "/website pictures formal and informal/Presentation (1).jpg",
+      photoAlt: "Dr. Tarun Rochwani presenting a negotiation balance scorecard",
     },
     {
       title: "The Role of Behaviour in Negotiation Outcomes",
       date: "05 Sep 2024",
-      image: "/images/web/insight_2_hd.jpg",
+      image: "/website pictures formal and informal/IMG_3560.jpeg",
+      photoAlt: "Dr. Tarun Rochwani at the Program on Negotiation event",
     },
     {
       title: "Building Long-Term Value Through Strategic Negotiation",
       date: "28 Aug 2024",
-      image: "/images/web/insight_3_hd.jpg",
+      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG",
+      photoAlt: "Dr. Tarun Rochwani discussing negotiation preparation on stage",
     },
   ];
 
   return (
-    <section id="insights" className="w-full bg-[#FAF9F6] py-24 sm:py-32">
+    <section id="insights" className="w-full bg-[#FAF9F6] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <div>
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
-              LATEST INSIGHTS
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
-              Articles, Ideas and Perspectives
-            </h2>
-          </div>
-
-          <div className="lg:max-w-md flex flex-col items-start lg:items-end">
-            <p className="font-sans text-slate-600 text-sm sm:text-[15px] leading-relaxed mb-4 lg:text-right">
-              Explore the latest articles on negotiation, influence, strategy and decision-making.
-            </p>
-            <button
-              onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>View All Articles</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <SectionIntro
+            eyebrow="Latest Insights"
+            title="Articles, Ideas and Perspectives"
+            lede="The latest thinking on negotiation, influence, strategy and decision-making."
+          />
+          <div className="shrink-0">
+            <PrimaryButton onClick={onOpenConsult}>View All Articles</PrimaryButton>
           </div>
         </div>
 
-        {/* 3 Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {articles.map((art, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-xl transition-all group flex flex-col"
-            >
-              <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-900">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {articles.map((art) => (
+            <article key={art.title} className="group flex flex-col">
+              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
                 <Image
                   src={art.image}
-                  alt={art.title}
+                  alt={art.photoAlt}
                   fill
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className="editorial-photo object-cover"
                 />
               </div>
-              <div className="p-7 flex flex-col grow justify-between">
-                <div>
-                  <span className="font-mono text-xs text-slate-400 block mb-2">
-                    {art.date}
-                  </span>
-                  <h3 className="font-serif text-xl sm:text-2xl text-[#111827] mb-4 group-hover:text-[#A8741F] transition-colors leading-snug">
-                    {art.title}
-                  </h3>
-                </div>
-                <div className="pt-2">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-900 group-hover:text-[#A8741F] transition-colors">
-                    <span>Read Article</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </div>
+              <span className="mt-5 font-sans text-xs tracking-wider uppercase text-slate-500">
+                {art.date}
+              </span>
+              <h3 className="mt-2 font-serif text-xl sm:text-2xl text-[#111827] leading-snug group-hover:text-[#A8741F] transition-colors">
+                {art.title}
+              </h3>
+              <div className="mt-3">
+                <TextLink onClick={onOpenConsult}>Read article</TextLink>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -1536,7 +1261,7 @@ function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => void })
 // SECTION 15: A GLOBAL PERSPECTIVE
 // =========================================================================
 
-function GlobalPerspectiveSection() {
+export function GlobalPerspectiveSection() {
   const stats = [
     { value: "25+", label: "Countries", icon: Globe },
     { value: "100+", label: "Organizations", icon: Building2 },
@@ -1544,57 +1269,25 @@ function GlobalPerspectiveSection() {
   ];
 
   return (
-    <section className="w-full bg-[#060B14] text-white py-24 sm:py-32 relative overflow-hidden">
+    <section className="w-full bg-[#060B14] text-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 text-center">
-        {/* Header */}
-        <h2 className="font-serif text-4xl sm:text-5xl lg:text-[56px] font-normal text-white mb-3 leading-tight">
+        <span className="block mb-3 font-sans font-semibold text-xs tracking-[0.22em] uppercase text-[#C89B59]">
+          Global Reach
+        </span>
+        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-white leading-[1.1]">
           A Global Perspective
         </h2>
-        <p className="font-sans text-slate-400 text-sm sm:text-base mb-12">
+        <p className="mt-4 mb-12 font-sans text-slate-400 text-base">
           Relevant across industries, cultures and geographies.
         </p>
 
-        {/* World Map Display */}
-        <div className="relative w-full max-w-5xl mx-auto aspect-[16/9] rounded-2xl overflow-hidden border border-white/10 mb-14 shadow-2xl bg-[#091120]">
-          <Image
-            src="/images/web/global-world-map.jpg"
-            alt="Global Footprint World Map"
-            fill
-            sizes="(max-width: 1200px) 100vw, 1200px"
-            className="object-cover object-center"
-          />
-          {/* Subtle perimeter vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#060B14]/60 via-transparent to-[#060B14]/40 pointer-events-none" />
-          <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
+        <GlobalMap />
 
-          {/* Golden Pulse Node Markers on Major Global Hubs */}
-          <div className="absolute top-[37%] left-[23%]">
-            <div className="w-3.5 h-3.5 rounded-full bg-[#C89B59] animate-ping opacity-75" />
-            <div className="w-2 h-2 rounded-full bg-[#C89B59] absolute inset-[3px] border border-white shadow-sm" />
-          </div>
-
-          <div className="absolute top-[28%] left-[48%]">
-            <div className="w-3.5 h-3.5 rounded-full bg-[#C89B59] animate-ping opacity-75 delay-300" />
-            <div className="w-2 h-2 rounded-full bg-[#C89B59] absolute inset-[3px] border border-white shadow-sm" />
-          </div>
-
-          <div className="absolute top-[43%] left-[61%]">
-            <div className="w-4 h-4 rounded-full bg-[#C89B59] animate-ping opacity-90 delay-500" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#C89B59] absolute inset-[3px] border border-white shadow-sm" />
-          </div>
-
-          <div className="absolute top-[56%] left-[76%]">
-            <div className="w-3.5 h-3.5 rounded-full bg-[#C89B59] animate-ping opacity-75 delay-700" />
-            <div className="w-2 h-2 rounded-full bg-[#C89B59] absolute inset-[3px] border border-white shadow-sm" />
-          </div>
-        </div>
-
-        {/* 3 Metric Counters */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-          {stats.map((st, idx) => {
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+          {stats.map((st) => {
             const Icon = st.icon;
             return (
-              <div key={idx} className="flex flex-col items-center pt-4 sm:pt-0">
+              <div key={st.label} className="flex flex-col items-center pt-4 sm:pt-0">
                 <Icon className="w-5 h-5 text-[#C89B59] mb-2" />
                 <span className="font-serif text-4xl sm:text-5xl text-white font-normal leading-none mb-1">
                   {st.value}
@@ -1615,7 +1308,7 @@ function GlobalPerspectiveSection() {
 // SECTION 16: FREQUENTLY ASKED QUESTIONS
 // =========================================================================
 
-function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
@@ -1692,7 +1385,7 @@ function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                       >
                         <p className="font-sans text-sm sm:text-[15px] text-slate-600 mt-3 leading-relaxed">
@@ -1715,52 +1408,31 @@ function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 17: START A CONVERSATION
 // =========================================================================
 
-function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section id="contact" className="w-full bg-[#F7F6F2] py-24 sm:py-32">
+    <section id="contact" className="w-full bg-[#F7F6F2] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-4 block">
-              LET&apos;S CONNECT
-            </span>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[54px] font-normal leading-tight text-[#111827] mb-6">
-              Start a Conversation
-            </h2>
-            <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-8">
-              Discuss your goals and explore how Negotiation Architecture can support you or your
-              organisation.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <button
-                onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3.5 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm"
-              >
-                <span>Book a Consultation</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={onOpenConsult}
-                className="border border-slate-300 hover:border-slate-800 bg-white text-slate-800 font-sans font-medium text-sm px-7 py-3.5 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm"
-              >
-                <span>Get in Touch</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-6">
+            <SectionIntro
+              eyebrow="Contact"
+              title="Start a Conversation"
+              lede="Discuss your goals and explore how Negotiation Architecture can support you or your organisation."
+            />
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <PrimaryButton onClick={onOpenConsult}>Book a Consultation</PrimaryButton>
+              <TextLink onClick={onOpenConsult}>Or send a message</TextLink>
             </div>
           </div>
 
-          {/* Right Column: Architectural Marina Photo with Dr. Tarun */}
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 shadow-xl group">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
               <Image
-                src="/images/web/seated-executive.png"
-                alt="Dr. Tarun Rochwani - Negotiation Architecture"
+                src="/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG"
+                alt="Seated portrait of Dr. Tarun Rochwani"
                 fill
-                sizes="(max-width: 768px) 100vw, 600px"
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="editorial-photo object-cover object-center"
               />
             </div>
           </div>
@@ -1774,17 +1446,55 @@ function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 // SECTION 18: FOOTER
 // =========================================================================
 
-function SiteFooter() {
+const FOOTER_SOCIALS = [
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com",
+    path: "M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z",
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com",
+    path: "M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z",
+  },
+  {
+    label: "X / Twitter",
+    href: "https://x.com",
+    path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com",
+    path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z",
+  },
+];
+
+const FOOTER_LINKS = {
+  explore: [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Methodology", href: "/methodology" },
+    { label: "Programs", href: "/programs" },
+  ],
+  resources: [
+    { label: "Research", href: "/research" },
+    { label: "Insights", href: "/insights" },
+    { label: "Contact", href: "/contact" },
+  ],
+};
+
+export function SiteFooter() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#050A14] text-white pt-20 pb-12 border-t border-white/10">
+    <footer className="w-full bg-[#050A14] text-white border-t border-[#C89B59]/30">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-12 py-16 sm:py-20">
           {/* Brand */}
-          <div className="lg:col-span-5">
-            <a href="#hero" className="flex items-center gap-3.5 group mb-4">
+          <div className="lg:col-span-4">
+            <Link href="/" className="inline-flex items-center gap-3.5 group">
               <Image
                 src="/images/brand/na-monogram-white.png"
                 alt="NA Monogram"
@@ -1792,145 +1502,118 @@ function SiteFooter() {
                 height={36}
                 className="object-contain"
               />
-              <div className="flex flex-col">
-                <span className="text-white font-sans font-bold text-sm tracking-[0.14em] uppercase">
+              <span className="flex flex-col leading-tight">
+                <span className="text-white font-sans font-bold text-sm tracking-[0.14em] uppercase group-hover:text-[#C89B59] transition-colors">
                   Negotiation
                 </span>
                 <span className="text-[#C89B59] font-sans font-bold text-xs tracking-[0.14em] uppercase">
                   Architecture<sup className="text-[9px] font-normal">®</sup>
                 </span>
-              </div>
-            </a>
-            <p className="font-sans text-xs text-slate-400 tracking-wider uppercase mt-2">
-              Negotiation | Persuasion | Strategy | Human Behaviour
+              </span>
+            </Link>
+            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-slate-400">
+              A research-led framework for negotiation, influence and decision-making, built for
+              leaders, professionals and organisations facing complex, high-stakes interactions.
             </p>
+            <p className="mt-4 font-sans text-xs tracking-[0.18em] uppercase text-slate-500">
+              Negotiation · Persuasion · Strategy · Human Behaviour
+            </p>
+            <div className="mt-6 flex items-center gap-3">
+              {FOOTER_SOCIALS.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={social.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-[#C89B59] hover:text-[#C89B59]"
+                >
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden>
+                    <path d={social.path} />
+                  </svg>
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-3">
-            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-slate-300 mb-4">
-              Quick Links
+          {/* Link groups */}
+          <div className="lg:col-span-2">
+            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
+              Explore
             </h4>
-            <ul className="space-y-2.5 text-sm font-sans text-slate-400">
-              <li>
-                <a href="#hero" className="hover:text-[#C89B59] transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="hover:text-[#C89B59] transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#methodology" className="hover:text-[#C89B59] transition-colors">
-                  Methodology
-                </a>
-              </li>
-              <li>
-                <a href="#research" className="hover:text-[#C89B59] transition-colors">
-                  Research
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-[#C89B59] transition-colors">
-                  Contact
-                </a>
-              </li>
+            <ul className="space-y-3 text-sm font-sans text-slate-400">
+              {FOOTER_LINKS.explore.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:col-span-2">
+            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
+              Resources
+            </h4>
+            <ul className="space-y-3 text-sm font-sans text-slate-400">
+              {FOOTER_LINKS.resources.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Newsletter Subscribe */}
+          {/* Newsletter */}
           <div className="lg:col-span-4">
-            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-slate-300 mb-2">
+            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
               Subscribe for Insights
             </h4>
-            <p className="font-sans text-xs text-slate-400 mb-4">
-              Get the latest articles and updates.
+            <p className="font-sans text-sm leading-relaxed text-slate-400">
+              Articles on negotiation, influence and strategy, sent occasionally. No noise.
             </p>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (email) setSubscribed(true);
-              }}
-              className="flex items-center gap-2 mb-6"
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                required
-                className="bg-[#0E1626] border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C89B59] grow"
-              />
-              <button
-                type="submit"
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 p-2.5 rounded-lg shrink-0 transition-colors"
-                aria-label="Subscribe"
+            {subscribed ? (
+              <p className="mt-5 flex items-center gap-2 font-sans text-sm text-[#C89B59]">
+                <Check className="h-4 w-4" />
+                Thank you. You are on the list.
+              </p>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email) setSubscribed(true);
+                }}
+                className="mt-5 flex flex-col sm:flex-row gap-3"
               >
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
-            {subscribed && (
-              <span className="text-xs text-[#C89B59] block -mt-4 mb-4">
-                Thank you for subscribing!
-              </span>
+                <label htmlFor="footer-email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="footer-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your email address"
+                  required
+                  className="grow rounded-full border border-white/10 bg-[#0E1626] px-5 py-3 font-sans text-sm text-white placeholder-slate-500 focus:border-[#C89B59] focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C89B59] px-6 py-3 font-sans text-sm font-medium text-white transition-colors hover:bg-[#D9AB64] cursor-pointer"
+                >
+                  Subscribe
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
             )}
-
-            {/* Social Links */}
-            <div className="flex items-center gap-4 text-slate-400">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-[#C89B59] transition-colors"
-                aria-label="LinkedIn"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                </svg>
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-[#C89B59] transition-colors"
-                aria-label="YouTube"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                </svg>
-              </a>
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-[#C89B59] transition-colors"
-                aria-label="X / Twitter"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-[#C89B59] transition-colors"
-                aria-label="Instagram"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-slate-500">
-          <div>© 2026 Negotiation Architecture. All rights reserved.</div>
+        {/* Bottom bar */}
+        <div className="border-t border-white/10 py-7 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs text-slate-500">
+          <p>© {year} Negotiation Architecture. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-slate-300 transition-colors">
               Privacy Policy
@@ -1987,9 +1670,6 @@ export function NegotiationHome() {
 
       {/* 10. Speaking & Thought Leadership */}
       <SpeakingSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 11. Selected Engagements Logos */}
-      <LogosSection />
 
       {/* 12. Client Feedback (Testimonials) */}
       <TestimonialsSection />

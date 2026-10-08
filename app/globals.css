@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-sans), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-serif), "Cormorant Garamond", Georgia, serif;
-  --font-display: var(--font-serif), "Cormorant Garamond", Georgia, serif;
-  --font-headline: var(--font-serif), "Cormorant Garamond", Georgia, serif;
-  --font-signature: var(--font-signature), cursive;
+  --font-sans: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-serif: var(--font-display);
+  --font-headline: var(--font-display);
+  --font-heading: var(--font-display);
+  --font-signature: var(--font-display);
+  --font-mono: var(--font-sans);
 }
 
 :root {
@@ -29,23 +31,26 @@
   --brass: #C08A2E;
   --draft: rgba(21, 37, 64, 0.035);
 
-  --font-serif-face: var(--font-serif), "Cormorant Garamond", Georgia, serif;
-  --font-sans-face: var(--font-sans), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif-face: var(--font-display);
+  --font-sans-face: var(--font-sans);
+  --type-hero: clamp(2.5rem, 6.25vw, 5rem);
+  --type-section: clamp(2rem, 4vw, 3rem);
+  --type-card: clamp(1.375rem, 2.4vw, 1.75rem);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --sh-1: 0 1px 2px rgba(24, 43, 77, 0.03), 0 10px 26px -14px rgba(24, 43, 77, 0.12);
   --sh-lift: 0 4px 10px rgba(24, 43, 77, 0.045), 0 32px 64px -20px rgba(24, 43, 77, 0.18);
 }
 
 .font-serif {
-  font-family: var(--font-serif), "Cormorant Garamond", Georgia, serif !important;
+  font-family: var(--font-display);
 }
 
 .font-sans {
-  font-family: var(--font-sans), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: var(--font-sans);
 }
 
 .font-signature {
-  font-family: var(--font-signature), cursive !important;
+  font-family: var(--font-display);
 }
 
 *,
@@ -63,7 +68,11 @@ body {
   margin: 0;
   color: var(--text);
   background-color: #080E1B;
-  font-family: var(--font-sans), Inter, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -653,6 +662,64 @@ html.lenis body {
   object-fit: cover;
   object-position: center;
 }
+/* Shared editorial hierarchy, overriding the previous per-section type scales. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+h1,
+.intro__title {
+  font-size: var(--type-hero);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+h2 {
+  font-size: var(--type-section);
+  line-height: 1.08333;
+}
+
+h3 {
+  font-size: var(--type-card);
+  line-height: 1.14;
+}
+
+/* Reading copy retains small captions and control labels at their own sizes. */
+section p:not([class*="uppercase"]):not([class*="text-xs"]):not([class*="text-[10"]):not([class*="text-[11"]):not([class*="text-[12"]) {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+}
+
+h1 .italic,
+h2 .italic,
+h3 .italic {
+  font-style: normal;
+}
+
+/* Real photographs: shown in natural colour. */
+.editorial-photo {
+  transition: transform 700ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-photo {
+    transition: none;
+  }
+}
+
 .site-header {
   transition: transform 350ms var(--ease), opacity 350ms var(--ease);
 }
