@@ -640,7 +640,7 @@ html.lenis body {
 }
 /* Full-viewport scroll sequence, with no text or controls over the frames. */
 .sequence-hero {
-  height: 360svh;
+  height: 480svh;
   position: relative;
   background: #f1edde;
 }
@@ -729,7 +729,7 @@ h3 .italic {
   pointer-events: none;
 }
 @media (max-width: 640px) {
-  .sequence-hero { height: 300svh; }
+  .sequence-hero { height: 400svh; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

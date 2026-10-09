@@ -2,10 +2,17 @@
 
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "framer-motion";
-import manifest from "@/public/Nagotition_Architect_WebP_Frames/manifest.json";
+import manifest from "@/public/Parallax_HQ_1920x1080_409_Frames/manifest.json";
 
 const frameUrl = (frame: number) =>
-  `/Nagotition_Architect_WebP_Frames/frame_${String(frame).padStart(4, "0")}.webp`;
+  `/Parallax_HQ_1920x1080_409_Frames/frame_${String(frame).padStart(4, "0")}.webp`;
+
+// Decode frames close to their on-screen size (16:9 cover), never above the 1920px source.
+const decodeWidth = () => {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const coverWidth = Math.max(window.innerWidth, (window.innerHeight * 16) / 9) * dpr;
+  return Math.min(manifest.width, Math.max(960, Math.ceil(coverWidth / 64) * 64));
+};
 
 export function ScrollParallaxCanvas({ progress, className = "" }: {
   progress: MotionValue<number>;
@@ -53,13 +60,15 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
         const response = await fetch(frameUrl(frame), { signal: controller.signal });
         if (!response.ok) throw new Error(`Frame ${frame}: ${response.status}`);
         const image = await createImageBitmap(await response.blob(), {
-          resizeWidth: window.innerWidth < 768 ? 960 : 1440,
+          resizeWidth: decodeWidth(),
           resizeQuality: "high",
         });
         if (disposed) { image.close(); return; }
         cache.set(frame, image);
         // Keep decoded memory bounded, even after scrolling through the entire sequence.
-        while (cache.size > 36) {
+        // Full-width 1920px bitmaps are ~8MB each, so hold fewer of them.
+        const maxCached = image.width >= 1600 ? 24 : 36;
+        while (cache.size > maxCached) {
           const furthest = [...cache.keys()].sort((a, b) => Math.abs(b - target) - Math.abs(a - target))[0];
           cache.get(furthest)?.close();
           cache.delete(furthest);

@@ -1,0 +1,13 @@
+{
+  "frameCount": 409,
+  "fps": 30,
+  "durationSeconds": 13.63,
+  "width": 1920,
+  "height": 1080,
+  "format": "webp",
+  "quality": 95,
+  "pattern": "frame_%04d.webp",
+  "firstFrame": "frame_0001.webp",
+  "lastFrame": "frame_0409.webp",
+  "recommendedUse": "scroll-driven image sequence"
+}
