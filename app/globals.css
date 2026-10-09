@@ -714,12 +714,11 @@ h3 .italic {
   transition: transform 700ms var(--ease);
 }
 
-/* Blue tint applied to every photo wrapper and the hero frame sequence. */
+/* Blue tint applied to every photo wrapper (hero frame sequence excluded). */
 .photo-tint {
   position: relative;
 }
-.photo-tint::after,
-.sequence-visual::after {
+.photo-tint::after {
   content: "";
   position: absolute;
   inset: 0;
