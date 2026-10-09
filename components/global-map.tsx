@@ -104,7 +104,7 @@ export function GlobalMap() {
             setActiveId(null);
           }}
           style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
-          className="photo-tint group relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-white/10 bg-[#091120] shadow-2xl transition-transform duration-300 ease-out will-change-transform"
+          className="group relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-white/10 bg-[#091120] shadow-2xl transition-transform duration-300 ease-out will-change-transform"
         >
           <Image
             src="/images/web/global-world-map.jpg"
