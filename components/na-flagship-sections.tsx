@@ -768,14 +768,14 @@ export function OriginStorySection() {
           </div>
 
           <div className="lg:col-span-4 flex flex-col justify-center">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-stone-300 shadow-md">
+            <div className="photo-tint relative aspect-[4/5] rounded-2xl overflow-hidden border border-stone-300 shadow-md">
               <Image
                 src="/images/gallery/dr-tarun-03.jpg"
                 alt="Dr. Tarun L. Rochwani presenting negotiation frameworks"
                 fill
                 className="object-cover object-center"
               />
-              <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white text-xs font-mono">
+              <div className="absolute z-10 bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white text-xs font-mono">
                 Dr. Tarun L. Rochwani, DBA · Founder & Strategist
               </div>
             </div>

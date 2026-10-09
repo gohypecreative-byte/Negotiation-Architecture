@@ -575,7 +575,7 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
+            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
               <Image
                 src="/website pictures formal and informal/unnamed.jpg"
                 alt="Dr. Tarun Rochwani presenting Negotiation Strategy"
@@ -802,7 +802,7 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
 
           {/* Center Column: Portrait of Dr. Tarun Rochwani */}
           <div className="lg:col-span-4 flex justify-center">
-            <div className="relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+            <div className="photo-tint relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
               <Image
                 src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG"
                 alt="Dr. Tarun Rochwani beside the waterfront"
@@ -815,7 +815,7 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
               <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
 
               {/* Executive Credential Badge at base of portrait */}
-              <div className="absolute bottom-4 inset-x-4 bg-[#080E1B]/85 backdrop-blur-md border border-white/10 rounded-xl p-3 flex items-center justify-between">
+              <div className="absolute z-10 bottom-4 inset-x-4 bg-[#080E1B]/85 backdrop-blur-md border border-white/10 rounded-xl p-3 flex items-center justify-between">
                 <div>
                   <div className="font-serif text-white text-base font-normal leading-tight">
                     Dr. Tarun Rochwani
@@ -906,7 +906,7 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
               key={prog.title}
               className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C89B59]/60 transition-colors flex flex-col"
             >
-              <div className="relative w-full aspect-[4/3] bg-slate-100">
+              <div className="photo-tint relative w-full aspect-[4/3] bg-slate-100">
                 <Image
                   src={prog.image}
                   alt={prog.photoAlt}
@@ -1025,7 +1025,7 @@ export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }
 
           {/* Right Column: Stage Image with "NEGOTIATION STRATEGY By Tarun Rochwani" */}
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
+            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
               <Image
                 src="/website pictures formal and informal/present (1).jpg"
                 alt="Dr. Tarun Rochwani presenting Mastering Negotiations"
@@ -1171,7 +1171,7 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
             </div>
 
             {/* Right Architectural Graphic */}
-            <div className="lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
+            <div className="photo-tint lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
               <Image
                 src="/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG"
                 alt="Dr. Tarun Rochwani speaking at Procuretech"
@@ -1231,7 +1231,7 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
           {articles.map((art) => (
             <article key={art.title} className="group flex flex-col">
-              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
+              <div className="photo-tint relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
                 <Image
                   src={art.image}
                   alt={art.photoAlt}
@@ -1426,7 +1426,7 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
+            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
               <Image
                 src="/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG"
                 alt="Seated portrait of Dr. Tarun Rochwani"
