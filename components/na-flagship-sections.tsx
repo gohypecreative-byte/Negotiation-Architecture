@@ -339,7 +339,7 @@ export function ReadinessAssessment() {
 
   return (
     <section
-      className="py-20 md:py-28 px-6 md:px-12 bg-[#F7F4EE] border-y border-stone-200 relative z-20"
+      className="py-20 md:py-28 px-6 md:px-12 bg-white border-y border-stone-200 relative z-20"
       id="assess"
     >
       <div className="max-w-3xl mx-auto">
@@ -686,7 +686,7 @@ export function FiveStagesSection() {
           </p>
           <a
             href="mailto:t@negotiationarchitecture.com?subject=1%3A1%20Strategy%20Session%20%E2%80%94%20request"
-            className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#152540] text-xs font-bold tracking-[0.18em] uppercase hover:bg-[#F3EBDE] transition-colors"
+            className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#152540] text-xs font-bold tracking-[0.18em] uppercase hover:bg-slate-100 transition-colors"
           >
             Book a 1:1 Strategy Session
           </a>
@@ -701,7 +701,7 @@ export function FiveStagesSection() {
 // -------------------------------------------------------------
 export function OriginStorySection() {
   return (
-    <section className="py-20 md:py-28 px-6 md:px-12 bg-[#F3EBDE]/40 border-y border-stone-200 relative z-20" id="story">
+    <section className="py-20 md:py-28 px-6 md:px-12 bg-white border-y border-stone-200 relative z-20" id="story">
       <div className="max-w-[1300px] mx-auto">
         <div className="flex justify-between items-end border-b border-stone-300 pb-3 mb-10">
           <span className="text-[10.5px] font-bold tracking-[0.3em] uppercase text-[#A8741F] flex items-center gap-3">
@@ -1369,7 +1369,7 @@ export function CertificationCurriculumSection() {
 
         {/* 3 Tier Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-[#FBF8F2] p-8 border-t-4 border-[#A8741F] border-stone-200 rounded-b-xl shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-8 border-t-4 border-[#A8741F] border-stone-200 rounded-b-xl shadow-sm flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold tracking-widest text-[#A8741F] uppercase block mb-1">
                 Level I
@@ -1389,7 +1389,7 @@ export function CertificationCurriculumSection() {
             </div>
           </div>
 
-          <div className="bg-[#FBF8F2] p-8 border-t-4 border-[#152540] border-stone-200 rounded-b-xl shadow-md flex flex-col justify-between">
+          <div className="bg-white p-8 border-t-4 border-[#152540] border-stone-200 rounded-b-xl shadow-md flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold tracking-widest text-[#152540] uppercase block mb-1">
                 Level II
@@ -1409,7 +1409,7 @@ export function CertificationCurriculumSection() {
             </div>
           </div>
 
-          <div className="bg-[#FBF8F2] p-8 border-t-4 border-[#A8741F] border-stone-200 rounded-b-xl shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-8 border-t-4 border-[#A8741F] border-stone-200 rounded-b-xl shadow-sm flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold tracking-widest text-[#A8741F] uppercase block mb-1">
                 Level III
@@ -1431,7 +1431,7 @@ export function CertificationCurriculumSection() {
         </div>
 
         {/* 24-Module Accordion */}
-        <div className="border border-stone-200 rounded-2xl overflow-hidden bg-[#FBF8F2]">
+        <div className="border border-stone-200 rounded-2xl overflow-hidden bg-white">
           <div className="border-b border-stone-200">
             <button
               onClick={() => setOpenLevel(openLevel === 1 ? null : 1)}
@@ -1545,7 +1545,7 @@ export function ProspectusSection() {
         <div className="lg:col-span-4 flex flex-col gap-4">
           <a
             href="mailto:t@negotiationarchitecture.com?subject=Prospectus%20Request%20%E2%80%94%20Negotiation%20Architecture"
-            className="w-full py-4 bg-white text-[#152540] text-center text-xs font-bold tracking-[0.16em] uppercase hover:bg-[#F3EBDE] transition-colors"
+            className="w-full py-4 bg-white text-[#152540] text-center text-xs font-bold tracking-[0.16em] uppercase hover:bg-slate-100 transition-colors"
           >
             Request Full Prospectus
           </a>
@@ -1574,7 +1574,7 @@ export function InstitutionalFooter({ theme = "vellum" }: FlagshipProps) {
     <footer
       id="contact"
       className={`relative border-t py-20 px-6 md:px-16 transition-colors duration-500 z-20 ${
-        isVellum ? "border-stone-200 bg-[#FBF8F2]" : "border-white/10 bg-[#070F1C] text-white"
+        isVellum ? "border-stone-200 bg-white" : "border-white/10 bg-[#070F1C] text-white"
       }`}
     >
       <div className="max-w-[1300px] mx-auto">

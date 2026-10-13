@@ -132,7 +132,7 @@ export function BaseProjects({ theme = "vellum" }: BaseProjectsProps) {
                       ? "bg-[#152540] text-white shadow-sm"
                       : "bg-[#E67400] text-white shadow-sm"
                     : isVellum
-                    ? "bg-[#EFE8DC] text-[#4B5563] hover:bg-[#E5DDCF]"
+                    ? "bg-slate-100 text-[#4B5563] hover:bg-slate-200"
                     : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
                 }`}
               >

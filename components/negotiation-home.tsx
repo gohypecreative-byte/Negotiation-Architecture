@@ -556,7 +556,7 @@ export function TextLink({
 
 export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section id="about" className="w-full bg-[#F9F8F5] py-20 sm:py-28">
+    <section id="about" className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
@@ -706,7 +706,7 @@ export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }
   ];
 
   return (
-    <section className="w-full bg-[#F9F8F5] py-20 sm:py-28">
+    <section className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
@@ -887,7 +887,7 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
   ];
 
   return (
-    <section id="programs" className="w-full bg-[#F9F8F5] py-20 sm:py-28">
+    <section id="programs" className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
@@ -1073,7 +1073,7 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section className="w-full bg-[#F9F8F5] py-24 sm:py-32">
+    <section className="w-full bg-white border-t border-slate-200 py-24 sm:py-32">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="mb-14">
           <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
@@ -1215,7 +1215,7 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
   ];
 
   return (
-    <section id="insights" className="w-full bg-[#FAF9F6] py-20 sm:py-28">
+    <section id="insights" className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
@@ -1410,7 +1410,7 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 
 export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section id="contact" className="w-full bg-[#F7F6F2] py-20 sm:py-28">
+    <section id="contact" className="w-full bg-white border-t border-slate-200 py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
