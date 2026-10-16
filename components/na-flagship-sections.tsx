@@ -32,7 +32,7 @@ export function StartHereSection({ theme = "vellum" }: FlagshipProps) {
         href: "#simulation",
         text: "Enter Pathway",
       },
-      image: "/images/gallery/dr-tarun-01.jpg",
+      image: "/images/gallery/dr-tarun-01.jpg?v=78c888cdea0d",
       alt: "Diagnostic Assessment - Dr. Tarun Rochwani",
     },
     {
@@ -51,7 +51,7 @@ export function StartHereSection({ theme = "vellum" }: FlagshipProps) {
         href: "#prospectus",
         text: "Enter Pathway",
       },
-      image: "/images/gallery/dr-tarun-02.jpg",
+      image: "/images/gallery/dr-tarun-02.jpg?v=823a7145f967",
       alt: "Architectural Blueprint Prospectus",
     },
     {
@@ -70,7 +70,7 @@ export function StartHereSection({ theme = "vellum" }: FlagshipProps) {
         href: "#simulation",
         text: "Enter Pathway",
       },
-      image: "/images/gallery/dr-tarun-03.jpg",
+      image: "/images/gallery/dr-tarun-03.jpg?v=b51dbc63343f",
       alt: "Clinical Negotiation Simulation Lab",
     },
     {
@@ -89,7 +89,7 @@ export function StartHereSection({ theme = "vellum" }: FlagshipProps) {
         href: "#contact",
         text: "Enter Pathway",
       },
-      image: "/images/gallery/dr-tarun-08.jpg",
+      image: "/images/gallery/dr-tarun-08.jpg?v=e0c53b22a3dc",
       alt: "Executive Faculty Advisory Briefing",
     },
   ];
@@ -768,9 +768,9 @@ export function OriginStorySection() {
           </div>
 
           <div className="lg:col-span-4 flex flex-col justify-center">
-            <div className="photo-tint relative aspect-[4/5] rounded-2xl overflow-hidden border border-stone-300 shadow-md">
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-stone-300 shadow-md">
               <Image
-                src="/images/gallery/dr-tarun-03.jpg"
+                src="/images/gallery/dr-tarun-03.jpg?v=b51dbc63343f"
                 alt="Dr. Tarun L. Rochwani presenting negotiation frameworks"
                 fill
                 className="object-cover object-center"

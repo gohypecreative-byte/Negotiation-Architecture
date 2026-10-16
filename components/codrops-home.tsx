@@ -80,7 +80,7 @@ export function CodropsHome() {
           <span className="codrops-grid__item-number">01</span>
           <div className="codrops-grid__item-img-wrap relative w-full aspect-[4/5] min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden my-4 border border-slate-200/90 shadow-md group">
             <Image
-              src="/images/gallery/dr-tarun-01.jpg"
+              src="/images/gallery/dr-tarun-01.jpg?v=78c888cdea0d"
               alt="The Adrenaline Paradox"
               fill
               sizes="(max-width: 768px) 100vw, 500px"
@@ -102,7 +102,7 @@ export function CodropsHome() {
           <span className="codrops-grid__item-number">02</span>
           <div className="codrops-grid__item-img-wrap relative w-full aspect-[4/5] min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden my-4 border border-slate-200/90 shadow-md group">
             <Image
-              src="/images/gallery/dr-tarun-02.jpg"
+              src="/images/gallery/dr-tarun-02.jpg?v=823a7145f967"
               alt="Strategic Asymmetry"
               fill
               sizes="(max-width: 768px) 100vw, 500px"
@@ -140,7 +140,7 @@ export function CodropsHome() {
           <span className="codrops-grid__item-number">03</span>
           <div className="codrops-grid__item-img-wrap relative w-full aspect-[4/5] min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden my-4 border border-slate-200/90 shadow-md group">
             <Image
-              src="/images/gallery/dr-tarun-05.jpeg"
+              src="/images/gallery/dr-tarun-05.jpeg?v=ca0aba83afcf"
               alt="Shadow Advisory"
               fill
               sizes="(max-width: 768px) 100vw, 500px"
@@ -161,7 +161,7 @@ export function CodropsHome() {
           <span className="codrops-grid__item-number">04</span>
           <div className="codrops-grid__item-img-wrap relative w-full aspect-[4/5] min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden my-4 border border-slate-200/90 shadow-md group">
             <Image
-              src="/images/gallery/dr-tarun-06.jpeg"
+              src="/images/gallery/dr-tarun-06.jpeg?v=c6709575d68c"
               alt="Pre-Roundtable War-Gaming"
               fill
               sizes="(max-width: 768px) 100vw, 500px"

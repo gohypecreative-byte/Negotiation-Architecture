@@ -113,7 +113,7 @@ export function BaseShowreel({ theme = "vellum" }: BaseShowreelProps) {
           >
             {/* Poster Image */}
             <Image
-              src="/images/gallery/dr-tarun-09.jpg"
+              src="/images/gallery/dr-tarun-09.jpg?v=eb763c9d742a"
               alt="Dr. Tarun Rochwani presenting keynote symposium"
               fill
               className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"

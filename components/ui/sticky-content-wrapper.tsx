@@ -12,10 +12,10 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const IMAGES = [
-  "/images/gallery/dr-tarun-01.jpg",
-  "/images/gallery/dr-tarun-02.jpg",
-  "/images/gallery/dr-tarun-03.jpg",
-  "/images/gallery/dr-tarun-08.jpg",
+  "/images/gallery/dr-tarun-01.jpg?v=78c888cdea0d",
+  "/images/gallery/dr-tarun-02.jpg?v=823a7145f967",
+  "/images/gallery/dr-tarun-03.jpg?v=b51dbc63343f",
+  "/images/gallery/dr-tarun-08.jpg?v=e0c53b22a3dc",
 ];
 
 export interface StickyContentLink {
@@ -414,7 +414,7 @@ export function StickyContentComp({
                   <img
                     src={item.image}
                     alt={item.alt || item.heading || `pathway-visual-${index + 1}`}
-                    className="w-full h-full object-cover object-center filter grayscale contrast-[1.25] brightness-[0.88]"
+                    className="w-full h-full object-cover object-center "
                   />
                   {/* Black & Blue Duotone Gradient Tint */}
                   <div

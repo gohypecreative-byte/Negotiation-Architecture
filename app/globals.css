@@ -709,23 +709,19 @@ h3 .italic {
   font-style: normal;
 }
 
-/* Real photographs: shown in natural colour. */
-.editorial-photo {
-  transition: transform 700ms var(--ease);
-}
-
-/* Blue tint applied to every photo wrapper (hero frame sequence excluded). */
-.photo-tint {
-  position: relative;
-}
-.photo-tint::after {
+/* Transparent blue wash preserves photo colours without rotating their hues. */
+div:has(> img:is(.editorial-photo, [src*="formal"], [src*="gallery"])):not(#hero *, .sequence-hero *)::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(27, 58, 107, 0.6);
-  mix-blend-mode: multiply;
+  border-radius: inherit;
+  background: rgb(27 58 107 / 30%);
   pointer-events: none;
   z-index: 1;
+}
+
+.editorial-photo {
+  transition: transform 700ms var(--ease);
 }
 
 @media (prefers-reduced-motion: reduce) {

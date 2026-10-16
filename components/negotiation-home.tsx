@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import negotiationStrategyPhoto from "../public/website pictures formal and informal/unnamed.jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
@@ -207,7 +208,7 @@ function VideoModal({
         </button>
         <div className="relative w-full h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-[#080E1B] to-[#121E36] overflow-hidden">
           <Image
-            src="/website pictures formal and informal/IMG_7043.jpeg"
+            src="/website pictures formal and informal/IMG_7043.jpeg?v=a523979ac015"
             alt="Dr. Tarun Rochwani"
             fill
             className="editorial-photo object-cover opacity-25 pointer-events-none"
@@ -575,12 +576,12 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
           </div>
 
           <div className="lg:col-span-6">
-            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
               <Image
-                src="/website pictures formal and informal/unnamed.jpg"
+                src={negotiationStrategyPhoto}
                 alt="Dr. Tarun Rochwani presenting Negotiation Strategy"
                 fill
-                sizes="(max-width: 1024px) 100vw, 640px"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="editorial-photo object-cover object-center"
               />
             </div>
@@ -802,9 +803,9 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
 
           {/* Center Column: Portrait of Dr. Tarun Rochwani */}
           <div className="lg:col-span-4 flex justify-center">
-            <div className="photo-tint relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+            <div className="relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
               <Image
-                src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG"
+                src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG?v=78c888cdea0d"
                 alt="Dr. Tarun Rochwani beside the waterfront"
                 fill
                 sizes="(max-width: 768px) 100vw, 450px"
@@ -869,19 +870,19 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
     {
       title: "Executive Coaching",
       desc: "Personalised, one-to-one coaching for leaders and decision-makers facing high-stakes negotiations.",
-      image: "/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG",
+      image: "/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG?v=b51dbc63343f",
       photoAlt: "Seated portrait of Dr. Tarun Rochwani",
     },
     {
       title: "Corporate Programs",
       desc: "Customised programs that build a shared negotiation capability across teams and organisations.",
-      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG",
+      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG?v=823a7145f967",
       photoAlt: "Dr. Tarun Rochwani presenting at Procuretech",
     },
     {
       title: "Workshops & Masterclasses",
       desc: "Interactive, case-based sessions designed for immediate practical impact.",
-      image: "/website pictures formal and informal/present (1).jpg",
+      image: "/website pictures formal and informal/present (1).jpg?v=e0c53b22a3dc",
       photoAlt: "Dr. Tarun Rochwani presenting Mastering Negotiations",
     },
   ];
@@ -906,7 +907,7 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
               key={prog.title}
               className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C89B59]/60 transition-colors flex flex-col"
             >
-              <div className="photo-tint relative w-full aspect-[4/3] bg-slate-100">
+              <div className="relative w-full aspect-[4/3] bg-slate-100">
                 <Image
                   src={prog.image}
                   alt={prog.photoAlt}
@@ -1025,9 +1026,9 @@ export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }
 
           {/* Right Column: Stage Image with "NEGOTIATION STRATEGY By Tarun Rochwani" */}
           <div className="lg:col-span-6">
-            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
               <Image
-                src="/website pictures formal and informal/present (1).jpg"
+                src="/website pictures formal and informal/present (1).jpg?v=e0c53b22a3dc"
                 alt="Dr. Tarun Rochwani presenting Mastering Negotiations"
                 fill
                 sizes="(max-width: 768px) 100vw, 600px"
@@ -1171,9 +1172,9 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
             </div>
 
             {/* Right Architectural Graphic */}
-            <div className="photo-tint lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
+            <div className="lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
               <Image
-                src="/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG"
+                src="/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG?v=823a7145f967"
                 alt="Dr. Tarun Rochwani speaking at Procuretech"
                 fill
                 className="editorial-photo object-cover object-center"
@@ -1197,19 +1198,19 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
     {
       title: "Negotiation in a Complex and Uncertain World",
       date: "12 Sep 2024",
-      image: "/website pictures formal and informal/Presentation (1).jpg",
+      image: "/website pictures formal and informal/Presentation (1).jpg?v=eb763c9d742a",
       photoAlt: "Dr. Tarun Rochwani presenting a negotiation balance scorecard",
     },
     {
       title: "The Role of Behaviour in Negotiation Outcomes",
       date: "05 Sep 2024",
-      image: "/website pictures formal and informal/IMG_3560.jpeg",
+      image: "/website pictures formal and informal/IMG_3560.jpeg?v=ca0aba83afcf",
       photoAlt: "Dr. Tarun Rochwani at the Program on Negotiation event",
     },
     {
       title: "Building Long-Term Value Through Strategic Negotiation",
       date: "28 Aug 2024",
-      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG",
+      image: "/website pictures formal and informal/6647413d-63d3-4bbe-8f51-8cea8c306a97 (1).JPG?v=823a7145f967",
       photoAlt: "Dr. Tarun Rochwani discussing negotiation preparation on stage",
     },
   ];
@@ -1231,7 +1232,7 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
           {articles.map((art) => (
             <article key={art.title} className="group flex flex-col">
-              <div className="photo-tint relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
+              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
                 <Image
                   src={art.image}
                   alt={art.photoAlt}
@@ -1426,9 +1427,9 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
           </div>
 
           <div className="lg:col-span-6">
-            <div className="photo-tint relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
               <Image
-                src="/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG"
+                src="/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG?v=b51dbc63343f"
                 alt="Seated portrait of Dr. Tarun Rochwani"
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
