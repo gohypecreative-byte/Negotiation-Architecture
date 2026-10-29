@@ -2,15 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "framer-motion";
-import manifest from "@/public/Parallax_HQ_1920x1080_409_Frames/manifest.json";
+import manifest from "@/public/negotiation_scroll_frames/manifest.json";
 
 const frameUrl = (frame: number) =>
-  `/Parallax_HQ_1920x1080_409_Frames/frame_${String(frame).padStart(4, "0")}.webp`;
+  `/negotiation_scroll_frames/frame_${String(frame).padStart(4, "0")}.webp`;
 
-// Decode frames close to their on-screen size (16:9 cover), never above the 1920px source.
+// Decode frames close to their on-screen size, never above the source width.
 const decodeWidth = () => {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const coverWidth = Math.max(window.innerWidth, (window.innerHeight * 16) / 9) * dpr;
+  const coverWidth = Math.max(window.innerWidth, window.innerHeight * manifest.width / manifest.height) * dpr;
   return Math.min(manifest.width, Math.max(960, Math.ceil(coverWidth / 64) * 64));
 };
 
@@ -121,7 +121,7 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
     <div className={`sequence-visual ${className}`}>
       {/* The poster remains visible if loading fails or JavaScript is unavailable. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={frameUrl(1)} alt="A negotiation map connecting people, needs, interests, risks and options" fetchPriority="high" width={1920} height={1080} />
+      <img src={frameUrl(1)} alt="Negotiation Architecture" fetchPriority="high" width={manifest.width} height={manifest.height} />
       <canvas ref={canvasRef} aria-hidden="true" style={{ opacity: 0 }} />
     </div>
   );

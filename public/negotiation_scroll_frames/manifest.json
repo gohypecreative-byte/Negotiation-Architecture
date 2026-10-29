@@ -1,0 +1,9 @@
+{
+  "frameCount": 484,
+  "width": 1280,
+  "height": 720,
+  "format": "webp",
+  "pattern": "frame_%04d.webp",
+  "firstFrame": "frame_0001.webp",
+  "lastFrame": "frame_0484.webp"
+}
