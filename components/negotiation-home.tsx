@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
 import { GlobalMap } from "./global-map";
+import { CountUp } from "./count-up";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -74,9 +75,6 @@ export function ConsultationModal({
         {!submitted ? (
           <>
             <div className="mb-6">
-              <span className="text-[#C89B59] text-xs font-semibold tracking-[0.2em] uppercase">
-                Direct Inquiry
-              </span>
               <h3 className="font-serif text-2xl sm:text-3xl text-white mt-1">
                 Book an Executive Consultation
               </h3>
@@ -141,7 +139,7 @@ export function ConsultationModal({
 
               <button
                 type="submit"
-                className="w-full mt-2 bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-semibold py-3.5 rounded-lg text-sm tracking-wide transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-2 bg-[#C89B59] hover:bg-[#D9AB64] py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-white font-sans font-medium text-sm tracking-normal"
               >
                 <span>Submit Confidential Request</span>
                 <ArrowRight className="w-4 h-4" />
@@ -217,9 +215,6 @@ function VideoModal({
           <div className="w-20 h-20 rounded-full bg-[#C89B59]/20 border border-[#C89B59]/50 flex items-center justify-center mb-6 relative z-10">
             <Play className="w-8 h-8 text-[#C89B59] translate-x-0.5" />
           </div>
-          <span className="text-[#C89B59] text-xs font-semibold tracking-[0.25em] uppercase mb-2">
-            Discipline Overview
-          </span>
           <h3 className="font-serif text-3xl sm:text-4xl text-white mb-4">
             The Architecture of Better Outcomes
           </h3>
@@ -229,7 +224,7 @@ function VideoModal({
           <div className="flex gap-4">
             <button
               onClick={onClose}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-medium px-6 py-2.5 rounded-full text-sm transition-colors"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] px-6 py-2.5 rounded-full transition-colors text-white font-sans font-medium text-sm tracking-normal"
             >
               Explore Framework
             </button>
@@ -345,7 +340,7 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
           <div className="flex items-center gap-4">
             <button
               onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-xs sm:text-sm px-5 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
             >
               <span>Book a Consultation</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -434,9 +429,9 @@ export function PillarsBar() {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] border-y border-slate-200/90 py-7 relative z-20">
+    <section className="w-full bg-[#FFFFFF] py-7 relative z-20">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {pillars.map((item, idx) => {
             const Icon = item.icon;
             return (
@@ -468,13 +463,11 @@ export function PillarsBar() {
 // =========================================================================
 
 export function SectionIntro({
-  eyebrow,
   title,
   lede,
   dark = false,
   className = "",
 }: {
-  eyebrow: string;
   title: string;
   lede?: string;
   dark?: boolean;
@@ -482,13 +475,6 @@ export function SectionIntro({
 }) {
   return (
     <div className={`max-w-2xl ${className}`}>
-      <span
-        className={`block mb-3 font-sans font-semibold text-xs tracking-[0.22em] uppercase ${
-          dark ? "text-[#C89B59]" : "text-[#A8741F]"
-        }`}
-      >
-        {eyebrow}
-      </span>
       <h2
         className={`font-serif text-4xl sm:text-5xl font-normal leading-[1.1] ${
           dark ? "text-white" : "text-[#111827]"
@@ -513,7 +499,7 @@ export function PrimaryButton({ onClick, children }: { onClick: () => void; chil
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-sm px-7 py-3 rounded-full transition-colors cursor-pointer"
+      className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
     >
       <span>{children}</span>
       <ArrowRight className="w-4 h-4" />
@@ -562,7 +548,6 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
             <SectionIntro
-              eyebrow="What is Negotiation Architecture"
               title="A Structured Approach to Human Decisions"
               lede="Negotiation Architecture is a research-based framework that integrates strategy, human behaviour, influence and structured thinking to help individuals and organisations achieve better outcomes in complex interactions."
             />
@@ -606,11 +591,10 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
   ];
 
   return (
-    <section id="methodology" className="w-full bg-white border-y border-slate-200 py-20 sm:py-28">
+    <section id="methodology" className="w-full bg-white py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            eyebrow="The Methodology"
             title="A Tested Framework for Real-World Impact"
             lede="Principles from negotiation science, behavioural insight and real-world experience, brought together in one structured, practical framework."
           />
@@ -619,9 +603,9 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
           </div>
         </div>
 
-        <ol className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-10">
+        <ol className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-8">
           {steps.map((step) => (
-            <li key={step.num} className="border-l-2 border-[#C89B59] pl-5">
+            <li key={step.num}>
               <span className="block font-sans text-xs font-semibold tracking-[0.2em] text-[#A8741F]">
                 STEP {step.num}
               </span>
@@ -644,63 +628,54 @@ export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }
     {
       id: "01",
       title: "Business Leaders",
-      subtitle: "C-Suite, Managing Directors & Board Members",
       desc: "Navigating high-stakes enterprise strategy, M&A alignments, shareholder governance, and organizational transformation.",
       icon: Users,
     },
     {
       id: "02",
       title: "Entrepreneurs & Founders",
-      subtitle: "Startup & Scale-up Leadership",
       desc: "Securing venture funding rounds, equity terms, strategic co-founder alignments, and critical tier-one partnerships.",
       icon: Lightbulb,
     },
     {
       id: "03",
       title: "Procurement & Supply Chain",
-      subtitle: "Sourcing & Category Directors",
       desc: "Engineering structural supplier leverage, multi-year master service agreements, and defensible margin preservation.",
       icon: Package,
     },
     {
       id: "04",
       title: "Sales Leaders",
-      subtitle: "Enterprise Account & Commercial Heads",
       desc: "Winning complex multi-stakeholder enterprise deals, defending pricing integrity, and aligning long-term value.",
       icon: TrendingUp,
     },
     {
       id: "05",
       title: "Project & Commercial Professionals",
-      subtitle: "Contracts, Tenders & Delivery Managers",
       desc: "Administering major EPC contracts, mitigating scope variations, and defusing multimillion-dollar contractor disputes.",
       icon: Compass,
     },
     {
       id: "06",
       title: "Consultants & Advisors",
-      subtitle: "Strategy & Transaction Partners",
       desc: "Structuring high-impact advisory mandates, strategic fees, board mediation, and complex cross-border restructuring.",
       icon: Briefcase,
     },
     {
       id: "07",
       title: "Coaches & Trainers",
-      subtitle: "Executive Educators & Capability Builders",
       desc: "Embedding systematic behavioral frameworks, simulation labs, and sustainable negotiation muscle within teams.",
       icon: Award,
     },
     {
       id: "08",
       title: "Academics & Researchers",
-      subtitle: "Scholars & Thought Leaders",
       desc: "Deepening theoretical rigor through empirical behavioral science, game theory, and modern deal architecture.",
       icon: GraduationCap,
     },
     {
       id: "09",
       title: "Negotiators Across Industries",
-      subtitle: "Diplomats, Public Sector & Legal Counsel",
       desc: "Facilitating multi-party consensus, public policy pacts, dispute resolution, and high-scrutiny stakeholder accords.",
       icon: Scale,
     },
@@ -711,7 +686,6 @@ export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            eyebrow="Who It Is For"
             title="Designed for Professionals Across Industries"
             lede="The principles and frameworks are built for high-stakes environments across sectors, roles and geographies, wherever decisions carry significant consequence."
           />
@@ -732,10 +706,7 @@ export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-6 font-serif text-2xl text-[#111827] leading-snug">{aud.title}</h3>
-                <p className="mt-1 font-sans text-xs font-semibold tracking-[0.16em] uppercase text-[#A8741F]">
-                  {aud.subtitle}
-                </p>
-                <p className="mt-4 font-sans text-sm leading-relaxed text-slate-600">{aud.desc}</p>
+                <p className="mt-3 font-sans text-sm leading-relaxed text-slate-600">{aud.desc}</p>
               </li>
             );
           })}
@@ -774,14 +745,11 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
   ];
 
   return (
-    <section className="w-full bg-[#080E1B] text-white py-24 sm:py-32 relative overflow-hidden">
+    <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Heading & Context */}
           <div className="lg:col-span-5 flex flex-col justify-center">
-            <span className="text-[#C89B59] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-4 block">
-              PROFESSIONAL EXPERIENCE
-            </span>
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-white mb-6">
               Real-World Perspective.<br />
               Proven Credibility.
@@ -793,7 +761,7 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
             <div>
               <button
                 onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer"
+                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
               >
                 <span>About Dr. Tarun Rochwani</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -892,7 +860,6 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            eyebrow="Programs & Coaching"
             title="Build Your Negotiation Capability"
             lede="Practical, structured and high-impact programs for individuals, teams and organisations."
           />
@@ -960,7 +927,6 @@ export function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }
           <div className="lg:col-span-5">
             <SectionIntro
               dark
-              eyebrow="Research"
               title="Advancing the Science of Negotiation"
               lede="Articles, research and frameworks that turn evidence into better decisions."
             />
@@ -969,9 +935,9 @@ export function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }
             </div>
           </div>
 
-          <ul className="lg:col-span-7 divide-y divide-white/10 border-t border-white/10">
+          <ul className="lg:col-span-7 space-y-8">
             {themes.map((t) => (
-              <li key={t.title} className="py-7 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
+              <li key={t.title} className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
                 <div className="grow">
                   <h3 className="font-serif text-2xl text-white">{t.title}</h3>
                   <p className="mt-2 font-sans text-sm sm:text-[15px] text-slate-400 leading-relaxed max-w-xl">
@@ -998,14 +964,11 @@ export function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }
 
 export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section className="w-full bg-[#FFFFFF] py-24 sm:py-32">
+    <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           {/* Left Column */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-4 block">
-              SPEAKING & THOUGHT LEADERSHIP
-            </span>
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-tight text-[#111827] mb-6">
               Keynote Speaker<br />at Global Forums
             </h2>
@@ -1016,7 +979,7 @@ export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }
             <div>
               <button
                 onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer shadow-sm"
+                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer shadow-sm text-white font-sans font-medium text-sm tracking-normal"
               >
                 <span>View Speaking Engagements</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1074,12 +1037,9 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section className="w-full bg-white border-t border-slate-200 py-24 sm:py-32">
+    <section className="w-full bg-white py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="mb-14">
-          <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
-            CLIENT FEEDBACK
-          </span>
           <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
             Trusted by Leaders and Organisations
           </h2>
@@ -1099,16 +1059,13 @@ export function TestimonialsSection() {
                   className="pointer-events-none absolute -inset-px rounded-2xl ring-2 ring-[#C89B59]"
                 />
               )}
-              <div>
-                <span className="font-serif text-4xl text-[#C89B59] leading-none mb-4 block">
-                  “
-                </span>
-                <p className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+              <blockquote>
+                <p className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
                   {t.quote}
                 </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100">
-                <span className="font-sans font-semibold text-xs text-slate-900 uppercase tracking-wider block">
+              </blockquote>
+              <div className="mt-6">
+                <span className="font-sans font-medium text-sm text-slate-500 block">
                   {t.author}
                 </span>
               </div>
@@ -1156,7 +1113,7 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={onOpenConsult}
-                  className="bg-[#C89B59] hover:bg-[#D9AB64] text-white font-sans font-medium text-sm px-7 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-md"
+                  className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-md text-white font-sans font-medium text-sm tracking-normal"
                 >
                   <span>Book a Consultation</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1220,7 +1177,6 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            eyebrow="Latest Insights"
             title="Articles, Ideas and Perspectives"
             lede="The latest thinking on negotiation, influence, strategy and decision-making."
           />
@@ -1266,40 +1222,38 @@ export function GlobalPerspectiveSection() {
   const stats = [
     { value: "25+", label: "Countries", icon: Globe },
     { value: "100+", label: "Organizations", icon: Building2 },
-    { value: "5000+", label: "Professionals Trained", icon: Users },
+    { value: "5,000+", label: "Professionals trained", icon: Users },
   ];
 
   return (
-    <section className="w-full bg-[#060B14] text-white py-20 sm:py-28">
+    <section className="w-full bg-white text-[#111827] py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 text-center">
-        <span className="block mb-3 font-sans font-semibold text-xs tracking-[0.22em] uppercase text-[#C89B59]">
-          Global Reach
-        </span>
-        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-white leading-[1.1]">
+        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#111827] leading-[1.1]">
           A Global Perspective
         </h2>
-        <p className="mt-4 mb-12 font-sans text-slate-400 text-base">
+        <p className="mt-4 mb-12 font-sans text-slate-600 text-base">
           Relevant across industries, cultures and geographies.
         </p>
 
         <GlobalMap />
 
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+        <dl className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-5xl mx-auto text-left">
           {stats.map((st) => {
             const Icon = st.icon;
+            const [number] = st.value.split("+");
             return (
-              <div key={st.label} className="flex flex-col items-center pt-4 sm:pt-0">
-                <Icon className="w-5 h-5 text-[#C89B59] mb-2" />
-                <span className="font-serif text-4xl sm:text-5xl text-white font-normal leading-none mb-1">
-                  {st.value}
-                </span>
-                <span className="font-sans text-xs text-slate-400 uppercase tracking-wider">
+              <div key={st.label} className="px-6 py-4 sm:px-7 sm:py-6">
+                <dt className="flex items-center gap-2.5 font-sans text-sm font-medium text-slate-600">
+                  <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-[#3779B5]" strokeWidth={1.8} />
                   {st.label}
-                </span>
+                </dt>
+                <dd className="mt-4 flex items-baseline gap-1 font-sans text-[2.75rem] sm:text-5xl font-semibold tracking-tight tabular-nums leading-none text-[#183F6C]">
+                  <CountUp value={Number(number.replaceAll(",", ""))} /><span className="text-3xl font-normal text-[#3779B5]">+</span>
+                </dd>
               </div>
             );
           })}
-        </div>
+        </dl>
       </div>
     </section>
   );
@@ -1336,14 +1290,11 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-24 sm:py-32">
+    <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14">
           {/* Left Column */}
           <div className="lg:col-span-5 flex flex-col justify-start">
-            <span className="text-[#A8741F] font-sans font-semibold text-xs tracking-[0.22em] uppercase mb-3 block">
-              FREQUENTLY ASKED QUESTIONS
-            </span>
             <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight mb-5">
               Common Questions
             </h2>
@@ -1354,7 +1305,7 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
             <div>
               <button
                 onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] text-slate-950 font-sans font-medium text-sm px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer"
+                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
               >
                 <span>View All FAQs</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1411,12 +1362,11 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
 
 export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section id="contact" className="w-full bg-white border-t border-slate-200 py-20 sm:py-28">
+    <section id="contact" className="w-full bg-white py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
             <SectionIntro
-              eyebrow="Contact"
               title="Start a Conversation"
               lede="Discuss your goals and explore how Negotiation Architecture can support you or your organisation."
             />
@@ -1490,7 +1440,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#050A14] text-white border-t border-[#C89B59]/30">
+    <footer className="w-full bg-[#050A14] text-white">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-12 py-16 sm:py-20">
           {/* Brand */}
@@ -1539,7 +1489,7 @@ export function SiteFooter() {
 
           {/* Link groups */}
           <div className="lg:col-span-2">
-            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
               Explore
             </h4>
             <ul className="space-y-3 text-sm font-sans text-slate-400">
@@ -1553,7 +1503,7 @@ export function SiteFooter() {
             </ul>
           </div>
           <div className="lg:col-span-2">
-            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
               Resources
             </h4>
             <ul className="space-y-3 text-sm font-sans text-slate-400">
@@ -1569,7 +1519,7 @@ export function SiteFooter() {
 
           {/* Newsletter */}
           <div className="lg:col-span-4">
-            <h4 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#C89B59] mb-5">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
               Subscribe for Insights
             </h4>
             <p className="font-sans text-sm leading-relaxed text-slate-400">
@@ -1602,7 +1552,7 @@ export function SiteFooter() {
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C89B59] px-6 py-3 font-sans text-sm font-medium text-white transition-colors hover:bg-[#D9AB64] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C89B59] px-6 py-3 transition-colors hover:bg-[#D9AB64] cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
                 >
                   Subscribe
                   <ArrowRight className="h-4 w-4" />
@@ -1616,13 +1566,13 @@ export function SiteFooter() {
         <div className="border-t border-white/10 py-7 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs text-slate-500">
           <p>© {year} Negotiation Architecture. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-slate-300 transition-colors">
+            <a href="#" className="hover:text-white transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-slate-300 transition-colors">
+            <a href="#" className="hover:text-white transition-colors">
               Terms
             </a>
-            <a href="#" className="hover:text-slate-300 transition-colors">
+            <a href="#" className="hover:text-white transition-colors">
               Sitemap
             </a>
           </div>

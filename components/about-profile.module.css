@@ -1,0 +1,41 @@
+.page { background: #fff; color: #111827; }
+.container { width: min(100% - 80px, 1280px); margin-inline: auto; }
+.hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(40px, 6vw, 96px); align-items: center; padding-top: 156px; padding-bottom: 88px; }
+.introduction { min-width: 0; }
+.introduction h1 { font-size: clamp(28px, 3vw, 42px); line-height: 1.2; letter-spacing: -0.035em; text-wrap: wrap; }
+.degree { font-size: 0.45em; letter-spacing: -0.02em; white-space: nowrap; color: #64748b; }
+.page .role { margin-top: 22px; color: #a8741f; font-size: 16px; font-weight: 500; }
+.page .lead { margin-top: 32px; font-size: clamp(22px, 2vw, 27px); line-height: 1.4; letter-spacing: -0.025em; color: #111827; }
+.summary { margin-top: 18px; max-width: 490px; color: #64748b; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 32px; }
+.textLink { display: inline-flex; align-items: center; gap: 10px; color: #111827; font-size: 14px; font-weight: 500; text-decoration: none; }
+.textLink:hover { color: #a8741f; }
+.page a:focus-visible, .page button:focus-visible { outline: 2px solid #a8741f; outline-offset: 5px; }
+.portrait { position: relative; aspect-ratio: 4 / 5; border-radius: 100px 16px 16px 16px; overflow: hidden; margin: 0; background: #ffffff; }
+.portraitImage { object-fit: cover; object-position: 50% 35%; }
+.page figure::after { display: none; }
+.story { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-block: 60px 100px; scroll-margin-top: 110px; }
+.page h2 { font-size: clamp(30px, 3.3vw, 46px); line-height: 1.15; letter-spacing: -0.035em; }
+.prose p { color: #526174; margin-bottom: 22px; }
+.prose .textLink { margin-top: 8px; }
+.experience { display: flex; align-items: center; gap: 20px; margin-top: 40px; color: #64748b; font-size: 14px; line-height: 1.5; }
+.experience strong { color: #111827; font-size: 58px; line-height: 1; letter-spacing: -0.04em; font-weight: 500; }
+.experience strong > span:last-child { color: #a8741f; }
+.perspectives { padding-block: 80px; background: #ffffff; }
+.sectionIntro { display: flex; justify-content: space-between; align-items: end; gap: 48px; }
+.sectionIntro p { max-width: 420px; color: #526174; }
+.perspectiveGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 56px; }
+.perspectiveGrid svg { color: #a8741f; margin-bottom: 24px; }
+.perspectiveGrid h3 { font-size: 23px; margin-bottom: 16px; }
+.perspectiveGrid p { color: #526174; }
+.teaching { display: grid; grid-template-columns: 1.15fr 1fr; gap: 72px; align-items: center; padding-block: 100px; }
+.teachingPhoto { margin: 0; position: relative; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #ffffff; }
+.sessionImage { object-fit: cover; }
+.teachingCopy p { margin-top: 22px; color: #526174; }
+.teachingCopy .textLink { margin-top: 28px; }
+.contact { background: #ffffff; padding-block: 72px; }
+.contactInner { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+.contact p { margin-top: 20px; color: #526174; }
+.contact button { flex-shrink: 0; }
+@media (max-width: 1000px) { .container { width: calc(100% - 48px); } .hero { gap: 32px; } .story, .teaching { gap: 40px; } .desktopBreak { display: none; } .perspectiveGrid { gap: 28px; } }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; padding-top: 130px; padding-bottom: 56px; } .portrait { max-width: 520px; width: 100%; aspect-ratio: 5 / 4; border-radius: 64px 12px 12px; } .story, .teaching { grid-template-columns: 1fr; padding-block: 40px 64px; gap: 32px; } .sectionIntro, .contactInner { flex-direction: column; align-items: start; gap: 24px; } .perspectiveGrid { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; } .perspectiveGrid svg { margin-bottom: 16px; } .perspectives, .contact { padding-block: 56px; } .teaching { padding-top: 64px; } .experience { margin-top: 24px; } .sectionIntro p { max-width: none; } }

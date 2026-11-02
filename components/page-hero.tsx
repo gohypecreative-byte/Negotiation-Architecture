@@ -14,7 +14,7 @@ export function PageHero({
   lede?: string;
 }) {
   return (
-    <section className="w-full bg-[#080E1B] text-white pt-36 pb-16 sm:pt-44 sm:pb-20 border-b border-white/[0.08]">
+    <section className="w-full bg-[#080E1B] text-white pt-36 pb-16 sm:pt-44 sm:pb-20">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <nav aria-label="Breadcrumb" className="mb-6 font-sans text-xs tracking-[0.22em] uppercase">
           <Link href="/" className="text-slate-400 hover:text-[#C89B59] transition-colors">
