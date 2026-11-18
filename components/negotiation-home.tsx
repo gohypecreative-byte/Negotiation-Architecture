@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import negotiationStrategyPhoto from "../public/website pictures formal and informal/unnamed.jpg";
+import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS, enquiryEmailHref } from "@/lib/contact";
+import boardroomPortraitPhoto from "../public/web-image/image.png";
 import heroPhoto from "../public/website pictures formal and informal/IMG_7043.jpeg";
 import waterfrontPhoto from "../public/images/gallery/dr-tarun-01.jpg";
 import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
@@ -93,16 +94,23 @@ export function ConsultationModal({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                const data = new FormData(e.currentTarget);
+                window.location.href = enquiryEmailHref(
+                  `Consultation enquiry: ${data.get("interest")}`,
+                  `Name: ${data.get("name")}\nEmail: ${data.get("email")}\nInterest: ${data.get("interest")}\n\n${data.get("message") || ""}`,
+                );
                 setSubmitted(true);
               }}
               className="space-y-4"
             >
               <div>
-                <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-name" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
                   Full Name
                 </label>
                 <input
                   type="text"
+                  id="consult-name"
+                  name="name"
                   required
                   placeholder="e.g. Marcus Vance"
                   className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors"
@@ -110,11 +118,13 @@ export function ConsultationModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-email" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
                   Corporate Email
                 </label>
                 <input
                   type="email"
+                  id="consult-email"
+                  name="email"
                   required
                   placeholder="name@organization.com"
                   className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors"
@@ -122,23 +132,26 @@ export function ConsultationModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-interest" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
                   Engagement Interest
                 </label>
-                <select className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors">
-                  <option>Executive 1-on-1 Coaching</option>
-                  <option>Corporate Team Training Program</option>
+                <select id="consult-interest" name="interest" className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors">
+                  <option>Executive Coaching & Advisory</option>
+                  <option>Corporate & Team Development</option>
+                  <option>Negotiation Programmes</option>
                   <option>Keynote Speaking Engagement</option>
                   <option>Strategic Transaction Shadow Advisory</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-message" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
                   Brief Context / Requirements
                 </label>
                 <textarea
                   rows={3}
+                  id="consult-message"
+                  name="message"
                   placeholder="Outline your timing, objectives, or counterparty dynamics..."
                   className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors resize-none"
                 />
@@ -148,9 +161,10 @@ export function ConsultationModal({
                 type="submit"
                 className="w-full mt-2 bg-[#C89B59] hover:bg-[#D9AB64] py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-white font-sans font-medium text-sm tracking-normal"
               >
-                <span>Submit Confidential Request</span>
+                <span>Prepare Enquiry Email</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
+              <p className="text-xs leading-relaxed text-slate-400">Review and send your enquiry in your email app to <a className="underline break-all" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
             </form>
           </>
         ) : (
@@ -158,9 +172,9 @@ export function ConsultationModal({
             <div className="w-14 h-14 rounded-full bg-[#C89B59]/20 text-[#C89B59] flex items-center justify-center mx-auto">
               <Check className="w-7 h-7" />
             </div>
-            <h3 className="font-serif text-2xl text-white">Inquiry Received</h3>
+            <h3 className="font-serif text-2xl text-white">Send Your Enquiry</h3>
             <p className="text-slate-300 text-sm max-w-sm mx-auto">
-              Thank you. Our practice office will review your requirements and respond within 24 business hours.
+              Review and send the draft in your email app. If it did not open, email <a className="underline break-all" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.
             </p>
             <button
               onClick={() => {
@@ -414,18 +428,18 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 export function PillarsBar() {
   const pillars = [
     {
-      title: "Research-Led Methodology",
-      subtitle: "Grounded in negotiation science",
+      title: "Research-informed",
+      subtitle: "Grounded in doctoral inquiry",
       icon: BookOpen,
     },
     {
-      title: "Real-World Experience",
-      subtitle: "From boardrooms to complex deals",
+      title: "Human-centred",
+      subtitle: "People, interests and relationships",
       icon: Building2,
     },
     {
-      title: "Practical & Actionable",
-      subtitle: "Tools you can use immediately",
+      title: "Practical by design",
+      subtitle: "Preparation, application and reflection",
       icon: Wrench,
     },
     {
@@ -475,7 +489,7 @@ export function SectionIntro({
   dark = false,
   className = "",
 }: {
-  title: string;
+  title: React.ReactNode;
   lede?: string;
   dark?: boolean;
   className?: string;
@@ -555,11 +569,20 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
             <SectionIntro
-              title="A Structured Approach to Human Decisions"
-              lede="Negotiation Architecture is a research-based framework that integrates strategy, human behaviour, influence and structured thinking to help individuals and organisations achieve better outcomes in complex interactions."
+              title="Better Outcomes Begin with Better Understanding"
+              lede="No one should rely on instinct alone when a conversation could shape their future."
             />
+            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
+              Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.
+            </p>
+            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
+              Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach.
+            </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <PrimaryButton onClick={onOpenConsult}>Learn More</PrimaryButton>
+              <Link href="/about" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors cursor-pointer text-white font-sans font-medium text-sm tracking-normal">
+                <span>Meet the founder</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
               <div className="font-sans text-sm">
                 <span className="block font-semibold text-[#111827]">Dr. Tarun L. Rochwani, DBA</span>
                 <span className="block text-slate-500">Founder, Negotiation Architecture</span>
@@ -568,16 +591,29 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#080E1B]">
+            <div className="relative mx-auto w-full max-w-[440px] aspect-[956/1280] rounded-2xl overflow-hidden bg-[#080E1B]">
               <Image
-                src={negotiationStrategyPhoto}
-                alt="Dr. Tarun Rochwani presenting Negotiation Strategy"
+                src={boardroomPortraitPhoto}
+                alt="Dr. Tarun Rochwani standing in a boardroom overlooking the city"
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="editorial-photo object-cover object-center"
+                sizes="(max-width: 640px) calc(100vw - 48px), 440px"
+                className="object-contain object-center"
               />
             </div>
           </div>
+        </div>
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { label: "Rigour", title: "Think clearly", description: "Question assumptions. Prepare carefully. Understand what is at stake." },
+            { label: "Intention", title: "Act deliberately", description: "Choose with purpose. Do not simply react to pressure." },
+            { label: "Durable value", title: "Build what lasts", description: "Seek outcomes that people understand, accept and sustain." },
+          ].map((principle) => (
+            <article key={principle.label} className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{principle.label}</p>
+              <h3 className="mt-5 font-serif text-2xl text-[#111827]">{principle.title}</h3>
+              <p className="mt-3 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{principle.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -589,38 +625,90 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
 // =========================================================================
 
 export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => void }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const details = [
+    { title: "Understand what is really happening.", text: "Start with the people and the situation. Separate stated positions from underlying interests. Define what a useful outcome means.", outcome: "The result: clarity before action." },
+    { title: "Analyse interests, choices and the economics.", text: "Look beneath the surface. Weigh priorities, alternatives, influence and dependencies. Then establish what the deal is truly worth.", outcome: "The result: a sharper view of your choices and the value at stake." },
+    { title: "Design your approach with intention.", text: "Shape objectives, options, sequence and trade-offs. Prepare for different responses. Stay open to new information.", outcome: "The result: a considered plan with room to adapt." },
+    { title: "Engage with clarity and awareness.", text: "Put preparation into practice. Listen closely. Ask purposeful questions. Respond to people and dynamics as they unfold.", outcome: "The result: a more deliberate, constructive exchange." },
+    { title: "Achieve an outcome that works.", text: "Clarify what was agreed, who is responsible and what happens next. Reflect, so experience strengthens future capability.", outcome: "The result: clear commitments, follow-through and learning." },
+  ];
   const steps = [
-    { num: "01", title: "Understand", desc: "Map the context, stakeholders and true interests." },
-    { num: "02", title: "Analyse", desc: "Identify leverage, risk and opportunities." },
-    { num: "03", title: "Design", desc: "Create strategic options and an influence approach." },
-    { num: "04", title: "Engage", desc: "Execute with clarity, adaptability and trust." },
-    { num: "05", title: "Achieve", desc: "Deliver and sustain better outcomes." },
+    { num: "01", title: "Understand", desc: "Understand the people and situation. Separate stated positions from underlying interests." },
+    { num: "02", title: "Analyse", desc: "Weigh priorities and alternatives. Use EXAMIN to identify value, quantify opportunity and test risks." },
+    { num: "03", title: "Design", desc: "Shape objectives, options and trade-offs. Prepare a considered plan with room to adapt." },
+    { num: "04", title: "Engage", desc: "Listen closely, ask purposeful questions and respond with clarity and awareness." },
+    { num: "05", title: "Achieve", desc: "Clarify commitments and next steps. Reflect so experience strengthens future capability." },
   ];
 
   return (
-    <section id="methodology" className="w-full bg-white py-20 sm:py-24">
+    <section id="methodology" className="w-full bg-white py-24 sm:py-32">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            title="A Tested Framework for Real-World Impact"
-            lede="Principles from negotiation science, behavioural insight and real-world experience, brought together in one structured, practical framework."
+            title={<>A Deliberate Process.<br />Room for Human Judgement.</>}
+            lede="Five connected stages. Structure without making negotiation mechanical."
           />
           <div className="shrink-0">
-            <PrimaryButton onClick={onOpenConsult}>Explore the Framework</PrimaryButton>
+            <TextLink href="/methodology">Explore the full methodology</TextLink>
           </div>
         </div>
 
-        <ol className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-10 gap-y-8">
-          {steps.map((step) => (
+        <div className="mt-12 grid items-stretch gap-8 sm:mt-14 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
+        <ol aria-label="Choose a methodology stage" className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-1">
+          {steps.map((step, index) => (
             <li key={step.num}>
-              <span className="block font-sans text-xs font-semibold tracking-[0.2em] text-[#A8741F]">
-                STEP {step.num}
+              <button type="button" onClick={() => setActiveStep(index)} aria-pressed={activeStep === index} aria-controls="methodology-detail" className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${activeStep === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}>
+              <span className="font-sans text-xs tabular-nums text-[#A8741F]">
+                {step.num}
               </span>
-              <h3 className="mt-3 font-serif text-2xl text-[#111827]">{step.title}</h3>
-              <p className="mt-2 font-sans text-sm leading-relaxed text-slate-600">{step.desc}</p>
+              <span className="font-sans text-lg sm:text-xl font-medium">{step.title}</span>
+              </button>
             </li>
           ))}
         </ol>
+        <div id="methodology-detail" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
+          <div aria-live="polite" aria-atomic="true">
+            <h3 className="max-w-2xl font-serif text-2xl sm:text-3xl leading-tight text-[#111827]">{details[activeStep].title}</h3>
+            <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-slate-600">{details[activeStep].text}</p>
+            <p className="mt-5 font-sans text-sm leading-relaxed text-[#A8741F]">{details[activeStep].outcome}</p>
+          </div>
+          {activeStep === 1 && (
+            <div className="mt-7 border-t border-slate-200 pt-6">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">EXAMIN · Before you negotiate</p>
+              <p className="mt-3 font-sans text-base leading-relaxed text-slate-600">Examine the deal for its economic potential and impact before negotiating its terms.</p>
+              <ul className="mt-5 grid gap-5 sm:grid-cols-3">
+                {[
+                  ["Identify", "The drivers of value."],
+                  ["Quantify", "The opportunity, in economic terms."],
+                  ["Test", "Assumptions, costs, risks and trade-offs."],
+                ].map(([title, text]) => (
+                  <li key={title} className="font-sans text-sm leading-relaxed"><strong className="block text-[#111827]">{title}</strong><span className="text-slate-600">{text}</span></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        </div>
+        <section aria-labelledby="capability-heading" className="mt-16 border-t border-slate-200 pt-12 sm:mt-20 sm:pt-16">
+          <h3 id="capability-heading" className="max-w-3xl font-serif text-3xl sm:text-4xl leading-tight text-[#111827]">
+            Four layers. Each supports the next.
+          </h3>
+          <ol className="mt-9 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: "Mindset Foundations", text: "Composure, self-awareness and clear thinking under pressure." },
+              { title: "Strategic Architecture", text: "Interests, alternatives, stakeholders, options and preparation." },
+              { title: "Tactical Execution", text: "Language, influence, concessions and purposeful engagement." },
+              { title: "Mastery", text: "Reflection, adaptability and capability built through practice." },
+            ].map((layer, index) => (
+              <li key={layer.title} className="border-t border-[#C89B59]/60 pt-5">
+                <p className="font-sans text-xs font-semibold tracking-[0.14em] text-[#A8741F]">LAYER 0{index + 1}</p>
+                <h4 className="mt-4 font-serif text-xl text-[#111827]">{layer.title}</h4>
+                <p className="mt-2 font-sans text-base leading-relaxed text-slate-600">{layer.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       </div>
     </section>
   );
@@ -630,87 +718,49 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
 // SECTION 6: WHO IT IS FOR
 // =========================================================================
 
-export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function AudienceSection() {
   const audiences = [
     {
-      id: "01",
-      title: "Business Leaders",
-      desc: "Navigating high-stakes enterprise strategy, M&A alignments, shareholder governance, and organizational transformation.",
+      title: "Leadership & teams",
+      desc: "Navigate competing priorities. Influence decisions. Build alignment.",
       icon: Users,
     },
     {
-      id: "02",
-      title: "Entrepreneurs & Founders",
-      desc: "Securing venture funding rounds, equity terms, strategic co-founder alignments, and critical tier-one partnerships.",
-      icon: Lightbulb,
-    },
-    {
-      id: "03",
-      title: "Procurement & Supply Chain",
-      desc: "Engineering structural supplier leverage, multi-year master service agreements, and defensible margin preservation.",
-      icon: Package,
-    },
-    {
-      id: "04",
-      title: "Sales Leaders",
-      desc: "Winning complex multi-stakeholder enterprise deals, defending pricing integrity, and aligning long-term value.",
-      icon: TrendingUp,
-    },
-    {
-      id: "05",
-      title: "Project & Commercial Professionals",
-      desc: "Administering major EPC contracts, mitigating scope variations, and defusing multimillion-dollar contractor disputes.",
-      icon: Compass,
-    },
-    {
-      id: "06",
-      title: "Consultants & Advisors",
-      desc: "Structuring high-impact advisory mandates, strategic fees, board mediation, and complex cross-border restructuring.",
+      title: "Business & professional life",
+      desc: "Prepare for agreements, partnerships, stakeholder conversations and difficult discussions.",
       icon: Briefcase,
     },
     {
-      id: "07",
-      title: "Coaches & Trainers",
-      desc: "Embedding systematic behavioral frameworks, simulation labs, and sustainable negotiation muscle within teams.",
-      icon: Award,
-    },
-    {
-      id: "08",
-      title: "Academics & Researchers",
-      desc: "Deepening theoretical rigor through empirical behavioral science, game theory, and modern deal architecture.",
-      icon: GraduationCap,
-    },
-    {
-      id: "09",
-      title: "Negotiators Across Industries",
-      desc: "Facilitating multi-party consensus, public policy pacts, dispute resolution, and high-scrutiny stakeholder accords.",
-      icon: Scale,
+      title: "Everyday relationships",
+      desc: "Express interests. Manage disagreement. Find constructive ways forward.",
+      icon: Globe,
     },
   ];
 
   return (
-    <section className="w-full bg-white py-20 sm:py-28">
+    <section id="applications" aria-labelledby="applications-heading" className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-          <SectionIntro
-            title="Designed for Professionals Across Industries"
-            lede="The principles and frameworks are built for high-stakes environments across sectors, roles and geographies, wherever decisions carry significant consequence."
-          />
-          <div className="shrink-0">
-            <PrimaryButton onClick={onOpenConsult}>Explore Custom Alignment</PrimaryButton>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-16">
+          <div className="max-w-2xl">
+            <h2 id="applications-heading" className="font-serif text-4xl sm:text-5xl font-normal leading-[1.1] text-[#111827]">
+              One Discipline.<br />Many Human Contexts.
+            </h2>
+            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
+              The principles travel across roles, industries and relationships.
+            </p>
           </div>
+          <p className="max-w-sm font-sans text-sm sm:text-base leading-relaxed text-slate-500">
+            Negotiation shapes commercial deals. It also shapes leadership, collaboration and change.
+          </p>
         </div>
 
-        <ul className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 sm:mt-12">
           {audiences.map((aud) => {
             const Icon = aud.icon;
             return (
-              <li
-                key={aud.id}
-                className="rounded-2xl border border-slate-200 bg-white p-7 transition-colors hover:border-[#C89B59]/60"
-              >
+              <li key={aud.title} className="rounded-2xl border border-slate-200 bg-white p-7">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#C89B59]/10 text-[#A8741F]">
-                  <Icon className="h-5 w-5" />
+                  <Icon aria-hidden="true" className="h-5 w-5" />
                 </div>
                 <h3 className="mt-6 font-serif text-2xl text-[#111827] leading-snug">{aud.title}</h3>
                 <p className="mt-3 font-sans text-sm leading-relaxed text-slate-600">{aud.desc}</p>
@@ -722,63 +772,42 @@ export function AudienceSection({ onOpenConsult }: { onOpenConsult: () => void }
     </section>
   );
 }
-
 // =========================================================================
 // SECTION 7: PROFESSIONAL EXPERIENCE
 // =========================================================================
 
 export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const credentials = [
-    {
-      metric: "25+",
-      label: "Years of Professional Experience",
-      icon: Trophy,
-    },
-    {
-      metric: "Global",
-      label: "Exposure Across Industries",
-      icon: Globe,
-    },
-    {
-      metric: "Research-Based",
-      label: "Negotiation Methodology",
-      icon: BookOpen,
-    },
-    {
-      metric: "Speaking",
-      label: "at Leading Forums",
-      icon: Mic,
-    },
-  ];
-
   return (
-    <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24 relative overflow-hidden">
+    <section id="founder" className="w-full bg-[#080E1B] text-white py-20 sm:py-24 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Heading & Context */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-white mb-6">
-              Real-World Perspective.<br />
-              Proven Credibility.
+              Dr. Tarun L. Rochwani, DBA
             </h2>
-            <p className="font-sans text-slate-300 text-base sm:text-[17px] leading-relaxed mb-8">
-              A unique combination of academic insight, real-world negotiation experience and
-              research-led thinking.
+            <p className="font-sans text-white text-xl leading-relaxed mb-5">
+              Bringing structure to complex negotiations. Keeping people at the centre.
             </p>
+            <div className="space-y-4 mb-7 font-sans text-slate-300 text-base leading-relaxed">
+              <p>More than 25 years leading and steering multidisciplinary teams across procurement, supply chain, construction, real estate and facilities management.</p>
+              <p>Direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
+              <p>Doctoral research into negotiation outcomes at Clermont Business School.</p>
+            </div>
             <div>
-              <button
-                onClick={onOpenConsult}
+              <Link
+                href="/about"
                 className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
               >
-                <span>About Dr. Tarun Rochwani</span>
+                <span>Discover the founder’s story</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </div>
 
           {/* Center Column: Portrait of Dr. Tarun Rochwani */}
-          <div className="lg:col-span-4 flex justify-center">
-            <div className="relative w-full max-w-[380px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
               <Image
                 src={waterfrontPhoto}
                 alt="Dr. Tarun Rochwani beside the waterfront"
@@ -790,45 +819,18 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
               <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B]/80 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
 
-              {/* Executive Credential Badge at base of portrait */}
-              <div className="absolute z-10 bottom-4 inset-x-4 bg-[#080E1B]/85 backdrop-blur-md border border-white/10 rounded-xl p-3 flex items-center justify-between">
-                <div>
-                  <div className="font-serif text-white text-base font-normal leading-tight">
-                    Dr. Tarun Rochwani
-                  </div>
-                  <div className="font-sans text-[#C89B59] text-[11px] font-medium tracking-wide">
-                    Theorist & Strategic Advisor
-                  </div>
-                </div>
-                <div className="w-7 h-7 rounded-full bg-[#C89B59]/20 flex items-center justify-center text-[#C89B59] shrink-0">
-                  <Award className="w-3.5 h-3.5" />
-                </div>
-              </div>
             </div>
           </div>
-
-          {/* Right Column: 4 Credential Callouts */}
-          <div className="lg:col-span-3 flex flex-col gap-6">
-            {credentials.map((cred, idx) => {
-              const Icon = cred.icon;
-              return (
-                <div
-                  key={idx}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#C89B59]/40 transition-colors">
-                  <div className="w-11 h-11 rounded-full bg-[#C89B59]/15 text-[#C89B59] flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-serif text-2xl text-white font-normal leading-none">
-                      {cred.metric}
-                    </div>
-                    <div className="font-sans text-xs text-slate-400 mt-1 leading-tight">
-                      {cred.label}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+        </div>
+        <div className="mt-12 grid gap-8 border-t border-white/15 pt-8 md:grid-cols-2">
+          <div>
+            <h3 className="font-sans text-sm font-medium text-[#C89B59]">Academic & Executive Education</h3>
+            <p className="mt-3 font-sans text-base leading-relaxed text-slate-300">Harvard University · Stanford University · INSEAD</p>
+          </div>
+          <div>
+            <h3 className="font-sans text-sm font-medium text-[#C89B59]">AI & Emerging Technologies</h3>
+            <p className="mt-3 font-sans text-base leading-relaxed text-slate-300">Indian Institute of Technology Madras (IIT Madras)</p>
+            <p className="mt-1 font-sans text-sm leading-relaxed text-slate-400">Agentic AI & Autonomous Systems</p>
           </div>
         </div>
       </div>
@@ -843,20 +845,20 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
 export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const programs = [
     {
-      title: "Executive Coaching",
-      desc: "Personalised, one-to-one coaching for leaders and decision-makers facing high-stakes negotiations.",
+      title: "Executive Coaching & Advisory",
+      desc: "Focused support to prepare for important conversations and strengthen personal capability.",
       image: seatedPortraitPhoto,
       photoAlt: "Seated portrait of Dr. Tarun Rochwani",
     },
     {
-      title: "Corporate Programs",
-      desc: "Customised programs that build a shared negotiation capability across teams and organisations.",
+      title: "Corporate & Team Development",
+      desc: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.",
       image: procuretechPhoto,
       photoAlt: "Dr. Tarun Rochwani presenting at Procuretech",
     },
     {
-      title: "Workshops & Masterclasses",
-      desc: "Interactive, case-based sessions designed for immediate practical impact.",
+      title: "Negotiation Programmes",
+      desc: "Structured learning in strategic judgement, behavioural awareness and practical skill.",
       image: masterclassPhoto,
       photoAlt: "Dr. Tarun Rochwani presenting Mastering Negotiations",
     },
@@ -867,8 +869,8 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            title="Build Your Negotiation Capability"
-            lede="Practical, structured and high-impact programs for individuals, teams and organisations."
+            title={<>Learn the System.<br />Apply It to What Matters.</>}
+            lede="From a single conversation to an entire team. Practical support for the situations that matter."
           />
           <div className="shrink-0">
             <PrimaryButton onClick={onOpenConsult}>View All Programs</PrimaryButton>
@@ -911,60 +913,40 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
 // SECTION 9: RESEARCH & INSIGHTS
 // =========================================================================
 
-export function ResearchSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const themes = [
-    {
-      title: "The Psychology of Concession",
-      desc: "Why people give ground, and how to structure concessions so they build value rather than erode it.",
-    },
-    {
-      title: "Creating and Managing Leverage",
-      desc: "Where leverage really comes from, and how to design it before the conversation begins.",
-    },
-    {
-      title: "Negotiation in a Complex World",
-      desc: "Multi-party, cross-border and long-horizon deals, and the frameworks that keep them coherent.",
-    },
-  ];
-
+export function ResearchSection() {
   return (
     <section id="research" className="w-full bg-[#070E1A] text-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          <div className="lg:col-span-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
+          <div>
             <SectionIntro
               dark
-              title="Advancing the Science of Negotiation"
-              lede="Articles, research and frameworks that turn evidence into better decisions."
+              title="Grounded in Inquiry. Made Useful in Practice."
+              lede="Negotiation Architecture draws on doctoral research, established scholarship and professional experience."
             />
-            <div className="mt-8">
-              <PrimaryButton onClick={onOpenConsult}>Explore the Research</PrimaryButton>
+            <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-300">
+              Themes include the psychology of concessions, the sources of leverage and the challenge of aligning multiple interests.
+            </p>
+            <div className="mt-7">
+              <TextLink dark href="/research">Explore the research</TextLink>
             </div>
           </div>
-
-          <ul className="lg:col-span-7 space-y-8">
-            {themes.map((t) => (
-              <li key={t.title} className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
-                <div className="grow">
-                  <h3 className="font-serif text-2xl text-white">{t.title}</h3>
-                  <p className="mt-2 font-sans text-sm sm:text-[15px] text-slate-400 leading-relaxed max-w-xl">
-                    {t.desc}
-                  </p>
-                </div>
-                <div className="shrink-0 sm:pt-2">
-                  <TextLink dark href="/insights">
-                    Read
-                  </TextLink>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <aside aria-labelledby="research-focus-heading" className="rounded-2xl border border-white/15 p-7 sm:p-9">
+            <h3 id="research-focus-heading" className="font-serif text-2xl sm:text-3xl leading-tight text-white">
+              What helps people move from disagreement towards collaboration?
+            </h3>
+            <p className="mt-5 font-sans text-base leading-relaxed text-slate-300">
+              Doctoral research examined negotiation outcomes in UAE supply chain relationships and facilities management. It explores trust, information sharing and conflict resolution.
+            </p>
+            <p className="mt-6 border-t border-white/15 pt-5 font-sans text-sm leading-relaxed text-slate-400">
+              Doctoral study, Clermont Business School. Methodology and findings appear on the Research page.
+            </p>
+          </aside>
         </div>
       </div>
     </section>
   );
 }
-
 // =========================================================================
 // SECTION 10: SPEAKING & THOUGHT LEADERSHIP
 // =========================================================================
@@ -1111,11 +1093,11 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
             {/* Left Content */}
             <div className="lg:col-span-7 p-8 sm:p-12 lg:p-16 z-10">
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-4 leading-tight">
-                Ready to Design<br />Better Outcomes?
+                Prepare with Intention.<br />Engage with Clarity.
               </h2>
               <p className="font-sans text-slate-300 text-sm sm:text-base max-w-lg mb-8 leading-relaxed">
-                Explore how Negotiation Architecture can support your personal and organisational
-                goals.
+                Building your capability, preparing for a conversation or strengthening a team?
+                Begin with the situation that matters.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <button
@@ -1157,23 +1139,26 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
 // SECTION 14: LATEST INSIGHTS
 // =========================================================================
 
-export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function LatestInsightsSection() {
   const articles = [
     {
       title: "Negotiation in a Complex and Uncertain World",
-      date: "12 Sep 2024",
+      description: "Separate what is known from what is assumed. Prepare for more than one path.",
+      date: "Strategy",
       image: presentationPhoto,
       photoAlt: "Dr. Tarun Rochwani presenting a negotiation balance scorecard",
     },
     {
       title: "The Role of Behaviour in Negotiation Outcomes",
-      date: "05 Sep 2024",
+      description: "How listening, emotional awareness and the questions we ask can change a conversation.",
+      date: "Behaviour",
       image: insightPhoto,
       photoAlt: "Dr. Tarun Rochwani at the Program on Negotiation event",
     },
     {
-      title: "Building Long-Term Value Through Strategic Negotiation",
-      date: "28 Aug 2024",
+      title: "Building Durable Value Through Negotiation",
+      description: "Look beyond the immediate agreement to the relationships and commitments that follow.",
+      date: "Long-term value",
       image: procuretechPhoto,
       photoAlt: "Dr. Tarun Rochwani discussing negotiation preparation on stage",
     },
@@ -1184,11 +1169,11 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
-            title="Articles, Ideas and Perspectives"
-            lede="The latest thinking on negotiation, influence, strategy and decision-making."
+            title="Insights for the Conversations Ahead"
+            lede="Perspectives on negotiation, behaviour and the choices that shape outcomes."
           />
           <div className="shrink-0">
-            <PrimaryButton onClick={onOpenConsult}>View All Articles</PrimaryButton>
+            <TextLink href="/insights">All insights</TextLink>
           </div>
         </div>
 
@@ -1210,8 +1195,9 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
               <h3 className="mt-2 font-serif text-xl sm:text-2xl text-[#111827] leading-snug group-hover:text-[#A8741F] transition-colors">
                 {art.title}
               </h3>
-              <div className="mt-3">
-                <TextLink onClick={onOpenConsult}>Read article</TextLink>
+              <p className="mt-3 mb-5 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{art.description}</p>
+              <div className="mt-auto">
+                <TextLink href="/insights">Read more</TextLink>
               </div>
             </article>
           ))}
@@ -1227,9 +1213,9 @@ export function LatestInsightsSection({ onOpenConsult }: { onOpenConsult: () => 
 
 export function GlobalPerspectiveSection() {
   const stats = [
-    { value: "25+", label: "Countries", icon: Globe },
-    { value: "100+", label: "Organizations", icon: Building2 },
-    { value: "5,000+", label: "Professionals trained", icon: Users },
+    { value: "26", label: "Countries", icon: Globe },
+    { value: "5", label: "Continents", icon: Building2 },
+    { value: "25+", label: "Years of experience", icon: Users },
   ];
 
   return (
@@ -1239,7 +1225,7 @@ export function GlobalPerspectiveSection() {
           A Global Perspective
         </h2>
         <p className="mt-4 mb-12 font-sans text-slate-600 text-base">
-          Relevant across industries, cultures and geographies.
+          Direct oversight of multi-billion-dollar portfolios across 26 countries and five continents.
         </p>
 
         <GlobalMap />
@@ -1255,7 +1241,7 @@ export function GlobalPerspectiveSection() {
                   {st.label}
                 </dt>
                 <dd className="mt-4 flex items-baseline gap-1 font-sans text-[2.75rem] sm:text-5xl font-semibold tracking-tight tabular-nums leading-none text-[#183F6C]">
-                  <CountUp value={Number(number.replaceAll(",", ""))} /><span className="text-3xl font-normal text-[#3779B5]">+</span>
+                  <CountUp value={Number(number.replaceAll(",", ""))} /><span className="text-3xl font-normal text-[#3779B5]">{st.value.endsWith("+") ? "+" : ""}</span>
                 </dd>
               </div>
             );
@@ -1276,23 +1262,23 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const faqs = [
     {
       q: "What is Negotiation Architecture?",
-      a: "Negotiation Architecture is a proprietary, research-grounded discipline developed by Dr. Tarun Rochwani that bridges behavioral economics, tactical game theory, cognitive science, and empirical dealmaking into an engineered framework for high-stakes decision-makers.",
+      a: "Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach. It helps people think clearly, act deliberately and seek outcomes that others understand, accept and sustain.",
     },
     {
       q: "Who can benefit from these programs?",
-      a: "Senior executives, corporate deal teams, procurement and supply chain heads, investment principals, commercial advisors, and founders whose conversational outcomes carry substantial enterprise consequence.",
+      a: "Leaders and teams navigating competing priorities, professionals preparing for agreements and partnerships, and people seeking constructive ways through everyday disagreement. The principles travel across roles, industries and relationships.",
     },
     {
-      q: "Are the programs industry-specific?",
-      a: "The core methodology applies across sectors. For institutional clients, simulations and modules are customized to your specific vertical—whether technology, energy, supply chain, financial services, or sovereign advisory.",
+      q: "How is negotiation capability developed?",
+      a: "Four layers support each other: Mindset Foundations builds composure and self-awareness; Strategic Architecture develops preparation, interests and options; Tactical Execution focuses on language and influence; Mastery grows through reflection, adaptability and practice.",
     },
     {
       q: "Do you offer personalised coaching?",
-      a: "Yes. Dr. Tarun Rochwani provides private, 1-on-1 strategic advisory and real-time shadow deal preparation for CEOs, boardroom directors, and lead negotiators facing active high-value discussions.",
+      a: "Executive Coaching & Advisory offers focused support to prepare for important conversations and strengthen personal capability. Negotiation programmes and tailored team workshops provide further ways to learn and apply the approach.",
     },
     {
       q: "Can the methodology be applied globally?",
-      a: "Yes. The architecture explicitly integrates cross-cultural behavioral dynamics and multi-jurisdictional bargaining norms, proven across engagements in North America, Europe, the Middle East, and Asia.",
+      a: "The principles apply across roles, industries and relationships, with room for human judgement in each situation. The founder brings experience overseeing portfolios across 26 countries and five continents.",
     },
   ];
 
@@ -1375,11 +1361,10 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
           <div className="lg:col-span-6">
             <SectionIntro
               title="Start a Conversation"
-              lede="Discuss your goals and explore how Negotiation Architecture can support you or your organisation."
+              lede="Building your own capability, preparing for a conversation or strengthening a team? Begin with the situation that matters."
             />
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <PrimaryButton onClick={onOpenConsult}>Book a Consultation</PrimaryButton>
-              <TextLink onClick={onOpenConsult}>Or send a message</TextLink>
             </div>
           </div>
 
@@ -1409,11 +1394,6 @@ const FOOTER_SOCIALS = [
     label: "LinkedIn",
     href: "https://linkedin.com",
     path: "M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z",
-  },
-  {
-    label: "YouTube",
-    href: "https://youtube.com",
-    path: "M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z",
   },
   {
     label: "X / Twitter",
@@ -1449,7 +1429,7 @@ export function SiteFooter() {
   return (
     <footer className="w-full bg-[#050A14] text-white">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-12 py-16 sm:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-8 py-10 sm:py-12">
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3.5 group">
@@ -1469,14 +1449,18 @@ export function SiteFooter() {
                 </span>
               </span>
             </Link>
-            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-slate-400">
-              A research-led framework for negotiation, influence and decision-making, built for
-              leaders, professionals and organisations facing complex, high-stakes interactions.
+            <p className="mt-4 max-w-[340px] font-sans text-sm leading-6 text-slate-300">
+              A research-informed approach to negotiation, influence and better decisions.
             </p>
-            <p className="mt-4 font-sans text-xs tracking-[0.18em] uppercase text-slate-500">
-              Negotiation · Persuasion · Strategy · Human Behaviour
-            </p>
-            <div className="mt-6 flex items-center gap-3">
+            <address className="mt-4 max-w-[340px] border-t border-white/10 pt-4 not-italic font-sans text-sm leading-relaxed">
+              <span className="block font-medium text-white">{OFFICE_NAME}</span>
+              <span className="mt-2 block max-w-[250px] leading-6 text-slate-400">{OFFICE_ADDRESS}</span>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex max-w-full items-center gap-2 text-[#D9AB64] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
+                <span className="break-all">{CONTACT_EMAIL}</span>
+                <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              </a>
+            </address>
+            <div className="mt-4 flex items-center gap-2">
               {FOOTER_SOCIALS.map((social) => (
                 <a
                   key={social.label}
@@ -1535,13 +1519,16 @@ export function SiteFooter() {
             {subscribed ? (
               <p className="mt-5 flex items-center gap-2 font-sans text-sm text-[#C89B59]">
                 <Check className="h-4 w-4" />
-                Thank you. You are on the list.
+                Send the subscription request in your email app.
               </p>
             ) : (
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (email) setSubscribed(true);
+                  if (email) {
+                    window.location.href = enquiryEmailHref("Insights subscription request", `Please subscribe me to insights.\nEmail: ${email}`);
+                    setSubscribed(true);
+                  }
                 }}
                 className="mt-5 flex flex-col sm:flex-row gap-3"
               >
@@ -1566,11 +1553,12 @@ export function SiteFooter() {
                 </button>
               </form>
             )}
+            <p className="mt-3 font-sans text-xs leading-relaxed text-slate-400">Requests open in your email app for you to review and send to {CONTACT_EMAIL}.</p>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 py-7 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs text-slate-500">
+        <div className="border-t border-white/10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-xs text-slate-500">
           <p>© {year} Negotiation Architecture. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-white transition-colors">
@@ -1614,8 +1602,8 @@ export function NegotiationHome() {
       {/* 5. The Methodology (5 Steps) */}
       <MethodologySection onOpenConsult={() => setConsultOpen(true)} />
 
-      {/* 6. Who It Is For (9 Categories) */}
-      <AudienceSection onOpenConsult={() => setConsultOpen(true)} />
+      {/* 6. Where It Applies (3 Contexts) */}
+      <AudienceSection />
 
       {/* 7. Professional Experience */}
       <ExperienceSection onOpenConsult={() => setConsultOpen(true)} />
@@ -1624,7 +1612,7 @@ export function NegotiationHome() {
       <ProgramsSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 9. Research & Insights (3 Cards) */}
-      <ResearchSection onOpenConsult={() => setConsultOpen(true)} />
+      <ResearchSection />
 
       {/* 10. Speaking & Thought Leadership */}
       <SpeakingSection onOpenConsult={() => setConsultOpen(true)} />
@@ -1636,7 +1624,7 @@ export function NegotiationHome() {
       <OutcomeCtaSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 14. Latest Insights */}
-      <LatestInsightsSection onOpenConsult={() => setConsultOpen(true)} />
+      <LatestInsightsSection />
 
       {/* 15. A Global Perspective */}
       <GlobalPerspectiveSection />

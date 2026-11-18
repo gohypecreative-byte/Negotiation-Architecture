@@ -3,7 +3,7 @@ import { ContactPage } from "@/components/site-pages";
 
 export const metadata: Metadata = {
   title: "Contact — Negotiation Architecture",
-  description: "Book a consultation or get in touch with Negotiation Architecture.",
+  description: "Prepare with intention. Engage with clarity. Start a conversation about your capability, an important negotiation or strengthening your team.",
 };
 
 export default function Page() {

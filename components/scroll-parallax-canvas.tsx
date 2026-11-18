@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "framer-motion";
-import manifest from "@/public/negotiation_scroll_frames/manifest.json";
+import manifest from "@/public/Negotiation_Architecture_Hero_30FPS_WebP/manifest.json";
 
 const frameUrl = (frame: number) =>
-  `/negotiation_scroll_frames/frame_${String(frame).padStart(4, "0")}.webp`;
+  `/Negotiation_Architecture_Hero_30FPS_WebP/frames/frame_${String(frame).padStart(4, "0")}.webp`;
 
 // Decode frames close to their on-screen size, never above the source width.
 const decodeWidth = () => {

@@ -4,7 +4,7 @@ import { ResearchPage } from "@/components/site-pages";
 export const metadata: Metadata = {
   title: "Research — Negotiation Architecture",
   description:
-    "Research themes, frameworks and evidence that inform how Negotiation Architecture is taught and applied.",
+    "Doctoral inquiry into negotiation outcomes, trust, information sharing and conflict resolution. Grounded in research and made useful in practice.",
 };
 
 export default function Page() {

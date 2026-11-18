@@ -86,7 +86,8 @@
 .page .takeaway { display: flex; gap: 12px; color: var(--ink); font-weight: 500; }
 .takeaway svg { flex-shrink: 0; margin-top: 4px; }
 .contactHero { padding-block: 144px 72px; display: grid; grid-template-columns: 0.9fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: start; }
-.contactHero h1 { font-size: clamp(44px, 5vw, 68px); }
+.contactIntro { min-width: 0; container-type: inline-size; }
+.contactHero h1 { font-size: clamp(20px, 7.8cqw, 48px); line-height: 1.2; white-space: nowrap; }
 .contactIntro .lead { max-width: 470px; margin-top: 20px; }
 .contactPortrait { margin-top: 30px; max-width: 470px; }
 .contactPortrait .photo { aspect-ratio: 16 / 10; border-radius: 12px; }

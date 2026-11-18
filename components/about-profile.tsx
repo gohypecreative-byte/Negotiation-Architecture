@@ -9,9 +9,9 @@ import { CountUp } from "./count-up";
 import styles from "./about-profile.module.css";
 
 const perspectives = [
-  { icon: BookOpen, title: "Grounded in research", text: "Negotiation science and human behaviour provide the foundation. Research becomes useful when it helps people understand what is happening across the table." },
-  { icon: Compass, title: "Shaped by practice", text: "Commercial decisions bring competing priorities, uncertainty and real consequences. The framework brings structure to these situations without losing sight of the people involved." },
-  { icon: MessagesSquare, title: "Built to be shared", text: "Coaching, workshops and speaking turn ideas into practical skills. The aim is to help people prepare more thoughtfully and engage with greater confidence." },
+  { icon: BookOpen, title: "Research-informed", text: "Grounded in doctoral inquiry, established scholarship and professional experience." },
+  { icon: Compass, title: "Human-centred", text: "Strategy that accounts for people, interests and relationships. Think clearly, act deliberately and build outcomes that last." },
+  { icon: MessagesSquare, title: "Practical by design", text: "Preparation, application and reflection. Never theory alone." },
 ];
 
 export function AboutProfile() {
@@ -23,7 +23,7 @@ export function AboutProfile() {
           <h1>Dr. Tarun L. Rochwani<span className={styles.degree}>, DBA</span></h1>
           <p className={styles.role}>Founder, Negotiation Architecture</p>
           <p className={styles.lead}>Bringing structure to complex negotiations.<br className={styles.desktopBreak} /> Keeping people at the centre.</p>
-          <p className={styles.summary}>A theorist and strategic advisor connecting research, human behaviour and real-world experience to help people make better decisions.</p>
+          <p className={styles.summary}>More than 25 years leading and steering multidisciplinary teams across procurement, supply chain, construction, real estate and facilities management.</p>
           <div className={styles.actions}>
             <PrimaryButton onClick={openConsult}>Book a Consultation</PrimaryButton>
             <a href="#about-approach" className={styles.textLink}>Explore the approach <ArrowRight size={16} aria-hidden="true" /></a>
@@ -43,9 +43,10 @@ export function AboutProfile() {
           </div>
         </div>
         <div className={styles.prose}>
-          <p>Negotiation is part of how we lead, build partnerships and resolve differences. It asks us to understand interests, navigate uncertainty and find a way forward together.</p>
-          <p>Dr. Tarun L. Rochwani founded Negotiation Architecture to bring a structured approach to these human decisions. His work connects strategy and behavioural insight with the practical realities of professional life.</p>
-          <p>The framework brings preparation, analysis, design and engagement into one connected process, helping individuals and organisations move towards better outcomes.</p>
+          <p>Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.</p>
+          <p>Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach. No one should rely on instinct alone when a conversation could shape their future.</p>
+          <p>Dr. Rochwani brings direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
+          <p>Doctoral research into negotiation outcomes at Clermont Business School examined UAE supply chain relationships and facilities management, exploring trust, information sharing and conflict resolution.</p>
           <Link href="/methodology" className={styles.textLink}>Discover the methodology <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
       </section>
@@ -80,11 +81,20 @@ export function AboutProfile() {
         </div>
       </section>
 
+      <section className={`${styles.container} ${styles.story}`}>
+        <div><h2>Academic &amp;<br />Executive Education</h2></div>
+        <div className={styles.prose}>
+          <p>Harvard University · Stanford University · INSEAD</p>
+          <h3>AI &amp; Emerging Technologies</h3>
+          <p>Indian Institute of Technology Madras (IIT Madras)</p>
+          <p>Agentic AI &amp; Autonomous Systems</p>
+        </div>
+      </section>
       <section className={styles.contact}>
         <div className={`${styles.container} ${styles.contactInner}`}>
           <div>
-            <h2>Let’s start with<br />your next conversation.</h2>
-            <p>Explore advisory, coaching or a learning experience for your team.</p>
+            <h2>Prepare with intention.<br />Engage with clarity.</h2>
+            <p>Building your own capability, preparing for a conversation or strengthening a team? Begin with the situation that matters.</p>
           </div>
           <PrimaryButton onClick={openConsult}>Book a Consultation</PrimaryButton>
         </div>

@@ -4,7 +4,7 @@ import { MethodologyPage } from "@/components/site-pages";
 export const metadata: Metadata = {
   title: "Methodology — Negotiation Architecture",
   description:
-    "The five-stage Negotiation Architecture framework: Understand, Analyse, Design, Engage and Achieve.",
+    "Understand, Analyse, Design, Engage and Achieve. Explore the five connected stages, EXAMIN and four layers of negotiation capability.",
 };
 
 export default function Page() {
