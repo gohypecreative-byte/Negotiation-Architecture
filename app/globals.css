@@ -642,7 +642,7 @@ html.lenis body {
 .sequence-hero {
   height: 480svh;
   position: relative;
-  background: #f1edde;
+  background: #000;
 }
 .sequence-pin {
   position: sticky;
@@ -659,7 +659,7 @@ html.lenis body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 /* Shared editorial hierarchy, overriding the previous per-section type scales. */

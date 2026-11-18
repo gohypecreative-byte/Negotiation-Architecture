@@ -28,7 +28,7 @@ const projects: ProjectItem[] = [
     title: "Hostile Takeover Deadlock Dissolution",
     category: "Deadlock",
     location: "Geneva · Zurich",
-    image: "/images/gallery/dr-tarun-05.jpeg?v=ca0aba83afcf",
+    image: "/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg",
     outcome: "Re-engineered counterparty choice architecture, preventing value destruction through voluntary resolution.",
     stakes: "$620 Million",
   },

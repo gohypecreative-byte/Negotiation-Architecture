@@ -140,8 +140,8 @@ export function CodropsHome() {
           <span className="codrops-grid__item-number">03</span>
           <div className="codrops-grid__item-img-wrap relative w-full aspect-[4/5] min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden my-4 border border-slate-200/90 shadow-md group">
             <Image
-              src="/images/gallery/dr-tarun-05.jpeg?v=ca0aba83afcf"
-              alt="Shadow Advisory"
+              src="/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg"
+              alt="Dr. Tarun Rochwani standing in front of an abstract painting"
               fill
               sizes="(max-width: 768px) 100vw, 500px"
               className="codrops-grid__item-img object-cover object-center transition-transform duration-700 group-hover:scale-105"

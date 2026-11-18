@@ -10,8 +10,8 @@ const frameUrl = (frame: number) =>
 // Decode frames close to their on-screen size, never above the source width.
 const decodeWidth = () => {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const coverWidth = Math.max(window.innerWidth, window.innerHeight * manifest.width / manifest.height) * dpr;
-  return Math.min(manifest.width, Math.max(960, Math.ceil(coverWidth / 64) * 64));
+  const fittedWidth = Math.min(window.innerWidth, window.innerHeight * manifest.width / manifest.height) * dpr;
+  return Math.min(manifest.width, Math.max(960, Math.ceil(fittedWidth / 64) * 64));
 };
 
 export function ScrollParallaxCanvas({ progress, className = "" }: {

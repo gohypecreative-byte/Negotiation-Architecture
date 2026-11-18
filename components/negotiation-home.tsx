@@ -10,7 +10,7 @@ import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
 import procuretechPhoto from "../public/images/gallery/dr-tarun-02.jpg";
 import masterclassPhoto from "../public/website pictures formal and informal/present (1).jpg";
 import presentationPhoto from "../public/website pictures formal and informal/Presentation (1).jpg";
-import insightPhoto from "../public/website pictures formal and informal/IMG_3560.jpeg";
+import insightPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
@@ -1153,7 +1153,7 @@ export function LatestInsightsSection() {
       description: "How listening, emotional awareness and the questions we ask can change a conversation.",
       date: "Behaviour",
       image: insightPhoto,
-      photoAlt: "Dr. Tarun Rochwani at the Program on Negotiation event",
+      photoAlt: "Dr. Tarun Rochwani standing in front of an abstract painting",
     },
     {
       title: "Building Durable Value Through Negotiation",
@@ -1187,6 +1187,7 @@ export function LatestInsightsSection() {
                   fill
                   sizes="(max-width: 768px) 100vw, 420px"
                   className="editorial-photo object-cover"
+                  style={art.image === insightPhoto ? { objectPosition: "center 30%" } : undefined}
                 />
               </div>
               <span className="mt-5 font-sans text-xs tracking-wider uppercase text-slate-500">
