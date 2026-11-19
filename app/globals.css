@@ -739,10 +739,11 @@ div:has(> img:is(.editorial-photo, [src*="formal"], [src*="gallery"])):not(#hero
   pointer-events: none;
 }
 /* Phones play the film in normal page flow, without a scroll runway. */
-.mobile-hero-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
+.mobile-hero-video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; object-position: center; background: #000; }
 @media (max-width: 767px) {
-  .sequence-hero { height: auto; padding-top: 80px; }
-  .sequence-pin { position: relative; height: auto; min-height: 56.25vw; }
+  .sequence-hero { height: 100svh; min-height: 320px; padding-top: 80px; box-sizing: border-box; }
+  .sequence-pin { position: relative; height: 100%; min-height: 0; }
+  .mobile-hero-video { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -763,9 +764,11 @@ div:has(> img:is(.editorial-photo, [src*="formal"], [src*="gallery"])):not(#hero
 }
 
 @media (max-width: 639px) {
-  .methodology-stages > li:last-child { grid-column: 1 / -1; }
-  .methodology-stages button { min-height: 52px; padding: 12px; gap: 10px; border: 1px solid #e2e8f0; border-radius: 8px; }
-  .methodology-stages button[aria-pressed="true"] { border-color: var(--gold); background: rgb(200 155 89 / 12%); color: var(--navy); }
-  .methodology-stages button > span:last-child { font-size: 1rem; line-height: 1.25; }
+  .methodology-stages { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .methodology-stages button { min-height: 44px; padding: 10px 4px; justify-content: center; border: 0; border-bottom: 2px solid transparent; border-radius: 0; }
+  .methodology-stages button[aria-pressed="true"] { border-bottom-color: var(--gold); background: transparent; color: var(--navy); }
+  .methodology-stages button > span:first-child { font-size: 1rem; font-weight: 600; color: inherit; }
+  .methodology-stages button > span:last-child { display: none; }
+  .methodology-section #methodology-detail { border-top: 0; padding: 0; border-radius: 0; background: transparent; }
   .methodology-section #methodology-detail h3 { font-size: 1.5rem; line-height: 1.25; }
 }

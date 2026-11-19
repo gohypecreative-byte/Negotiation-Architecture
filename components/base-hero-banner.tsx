@@ -10,22 +10,19 @@ interface BaseHeroBannerProps {
 
 function MobileHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showControls, setShowControls] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = true;
-    let disposed = false;
     const update = () => {
       if (document.hidden || !visible || reducedMotion.matches) {
         video.pause();
-        if (reducedMotion.matches) setShowControls(true);
       } else {
         video.muted = true;
         void video.play().catch(() => {
-          if (!disposed) setShowControls(true);
+          // A tap on the video can retry when a browser blocks autoplay.
         });
       }
     };
@@ -38,7 +35,6 @@ function MobileHeroVideo() {
     reducedMotion.addEventListener("change", update);
     update();
     return () => {
-      disposed = true;
       video.pause();
       observer.disconnect();
       document.removeEventListener("visibilitychange", update);
@@ -57,7 +53,13 @@ function MobileHeroVideo() {
     playsInline
     loop
     preload="auto"
-    controls={showControls}
+    controls={false}
+    disablePictureInPicture
+    disableRemotePlayback
+    onClick={(event) => {
+      const video = event.currentTarget;
+      if (video.paused) void video.play().catch(() => {});
+    }}
     aria-label="Negotiation Architecture introduction"
   >Your browser does not support inline video. <a href="/negotiation-hero-mobile.mp4">Watch the introduction</a></video>;
 }

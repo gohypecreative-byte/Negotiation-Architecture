@@ -661,7 +661,7 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
         <ol aria-label="Choose a methodology stage" className="methodology-stages grid grid-cols-2 gap-2 sm:gap-1 sm:grid-cols-3 lg:grid-cols-1">
           {steps.map((step, index) => (
             <li key={step.num}>
-              <button type="button" onClick={() => setActiveStep(index)} aria-pressed={activeStep === index} aria-controls="methodology-detail" className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${activeStep === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}>
+              <button type="button" onClick={() => setActiveStep(index)} aria-label={`Stage ${step.num}: ${step.title}`} aria-pressed={activeStep === index} aria-controls="methodology-detail" className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${activeStep === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}>
               <span className="font-sans text-xs tabular-nums text-[#A8741F]">
                 {step.num}
               </span>
@@ -672,6 +672,7 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
         </ol>
         <div id="methodology-detail" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-5 sm:pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
           <div aria-live="polite" aria-atomic="true">
+            <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-wider text-[#A8741F] sm:hidden">{steps[activeStep].title}</p>
             <h3 className="max-w-2xl font-serif text-2xl sm:text-3xl leading-tight text-[#111827]">{details[activeStep].title}</h3>
             <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-slate-600">{details[activeStep].text}</p>
             <p className="mt-5 font-sans text-sm leading-relaxed text-[#A8741F]">{details[activeStep].outcome}</p>
