@@ -121,3 +121,9 @@
 .methodPractice { align-items: center; }
 .methodPractice h2 { margin-bottom: 24px; }
 @media (max-width: 800px) { .methodHero .photo { aspect-ratio: 4 / 3; } }
+
+/* Compact editorial sections after removing repeated photography. */
+.methodPractice { display: block; max-width: 850px; padding-block: 48px; }
+.reading { display: block; border-top: 1px solid #e2e8f0; padding-top: 28px; }
+.reading > div { max-width: 850px; }
+.programGrid article { border-top: 1px solid #e2e8f0; }

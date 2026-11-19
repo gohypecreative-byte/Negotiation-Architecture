@@ -11,7 +11,7 @@ const frameUrl = (frame: number) =>
 const decodeWidth = () => {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const fittedWidth = Math.min(window.innerWidth, window.innerHeight * manifest.width / manifest.height) * dpr;
-  return Math.min(manifest.width, Math.max(960, Math.ceil(fittedWidth / 64) * 64));
+  return Math.min(960, manifest.width, Math.max(640, Math.ceil(fittedWidth / 64) * 64));
 };
 
 export function ScrollParallaxCanvas({ progress, className = "" }: {
@@ -34,6 +34,59 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
     let drawn = 0;
     let direction = 1;
     let raf = 0;
+    let idleTimer = 0;
+    let loopRaf = 0;
+    let loopStart = 0;
+    let loopEnd = 0;
+    let loopEpoch: number | null = null;
+    let visible = true;
+    // Two seconds of source footage, eased forward and back over 4.8 seconds.
+    const loopSpan = 60;
+    const loopDuration = 4800;
+
+    function stopLoop() {
+      window.clearTimeout(idleTimer);
+      cancelAnimationFrame(loopRaf);
+      loopRaf = 0;
+      loopStart = 0;
+      loopEpoch = null;
+    }
+
+    function animateLoop(now: number) {
+      if (disposed || !visible || document.hidden || reducedMotion.matches) return;
+      // Wait for the whole short segment so idle playback never skips unloaded frames.
+      const frames = Array.from({ length: Math.abs(loopEnd - loopStart) + 1 }, (_, i) => Math.min(loopStart, loopEnd) + i);
+      if (frames.some(frame => failed.has(frame))) {
+        stopLoop();
+        return;
+      }
+      const ready = frames.every(frame => cache.has(frame));
+      if (ready) {
+        if (loopEpoch === null) loopEpoch = now;
+        // Forward then backward with eased turnarounds, avoiding a hard loop cut.
+        const phase = ((now - loopEpoch) % loopDuration) / loopDuration;
+        const position = (1 - Math.cos(phase * Math.PI * 2)) / 2;
+        const next = Math.round(loopStart + position * (loopEnd - loopStart));
+        direction = next >= target ? 1 : -1;
+        target = next;
+        scheduleDraw();
+      }
+      loopRaf = requestAnimationFrame(animateLoop);
+    }
+
+    function queueLoop() {
+      stopLoop();
+      if (!visible || document.hidden || reducedMotion.matches) return;
+      idleTimer = window.setTimeout(() => {
+        // At the end of the film, loop backwards from the current frame instead.
+        loopStart = target;
+        loopEnd = target + loopSpan <= manifest.frameCount
+          ? target + loopSpan
+          : Math.max(1, target - loopSpan);
+        pump();
+        loopRaf = requestAnimationFrame(animateLoop);
+      }, 180);
+    }
 
     function draw() {
       raf = 0;
@@ -66,10 +119,13 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
         if (disposed) { image.close(); return; }
         cache.set(frame, image);
         // Keep decoded memory bounded, even after scrolling through the entire sequence.
-        // Full-width 1920px bitmaps are ~8MB each, so hold fewer of them.
-        const maxCached = image.width >= 1600 ? 24 : 36;
+        // 64 frames at a maximum 960px decode width use about 127 MiB.
+        // Mobile frames decode smaller; protect the active loop from stale requests.
+        const maxCached = 64;
         while (cache.size > maxCached) {
-          const furthest = [...cache.keys()].sort((a, b) => Math.abs(b - target) - Math.abs(a - target))[0];
+          const candidates = [...cache.keys()].filter(frame => !loopStart || frame < Math.min(loopStart, loopEnd) || frame > Math.max(loopStart, loopEnd));
+          const furthest = candidates.sort((a, b) => Math.abs(b - target) - Math.abs(a - target))[0];
+          if (furthest === undefined) break;
           cache.get(furthest)?.close();
           cache.delete(furthest);
         }
@@ -84,7 +140,10 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
 
     function pump() {
       const wanted = [target];
-      if (!reducedMotion.matches) {
+      if (loopStart) {
+        for (let frame = Math.min(loopStart, loopEnd); frame <= Math.max(loopStart, loopEnd); frame++) wanted.push(frame);
+      }
+      if (!loopStart && !reducedMotion.matches) {
         for (let distance = 1; distance <= 12; distance++) {
           wanted.push(target + distance * direction, target - distance * direction);
         }
@@ -97,18 +156,34 @@ export function ScrollParallaxCanvas({ progress, className = "" }: {
     }
 
     function update(value: number) {
+      stopLoop();
       const next = reducedMotion.matches ? 1 : 1 + Math.round(Math.min(1, Math.max(0, value)) * (manifest.frameCount - 1));
       direction = next >= target ? 1 : -1;
       target = next;
       scheduleDraw();
       pump();
+      queueLoop();
     }
     const onPreferenceChange = () => update(progress.get());
     const unsubscribe = progress.on("change", update);
     reducedMotion.addEventListener("change", onPreferenceChange);
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) queueLoop();
+      else stopLoop();
+    });
+    observer.observe(canvas);
+    const onVisibilityChange = () => {
+      if (document.hidden) stopLoop();
+      else queueLoop();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
     update(progress.get());
     return () => {
       disposed = true;
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       controller.abort();
       unsubscribe();
       reducedMotion.removeEventListener("change", onPreferenceChange);

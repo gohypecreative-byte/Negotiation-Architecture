@@ -3,14 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS, enquiryEmailHref } from "@/lib/contact";
+import contactPortraitPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
 import boardroomPortraitPhoto from "../public/web-image/image.png";
 import heroPhoto from "../public/website pictures formal and informal/IMG_7043.jpeg";
-import waterfrontPhoto from "../public/images/gallery/dr-tarun-01.jpg";
 import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
 import procuretechPhoto from "../public/images/gallery/dr-tarun-02.jpg";
 import masterclassPhoto from "../public/website pictures formal and informal/present (1).jpg";
-import presentationPhoto from "../public/website pictures formal and informal/Presentation (1).jpg";
-import insightPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
@@ -315,11 +313,11 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
           initial={{ y: -16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-[1400px] mx-auto px-6 sm:px-10 h-20 flex items-center justify-between"
+          className="max-w-[1400px] mx-auto px-4 sm:px-10 h-20 flex items-center justify-between gap-3"
         >
           {/* Brand Monogram & Wordmark */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="relative w-8 h-8 flex items-center justify-center">
+          <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3.5 group" onClick={() => setMobileOpen(false)}>
+            <div className="relative w-8 h-8 shrink-0 flex items-center justify-center">
               <Image
                 src="/images/brand/na-monogram-white.png"
                 alt="NA Monogram"
@@ -358,10 +356,10 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
           </nav>
 
           {/* Right Action CTA */}
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-4">
             <button
               onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all hidden lg:flex whitespace-nowrap items-center gap-2 shadow-sm hover:shadow-md cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
             >
               <span>Book a Consultation</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -370,8 +368,10 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden text-white p-2 hover:text-[#C89B59] transition-colors"
-              aria-label="Toggle navigation menu"
+              className="lg:hidden flex h-11 w-11 items-center justify-center text-white hover:text-[#C89B59] transition-colors"
+              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -386,7 +386,10 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 top-20 z-40 bg-[#080E1B] border-b border-white/10 px-6 py-6 lg:hidden"
+            id="mobile-navigation"
+            role="navigation"
+            aria-label="Mobile navigation"
+            className="fixed inset-x-0 top-20 z-40 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain bg-[#080E1B] border-b border-white/10 px-6 py-6 lg:hidden"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -450,23 +453,23 @@ export function PillarsBar() {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-7 relative z-20">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+    <section className="w-full bg-[#FFFFFF] py-4 sm:py-7 relative z-20">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y divide-slate-200/70 sm:divide-y-0 sm:gap-6 lg:gap-8">
           {pillars.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="flex items-center gap-4 px-4 sm:px-6 py-2 group hover:bg-slate-50/80 rounded-lg transition-colors">
+                className="flex items-center gap-3.5 px-0 sm:px-6 py-4 sm:py-2 group sm:hover:bg-slate-50/80 sm:rounded-lg transition-colors">
                 <div className="w-10 h-10 rounded-full bg-[#C89B59]/10 text-[#C89B59] flex items-center justify-center shrink-0 group-hover:bg-[#C89B59] group-hover:text-slate-950 transition-colors">
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5" aria-hidden="true" />
                 </div>
-                <div>
-                  <h4 className="font-sans font-semibold text-[15px] text-[#111827] leading-snug">
+                <div className="min-w-0">
+                  <h4 className="font-sans font-semibold text-base sm:text-[15px] text-[#111827] leading-snug">
                     {item.title}
                   </h4>
-                  <p className="font-sans text-xs text-slate-500 mt-0.5 leading-tight">
+                  <p className="font-sans text-xs max-sm:text-sm text-slate-600 mt-1 leading-relaxed sm:leading-tight">
                     {item.subtitle}
                   </p>
                 </div>
@@ -642,9 +645,9 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
   ];
 
   return (
-    <section id="methodology" className="w-full bg-white py-24 sm:py-32">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+    <section id="methodology" className="methodology-section w-full bg-white py-12 sm:py-32">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 sm:gap-8">
           <SectionIntro
             title={<>A Deliberate Process.<br />Room for Human Judgement.</>}
             lede="Five connected stages. Structure without making negotiation mechanical."
@@ -654,8 +657,8 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
           </div>
         </div>
 
-        <div className="mt-12 grid items-stretch gap-8 sm:mt-14 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
-        <ol aria-label="Choose a methodology stage" className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-1">
+        <div className="mt-7 grid items-stretch gap-5 sm:gap-8 sm:mt-14 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
+        <ol aria-label="Choose a methodology stage" className="methodology-stages grid grid-cols-2 gap-2 sm:gap-1 sm:grid-cols-3 lg:grid-cols-1">
           {steps.map((step, index) => (
             <li key={step.num}>
               <button type="button" onClick={() => setActiveStep(index)} aria-pressed={activeStep === index} aria-controls="methodology-detail" className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${activeStep === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}>
@@ -667,7 +670,7 @@ export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => voi
             </li>
           ))}
         </ol>
-        <div id="methodology-detail" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
+        <div id="methodology-detail" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-5 sm:pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
           <div aria-live="polite" aria-atomic="true">
             <h3 className="max-w-2xl font-serif text-2xl sm:text-3xl leading-tight text-[#111827]">{details[activeStep].title}</h3>
             <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-slate-600">{details[activeStep].text}</p>
@@ -809,10 +812,10 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
               <Image
-                src={waterfrontPhoto}
-                alt="Dr. Tarun Rochwani beside the waterfront"
+                src={seatedPortraitPhoto}
+                alt="Seated portrait of Dr. Tarun Rochwani"
                 fill
-                sizes="(max-width: 768px) 100vw, 450px"
+                sizes="(max-width: 480px) calc(100vw - 48px), 420px"
                 className="editorial-photo object-cover transition-transform duration-700 group-hover:scale-105"
                 style={{ objectPosition: "50% 35%" }}
               />
@@ -847,20 +850,14 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
     {
       title: "Executive Coaching & Advisory",
       desc: "Focused support to prepare for important conversations and strengthen personal capability.",
-      image: seatedPortraitPhoto,
-      photoAlt: "Seated portrait of Dr. Tarun Rochwani",
     },
     {
       title: "Corporate & Team Development",
       desc: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.",
-      image: procuretechPhoto,
-      photoAlt: "Dr. Tarun Rochwani presenting at Procuretech",
     },
     {
       title: "Negotiation Programmes",
       desc: "Structured learning in strategic judgement, behavioural awareness and practical skill.",
-      image: masterclassPhoto,
-      photoAlt: "Dr. Tarun Rochwani presenting Mastering Negotiations",
     },
   ];
 
@@ -883,15 +880,7 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
               key={prog.title}
               className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C89B59]/60 transition-colors flex flex-col"
             >
-              <div className="relative w-full aspect-[4/3] bg-slate-100">
-                <Image
-                  src={prog.image}
-                  alt={prog.photoAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 420px"
-                  className="editorial-photo object-cover object-center"
-                />
-              </div>
+
               <div className="p-7 flex flex-col grow">
                 <h3 className="font-serif text-2xl text-[#111827]">{prog.title}</h3>
                 <p className="mt-2 mb-6 font-sans text-sm text-slate-600 leading-relaxed grow">
@@ -999,14 +988,6 @@ export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }
 // =========================================================================
 
 export function TestimonialsSection() {
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  // Auto-advance the highlighted testimonial
-  useEffect(() => {
-    const id = setInterval(() => setActiveIdx((i) => (i + 1) % 3), 5000);
-    return () => clearInterval(id);
-  }, []);
-
   const testimonials = [
     {
       quote:
@@ -1026,28 +1007,20 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section className="w-full bg-white py-20 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="mb-14">
+    <section className="w-full bg-white py-12 sm:py-24">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
+        <div className="mb-7 sm:mb-14">
           <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
             Trusted by Leaders and Organisations
           </h2>
         </div>
 
         {/* 3 Quote Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="relative bg-white rounded-2xl p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-[#C89B59] hover:shadow-md transition-all">
-              {activeIdx === idx && (
-                <motion.span
-                  layoutId="testimonial-ring"
-                  aria-hidden
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="pointer-events-none absolute -inset-px rounded-2xl ring-2 ring-[#C89B59]"
-                />
-              )}
+              className="bg-white rounded-2xl p-5 sm:p-8 border border-slate-200/90 flex flex-col justify-between">
               <blockquote>
                 <p className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
                   {t.quote}
@@ -1062,19 +1035,7 @@ export function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Dots Pagination */}
-        <div className="flex items-center justify-center gap-2">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIdx(i)}
-              className={`h-2 rounded-full transition-all ${
-                activeIdx === i ? "w-6 bg-[#C89B59]" : "w-2 bg-slate-300"
-              }`}
-              aria-label={`Slide ${i + 1}`}
-            />
-          ))}
-        </div>
+
       </div>
     </section>
   );
@@ -1086,12 +1047,12 @@ export function TestimonialsSection() {
 
 export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   return (
-    <section className="w-full bg-[#070D18] text-white py-16 relative overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-r from-[#080E1B] via-[#0E1A2F] to-[#12223F]">
+    <section className="outcome-banner w-full bg-[#070D18] text-white py-10 sm:py-16 relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-10 lg:px-12">
+        <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-r from-[#080E1B] via-[#0E1A2F] to-[#12223F]">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-7 p-8 sm:p-12 lg:p-16 z-10">
+            <div className="lg:col-span-7 p-5 sm:p-12 lg:p-16 z-10">
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-4 leading-tight">
                 Prepare with Intention.<br />Engage with Clarity.
               </h2>
@@ -1099,17 +1060,17 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
                 Building your capability, preparing for a conversation or strengthening a team?
                 Begin with the situation that matters.
               </p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
                 <button
                   onClick={onOpenConsult}
-                  className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-md text-white font-sans font-medium text-sm tracking-normal"
+                  className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all flex items-center justify-center min-h-12 gap-2 cursor-pointer shadow-md text-white font-sans font-medium text-sm tracking-normal"
                 >
                   <span>Book a Consultation</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <Link
                   href="/contact"
-                  className="border border-white/20 hover:border-white/50 bg-white/5 text-white font-sans font-medium text-sm px-6 py-3 rounded-full transition-all flex items-center gap-2 cursor-pointer"
+                  className="border border-white/20 hover:border-white/50 bg-white/5 text-white font-sans font-medium text-sm px-6 py-3 rounded-full transition-all flex items-center justify-center min-h-12 gap-2 cursor-pointer"
                 >
                   <span>Get in Touch</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1117,13 +1078,13 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
               </div>
             </div>
 
-            {/* Right Architectural Graphic */}
-            <div className="lg:col-span-5 relative h-72 lg:h-full min-h-[340px]">
+            {/* Speaking photo, used only in this banner. */}
+            <div className="lg:col-span-5 relative lg:h-full lg:min-h-[340px]">
               <Image
                 src={procuretechPhoto}
+                sizes="(max-width: 1024px) 100vw, 560px"
                 alt="Dr. Tarun Rochwani speaking at Procuretech"
-                fill
-                className="editorial-photo object-cover object-center"
+                className="editorial-photo block w-full h-auto lg:absolute lg:inset-0 lg:h-full lg:object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#080E1B] via-[#080E1B]/50 to-transparent lg:block hidden pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B] via-transparent to-transparent lg:hidden pointer-events-none" />
@@ -1145,22 +1106,16 @@ export function LatestInsightsSection() {
       title: "Negotiation in a Complex and Uncertain World",
       description: "Separate what is known from what is assumed. Prepare for more than one path.",
       date: "Strategy",
-      image: presentationPhoto,
-      photoAlt: "Dr. Tarun Rochwani presenting a negotiation balance scorecard",
     },
     {
       title: "The Role of Behaviour in Negotiation Outcomes",
       description: "How listening, emotional awareness and the questions we ask can change a conversation.",
       date: "Behaviour",
-      image: insightPhoto,
-      photoAlt: "Dr. Tarun Rochwani standing in front of an abstract painting",
     },
     {
       title: "Building Durable Value Through Negotiation",
       description: "Look beyond the immediate agreement to the relationships and commitments that follow.",
       date: "Long-term value",
-      image: procuretechPhoto,
-      photoAlt: "Dr. Tarun Rochwani discussing negotiation preparation on stage",
     },
   ];
 
@@ -1180,16 +1135,7 @@ export function LatestInsightsSection() {
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
           {articles.map((art) => (
             <article key={art.title} className="group flex flex-col">
-              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-900">
-                <Image
-                  src={art.image}
-                  alt={art.photoAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 420px"
-                  className="editorial-photo object-cover"
-                  style={art.image === insightPhoto ? { objectPosition: "center 30%" } : undefined}
-                />
-              </div>
+
               <span className="mt-5 font-sans text-xs tracking-wider uppercase text-slate-500">
                 {art.date}
               </span>
@@ -1220,28 +1166,26 @@ export function GlobalPerspectiveSection() {
   ];
 
   return (
-    <section className="w-full bg-white text-[#111827] py-20 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 text-center">
+    <section className="global-perspective w-full bg-white text-[#111827] py-12 sm:py-28">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-10 lg:px-12 text-center">
         <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#111827] leading-[1.1]">
           A Global Perspective
         </h2>
-        <p className="mt-4 mb-12 font-sans text-slate-600 text-base">
-          Direct oversight of multi-billion-dollar portfolios across 26 countries and five continents.
-        </p>
+        <div className="mt-6 sm:mt-12">
+          <GlobalMap />
+        </div>
 
-        <GlobalMap />
-
-        <dl className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-5xl mx-auto text-left">
+        <dl className="mt-5 sm:mt-10 grid grid-cols-3 gap-0 sm:gap-5 max-w-5xl mx-auto text-center sm:text-left divide-x divide-slate-200 sm:divide-x-0 border-t border-slate-200 pt-5 sm:border-t-0 sm:pt-0">
           {stats.map((st) => {
             const Icon = st.icon;
             const [number] = st.value.split("+");
             return (
-              <div key={st.label} className="px-6 py-4 sm:px-7 sm:py-6">
-                <dt className="flex items-center gap-2.5 font-sans text-sm font-medium text-slate-600">
-                  <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-[#3779B5]" strokeWidth={1.8} />
+              <div key={st.label} className="min-w-0 flex flex-col px-2 py-1 sm:block sm:px-7 sm:py-6">
+                <dt className="flex justify-center sm:justify-start items-center gap-2.5 font-sans text-sm font-medium text-slate-600">
+                  <Icon aria-hidden="true" className="hidden sm:block h-4 w-4 shrink-0 text-[#3779B5]" strokeWidth={1.8} />
                   {st.label}
                 </dt>
-                <dd className="mt-4 flex items-baseline gap-1 font-sans text-[2.75rem] sm:text-5xl font-semibold tracking-tight tabular-nums leading-none text-[#183F6C]">
+                <dd className="-order-1 mb-2 sm:mb-0 sm:mt-4 flex justify-center sm:justify-start items-baseline gap-1 font-sans text-3xl sm:text-5xl font-semibold tracking-tight tabular-nums leading-none text-[#183F6C]">
                   <CountUp value={Number(number.replaceAll(",", ""))} /><span className="text-3xl font-normal text-[#3779B5]">{st.value.endsWith("+") ? "+" : ""}</span>
                 </dd>
               </div>
@@ -1370,13 +1314,12 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
+            <div className="relative mx-auto w-full max-w-[440px] rounded-2xl overflow-hidden bg-slate-100">
               <Image
-                src={seatedPortraitPhoto}
-                alt="Seated portrait of Dr. Tarun Rochwani"
-                fill
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="editorial-photo object-cover object-center"
+                src={contactPortraitPhoto}
+                alt="Dr. Tarun Rochwani standing in front of an abstract painting"
+                sizes="(max-width: 488px) calc(100vw - 48px), 440px"
+                className="editorial-photo block w-full h-auto"
               />
             </div>
           </div>
@@ -1429,10 +1372,10 @@ export function SiteFooter() {
 
   return (
     <footer className="w-full bg-[#050A14] text-white">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-10 gap-y-8 py-10 sm:py-12">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-5 sm:gap-x-10 gap-y-7 sm:gap-y-8 py-8 sm:py-12">
           {/* Brand */}
-          <div className="lg:col-span-4">
+          <div className="col-span-2 min-w-0 lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3.5 group">
               <Image
                 src="/images/brand/na-monogram-white.png"
@@ -1455,7 +1398,7 @@ export function SiteFooter() {
             </p>
             <address className="mt-4 max-w-[340px] border-t border-white/10 pt-4 not-italic font-sans text-sm leading-relaxed">
               <span className="block font-medium text-white">{OFFICE_NAME}</span>
-              <span className="mt-2 block max-w-[250px] leading-6 text-slate-400">{OFFICE_ADDRESS}</span>
+              <span className="mt-2 block sm:max-w-[250px] leading-6 text-slate-400">{OFFICE_ADDRESS}</span>
               <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex max-w-full items-center gap-2 text-[#D9AB64] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
                 <span className="break-all">{CONTACT_EMAIL}</span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -1469,7 +1412,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-[#C89B59] hover:text-[#C89B59]"
+                  className="flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-[#C89B59] hover:text-[#C89B59]"
                 >
                   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden>
                     <path d={social.path} />
@@ -1480,28 +1423,28 @@ export function SiteFooter() {
           </div>
 
           {/* Link groups */}
-          <div className="lg:col-span-2">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
+          <div className="min-w-0 lg:col-span-2">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
               Explore
             </h4>
-            <ul className="space-y-3 text-sm font-sans text-slate-400">
+            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
               {FOOTER_LINKS.explore.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
+                  <Link href={link.href} className="inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="lg:col-span-2">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
+          <div className="min-w-0 lg:col-span-2">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
               Resources
             </h4>
-            <ul className="space-y-3 text-sm font-sans text-slate-400">
+            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
               {FOOTER_LINKS.resources.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
+                  <Link href={link.href} className="inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -1510,8 +1453,8 @@ export function SiteFooter() {
           </div>
 
           {/* Newsletter */}
-          <div className="lg:col-span-4">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-5">
+          <div className="col-span-2 min-w-0 lg:col-span-4">
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
               Subscribe for Insights
             </h4>
             <p className="font-sans text-sm leading-relaxed text-slate-400">
@@ -1543,7 +1486,7 @@ export function SiteFooter() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email address"
                   required
-                  className="grow rounded-full border border-white/10 bg-[#0E1626] px-5 py-3 font-sans text-sm text-white placeholder-slate-500 focus:border-[#C89B59] focus:outline-none"
+                  className="min-w-0 w-full grow rounded-full border border-white/10 bg-[#0E1626] px-5 py-3 font-sans text-base sm:text-sm text-white placeholder-slate-500 focus:border-[#C89B59] focus:outline-none"
                 />
                 <button
                   type="submit"
@@ -1554,23 +1497,20 @@ export function SiteFooter() {
                 </button>
               </form>
             )}
-            <p className="mt-3 font-sans text-xs leading-relaxed text-slate-400">Requests open in your email app for you to review and send to {CONTACT_EMAIL}.</p>
+            <p className="mt-3 break-words font-sans text-xs leading-relaxed text-slate-400">Requests open in your email app for you to review and send to {CONTACT_EMAIL}.</p>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-xs text-slate-500">
+        <div className="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-sm text-slate-400 text-center sm:text-left">
           <p>© {year} Negotiation Architecture. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-white transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
+            <Link href="/privacy-policy" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
+            </Link>
+            <Link href="/terms" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
               Terms
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Sitemap
-            </a>
+            </Link>
           </div>
         </div>
       </div>

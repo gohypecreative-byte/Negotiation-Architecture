@@ -738,12 +738,34 @@ div:has(> img:is(.editorial-photo, [src*="formal"], [src*="gallery"])):not(#hero
   opacity: 0;
   pointer-events: none;
 }
-@media (max-width: 640px) {
-  .sequence-hero { height: 400svh; }
+/* Phones play the film in normal page flow, without a scroll runway. */
+.mobile-hero-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
+@media (max-width: 767px) {
+  .sequence-hero { height: auto; padding-top: 80px; }
+  .sequence-pin { position: relative; height: auto; min-height: 56.25vw; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .sequence-hero { height: auto; }
   .sequence-pin { position: relative; }
   .site-header { transition: none; }
+}
+
+/* Keep the consultation banner readable and compact on phones. */
+@media (max-width: 639px) {
+  .outcome-banner h2 { font-size: clamp(1.625rem, 6.8vw, 2rem); line-height: 1.18; text-wrap: pretty; }
+  .outcome-banner p { font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; }
+}
+
+@media (max-width: 639px) {
+  .global-perspective h2 { font-size: clamp(1.625rem, 6.5vw, 2rem); line-height: 1.2; }
+  .global-perspective dt { line-height: 1.4; }
+}
+
+@media (max-width: 639px) {
+  .methodology-stages > li:last-child { grid-column: 1 / -1; }
+  .methodology-stages button { min-height: 52px; padding: 12px; gap: 10px; border: 1px solid #e2e8f0; border-radius: 8px; }
+  .methodology-stages button[aria-pressed="true"] { border-color: var(--gold); background: rgb(200 155 89 / 12%); color: var(--navy); }
+  .methodology-stages button > span:last-child { font-size: 1rem; line-height: 1.25; }
+  .methodology-section #methodology-detail h3 { font-size: 1.5rem; line-height: 1.25; }
 }

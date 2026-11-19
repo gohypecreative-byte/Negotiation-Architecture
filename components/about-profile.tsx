@@ -30,7 +30,7 @@ export function AboutProfile() {
           </div>
         </div>
         <figure className={styles.portrait}>
-          <Image src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG" alt="Dr. Tarun Rochwani beside the waterfront" fill sizes="(max-width: 800px) 100vw, 45vw" preload className={styles.portraitImage} />
+          <Image src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG" alt="Dr. Tarun Rochwani beside the waterfront" width={1086} height={1448} sizes="(max-width: 800px) 100vw, 45vw" preload className={styles.portraitImage} />
         </figure>
       </section>
 
@@ -70,9 +70,7 @@ export function AboutProfile() {
       </section>
 
       <section className={`${styles.container} ${styles.teaching}`}>
-        <figure className={styles.teachingPhoto}>
-          <Image src="/website pictures formal and informal/present (1).jpg" alt="Dr. Tarun Rochwani presenting a session on negotiation strategy" fill sizes="(max-width: 800px) 100vw, 55vw" className={styles.sessionImage} />
-        </figure>
+
         <div className={styles.teachingCopy}>
           <h2>Ideas that travel<br />beyond the room.</h2>
           <p>Through speaking, coaching and practical learning, Dr. Rochwani shares approaches to negotiation, strategy and leadership that people can take into their next conversation.</p>

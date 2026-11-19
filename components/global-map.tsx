@@ -51,11 +51,15 @@ export function GlobalMap() {
             const y = hub.top * 5;
             const ox = origin.left * 10;
             const oy = origin.top * 5;
-            const d = `M ${ox} ${oy} Q ${(ox+x)/2} ${Math.min(y,oy)-75} ${x} ${y}`;
+            const distance = Math.hypot(x - ox, y - oy);
+            const lift = Math.min(100, distance * 0.24);
+            const d = `M ${ox} ${oy} Q ${(ox+x)/2} ${Math.min(y,oy)-lift} ${x} ${y}`;
             return (
               <g key={hub.id} fill="none">
-                <path d={d} className={styles.route} />
-                <path d={d} className={styles.flow} pathLength="100" style={{ animationDelay: `${index * -1.4}s` }} />
+                <path d={d} className={styles.connectionHalo} />
+                <path d={d} className={styles.connection} />
+                <path d={d} className={`${styles.dottedRoute} ${styles.routeHalo}`} style={{ animationDelay: `${index * -0.4}s` }} />
+                <path d={d} className={`${styles.dottedRoute} ${styles.route}`} style={{ animationDelay: `${index * -0.4}s` }} />
               </g>
             );
           })}

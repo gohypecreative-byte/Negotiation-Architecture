@@ -11,8 +11,8 @@
 .textLink { display: inline-flex; align-items: center; gap: 10px; color: #111827; font-size: 14px; font-weight: 500; text-decoration: none; }
 .textLink:hover { color: #a8741f; }
 .page a:focus-visible, .page button:focus-visible { outline: 2px solid #a8741f; outline-offset: 5px; }
-.portrait { position: relative; aspect-ratio: 4 / 5; border-radius: 100px 16px 16px 16px; overflow: hidden; margin: 0; background: #ffffff; }
-.portraitImage { object-fit: cover; object-position: 50% 35%; }
+.portrait { position: relative; border-radius: 16px; overflow: hidden; margin: 0; background: #ffffff; }
+.portraitImage { display: block; width: 100%; height: auto; }
 .page figure::after { display: none; }
 .story { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-block: 60px 100px; scroll-margin-top: 110px; }
 .page h2 { font-size: clamp(30px, 3.3vw, 46px); line-height: 1.15; letter-spacing: -0.035em; }
@@ -38,4 +38,7 @@
 .contact p { margin-top: 20px; color: #526174; }
 .contact button { flex-shrink: 0; }
 @media (max-width: 1000px) { .container { width: calc(100% - 48px); } .hero { gap: 32px; } .story, .teaching { gap: 40px; } .desktopBreak { display: none; } .perspectiveGrid { gap: 28px; } }
-@media (max-width: 800px) { .hero { grid-template-columns: 1fr; padding-top: 130px; padding-bottom: 56px; } .portrait { max-width: 520px; width: 100%; aspect-ratio: 5 / 4; border-radius: 64px 12px 12px; } .story, .teaching { grid-template-columns: 1fr; padding-block: 40px 64px; gap: 32px; } .sectionIntro, .contactInner { flex-direction: column; align-items: start; gap: 24px; } .perspectiveGrid { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; } .perspectiveGrid svg { margin-bottom: 16px; } .perspectives, .contact { padding-block: 56px; } .teaching { padding-top: 64px; } .experience { margin-top: 24px; } .sectionIntro p { max-width: none; } }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; padding-top: 130px; padding-bottom: 56px; } .portrait { max-width: 520px; width: 100%; border-radius: 12px; } .story, .teaching { grid-template-columns: 1fr; padding-block: 40px 64px; gap: 32px; } .sectionIntro, .contactInner { flex-direction: column; align-items: start; gap: 24px; } .perspectiveGrid { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; } .perspectiveGrid svg { margin-bottom: 16px; } .perspectives, .contact { padding-block: 56px; } .teaching { padding-top: 64px; } .experience { margin-top: 24px; } .sectionIntro p { max-width: none; } }
+
+.teaching { display: block; padding-block: 48px; }
+.teachingCopy { max-width: 780px; }
