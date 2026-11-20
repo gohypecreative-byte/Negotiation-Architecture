@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS, enquiryEmailHref } from "@/lib/contact";
 import contactPortraitPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
@@ -52,6 +52,20 @@ export function ConsultationModal({
   onClose: () => void;
 }) {
   const [submitted, setSubmitted] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    setSubmitted(false);
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const frame = requestAnimationFrame(() => panelRef.current?.focus());
+    return () => {
+      cancelAnimationFrame(frame);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
@@ -61,28 +75,47 @@ export function ConsultationModal({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+      className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-md"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-lg bg-[#0C1322] border border-[#C89B59]/30 rounded-2xl p-6 sm:p-8 text-white shadow-2xl"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="consultation-title"
+        tabIndex={-1}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") onClose();
+          if (event.key !== "Tab") return;
+          const elements = panelRef.current?.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href]');
+          if (!elements?.length) return;
+          const first = elements[0];
+          const last = elements[elements.length - 1];
+          if (event.shiftKey && (document.activeElement === first || document.activeElement === panelRef.current)) {
+            event.preventDefault(); last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault(); first.focus();
+          }
+        }}
+        className="relative w-full max-w-lg max-h-[calc(100dvh-24px)] flex flex-col overflow-hidden bg-[#0C1322] border border-[#C89B59]/30 rounded-2xl text-white shadow-2xl outline-none"
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-full transition-colors"
+          className="absolute top-3 right-3 z-10 flex h-11 w-11 items-center justify-center bg-[#0C1322] text-slate-300 hover:text-white rounded-full transition-colors"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
+        <div data-lenis-prevent className="overflow-y-auto overscroll-contain p-5 pt-6 sm:p-8">
         {!submitted ? (
           <>
-            <div className="mb-6">
-              <h3 className="font-serif text-2xl sm:text-3xl text-white mt-1">
-                Book an Executive Consultation
+            <div className="mb-5">
+              <h3 id="consultation-title" className="pr-10 font-serif text-2xl sm:text-3xl text-white mt-1">
+                Book a Consultation
               </h3>
               <p className="text-slate-300 text-sm mt-2">
                 Engage directly with Dr. Tarun Rochwani for corporate strategy, advisory, or coaching.
@@ -102,7 +135,7 @@ export function ConsultationModal({
               className="space-y-4"
             >
               <div>
-                <label htmlFor="consult-name" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-name" className="block text-sm font-medium text-slate-300 mb-1.5">
                   Full Name
                 </label>
                 <input
@@ -110,13 +143,14 @@ export function ConsultationModal({
                   id="consult-name"
                   name="name"
                   required
-                  placeholder="e.g. Marcus Vance"
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors"
+                  autoComplete="name"
+                  placeholder="Your full name"
+                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors"
                 />
               </div>
 
               <div>
-                <label htmlFor="consult-email" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-email" className="block text-sm font-medium text-slate-300 mb-1.5">
                   Corporate Email
                 </label>
                 <input
@@ -124,16 +158,17 @@ export function ConsultationModal({
                   id="consult-email"
                   name="email"
                   required
+                  autoComplete="email"
                   placeholder="name@organization.com"
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors"
+                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors"
                 />
               </div>
 
               <div>
-                <label htmlFor="consult-interest" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+                <label htmlFor="consult-interest" className="block text-sm font-medium text-slate-300 mb-1.5">
                   Engagement Interest
                 </label>
-                <select id="consult-interest" name="interest" className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors">
+                <select id="consult-interest" name="interest" className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors">
                   <option>Executive Coaching & Advisory</option>
                   <option>Corporate & Team Development</option>
                   <option>Negotiation Programmes</option>
@@ -143,15 +178,15 @@ export function ConsultationModal({
               </div>
 
               <div>
-                <label htmlFor="consult-message" className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
-                  Brief Context / Requirements
+                <label htmlFor="consult-message" className="block text-sm font-medium text-slate-300 mb-1.5">
+                  How can we help? (optional)
                 </label>
                 <textarea
                   rows={3}
                   id="consult-message"
                   name="message"
-                  placeholder="Outline your timing, objectives, or counterparty dynamics..."
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C89B59] transition-colors resize-none"
+                  placeholder="Briefly describe your goals and timing."
+                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors resize-none"
                 />
               </div>
 
@@ -162,7 +197,7 @@ export function ConsultationModal({
                 <span>Prepare Enquiry Email</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
-              <p className="text-xs leading-relaxed text-slate-400">Review and send your enquiry in your email app to <a className="underline break-all" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+              <p className="text-xs leading-relaxed text-slate-400">Review and send your enquiry in your email app to <a className="underline break-words" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
             </form>
           </>
         ) : (
@@ -170,9 +205,9 @@ export function ConsultationModal({
             <div className="w-14 h-14 rounded-full bg-[#C89B59]/20 text-[#C89B59] flex items-center justify-center mx-auto">
               <Check className="w-7 h-7" />
             </div>
-            <h3 className="font-serif text-2xl text-white">Send Your Enquiry</h3>
+            <h3 id="consultation-title" className="font-serif text-2xl text-white">Send Your Enquiry</h3>
             <p className="text-slate-300 text-sm max-w-sm mx-auto">
-              Review and send the draft in your email app. If it did not open, email <a className="underline break-all" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.
+              Review and send the draft in your email app. If it did not open, email <a className="underline break-words" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.
             </p>
             <button
               onClick={() => {
@@ -185,6 +220,7 @@ export function ConsultationModal({
             </button>
           </div>
         )}
+        </div>
       </motion.div>
     </motion.div>
       )}

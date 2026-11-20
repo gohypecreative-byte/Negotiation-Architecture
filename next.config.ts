@@ -1,6 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async headers() {
+    return [{
+      // Versioned assets can be reused across visits without revalidation.
+      // Publish changed frames under a new versioned directory.
+      source: "/hero-scroll-v1/:frame.webp",
+      headers: [{
+        key: "Cache-Control",
+        value: "public, max-age=31536000, immutable",
+      }],
+    }];
+  },
   images: {
     localPatterns: [
       { pathname: "/**", search: "" },
