@@ -19,8 +19,8 @@ import {
   ArrowRight,
   Play,
   BookOpen,
-  Building2,
   Wrench,
+  Building2,
   Globe,
   Users,
   Lightbulb,
@@ -468,48 +468,44 @@ export function PillarsBar() {
   const pillars = [
     {
       title: "Research-informed",
-      subtitle: "Grounded in doctoral inquiry",
+      subtitle: "Grounded in doctoral inquiry.",
       icon: BookOpen,
     },
     {
       title: "Human-centred",
-      subtitle: "People, interests and relationships",
-      icon: Building2,
+      subtitle: "Strategy that accounts for people, interests and relationships.",
+      icon: Users,
     },
     {
       title: "Practical by design",
-      subtitle: "Preparation, application and reflection",
+      subtitle: "Preparation, application and reflection. Never theory alone.",
       icon: Wrench,
-    },
-    {
-      title: "Global Perspective",
-      subtitle: "Relevant across industries and cultures",
-      icon: Globe,
     },
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-4 sm:py-7 relative z-20">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y divide-slate-200/70 sm:divide-y-0 sm:gap-6 lg:gap-8">
-          {pillars.map((item, idx) => {
+    <section className="relative z-20 w-full bg-white py-4 sm:py-7">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-10">
+        <div className="grid grid-cols-1 divide-y divide-slate-200/70 md:grid-cols-3 md:gap-6 md:divide-y-0 lg:gap-8">
+          {pillars.map((item) => {
             const Icon = item.icon;
             return (
-              <div
-                key={idx}
-                className="flex items-center gap-3.5 px-0 sm:px-6 py-4 sm:py-2 group sm:hover:bg-slate-50/80 sm:rounded-lg transition-colors">
-                <div className="w-10 h-10 rounded-full bg-[#C89B59]/10 text-[#C89B59] flex items-center justify-center shrink-0 group-hover:bg-[#C89B59] group-hover:text-slate-950 transition-colors">
-                  <Icon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="font-sans font-semibold text-base sm:text-[15px] text-[#111827] leading-snug">
-                    {item.title}
-                  </h4>
-                  <p className="font-sans text-xs max-sm:text-sm text-slate-600 mt-1 leading-relaxed sm:leading-tight">
-                    {item.subtitle}
-                  </p>
-                </div>
+            <div
+              key={item.title}
+              className="flex min-w-0 items-start gap-3.5 py-5 md:px-4 md:py-3 lg:px-6"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#C89B59]/10 text-[#C89B59]">
+                <Icon className="h-5 w-5" aria-hidden="true" />
               </div>
+              <div className="min-w-0">
+              <h4 className="font-sans text-base font-semibold leading-snug text-[#111827]">
+                {item.title}
+              </h4>
+              <p className="mt-1 font-sans text-sm leading-relaxed text-slate-600">
+                {item.subtitle}
+              </p>
+              </div>
+            </div>
             );
           })}
         </div>
@@ -1341,12 +1337,15 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
+            <p className="mb-4 font-sans text-sm font-semibold text-[#C89B59]">
+              Your next conversation
+            </p>
             <SectionIntro
-              title="Start a Conversation"
+              title="Prepare with intention. Engage with clarity."
               lede="Building your own capability, preparing for a conversation or strengthening a team? Begin with the situation that matters."
             />
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <PrimaryButton onClick={onOpenConsult}>Book a Consultation</PrimaryButton>
+              <PrimaryButton onClick={onOpenConsult}>Start a conversation</PrimaryButton>
             </div>
           </div>
 
