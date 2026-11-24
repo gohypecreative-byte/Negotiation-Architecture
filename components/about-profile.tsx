@@ -6,11 +6,12 @@ import { ArrowRight, BookOpen, Compass, MessagesSquare } from "lucide-react";
 import { useOpenConsult } from "./site-shell";
 import { PrimaryButton } from "./negotiation-home";
 import { CountUp } from "./count-up";
+import { source } from "@/lib/negotiation-content";
 import styles from "./about-profile.module.css";
 
 const perspectives = [
-  { icon: BookOpen, title: "Research-informed", text: "Grounded in doctoral inquiry, established scholarship and professional experience." },
-  { icon: Compass, title: "Human-centred", text: "Strategy that accounts for people, interests and relationships. Think clearly, act deliberately and build outcomes that last." },
+  { icon: BookOpen, title: "Research-informed", text: "Grounded in doctoral inquiry." },
+  { icon: Compass, title: "Human-centred", text: "Strategy that accounts for people, interests and relationships." },
   { icon: MessagesSquare, title: "Practical by design", text: "Preparation, application and reflection. Never theory alone." },
 ];
 
@@ -20,9 +21,9 @@ export function AboutProfile() {
     <div className={styles.page}>
       <section className={`${styles.container} ${styles.hero}`}>
         <div className={styles.introduction}>
+          <p className={styles.role}>The founder</p>
           <h1>Dr. Tarun L. Rochwani<span className={styles.degree}>, DBA</span></h1>
-          <p className={styles.role}>Founder, Negotiation Architecture</p>
-          <p className={styles.lead}>Bringing structure to complex negotiations.<br className={styles.desktopBreak} /> Keeping people at the centre.</p>
+          <p className={styles.lead}>{source.about[1].text}</p>
           <p className={styles.summary}>More than 25 years leading and steering multidisciplinary teams across procurement, supply chain, construction, real estate and facilities management.</p>
           <div className={styles.actions}>
             <PrimaryButton onClick={openConsult}>Book a Consultation</PrimaryButton>
@@ -36,7 +37,7 @@ export function AboutProfile() {
 
       <section id="about-approach" className={`${styles.container} ${styles.story}`}>
         <div>
-          <h2>Better outcomes begin<br />with better understanding.</h2>
+          <h2>{source.about[2].text}</h2>
           <div className={styles.experience}>
             <strong><CountUp value={25} /><span>+</span></strong>
             <span>Years of professional<br />experience</span>
@@ -45,8 +46,8 @@ export function AboutProfile() {
         <div className={styles.prose}>
           <p>Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.</p>
           <p>Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach. No one should rely on instinct alone when a conversation could shape their future.</p>
-          <p>Dr. Rochwani brings direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
-          <p>Doctoral research into negotiation outcomes at Clermont Business School examined UAE supply chain relationships and facilities management, exploring trust, information sharing and conflict resolution.</p>
+          <p>Direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
+          <p>{source.about[5].text}</p>
           <Link href="/methodology" className={styles.textLink}>Discover the methodology <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
       </section>
@@ -54,8 +55,8 @@ export function AboutProfile() {
       <section className={styles.perspectives}>
         <div className={styles.container}>
           <div className={styles.sectionIntro}>
-            <h2>Research meets<br />the real world.</h2>
-            <p>A perspective shaped by academic inquiry, professional experience and the work of helping others develop.</p>
+            <h2>Better outcomes begin with better understanding.</h2>
+            <p>Combining executive leadership with doctoral research into negotiation outcomes, trust, and conflict resolution.</p>
           </div>
           <div className={styles.perspectiveGrid}>
             {perspectives.map(({ icon: Icon, title, text }) => (
@@ -72,17 +73,17 @@ export function AboutProfile() {
       <section className={`${styles.container} ${styles.teaching}`}>
 
         <div className={styles.teachingCopy}>
-          <h2>Ideas that travel<br />beyond the room.</h2>
-          <p>Through speaking, coaching and practical learning, Dr. Rochwani shares approaches to negotiation, strategy and leadership that people can take into their next conversation.</p>
-          <p>For leaders, founders and teams, the focus is the same: clearer preparation, more considered choices and stronger professional relationships.</p>
+          <h2>{source.about[13].text}</h2>
+          <p>{source.about[14].text}</p>
+
           <Link href="/programs" className={styles.textLink}>Explore programs and coaching <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
       </section>
 
       <section className={`${styles.container} ${styles.story}`}>
-        <div><h2>Academic &amp;<br />Executive Education</h2></div>
+        <div><h2>{source.about[6].text}</h2></div>
         <div className={styles.prose}>
-          <p>Harvard University · Stanford University · INSEAD</p>
+          {source.about.slice(7, 10).map(item => <p key={item.text}>{item.text}</p>)}<h3>Academic &amp; Executive Education</h3><p>Harvard University · Stanford University · INSEAD</p>
           <h3>AI &amp; Emerging Technologies</h3>
           <p>Indian Institute of Technology Madras (IIT Madras)</p>
           <p>Agentic AI &amp; Autonomous Systems</p>

@@ -4,9 +4,9 @@ import "./globals.css";
 import { SmoothScrollProvider } from "@/components/smooth-scroll";
 
 export const metadata: Metadata = {
-  title: "Negotiation Architecture — Dr. Tarun Rochwani",
+  title: "Dr. Tarun L. Rochwani | Negotiation Architecture & Advisory",
   description:
-    "The Architecture of Better Outcomes. A research-led approach to negotiation, influence and decision-making for leaders, professionals and organisations.",
+    "Explore Negotiation Architecture by Dr. Tarun L. Rochwani: negotiation strategy, executive advisory, leadership coaching and programmes for better outcomes.",
 };
 
 export const viewport = {

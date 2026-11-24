@@ -1,5 +1,6 @@
 "use client";
 
+import { source, programmeOffers, insightPreviews, scienceThemes } from "@/lib/negotiation-content";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS, enquiryEmailHref } from "@/lib/contact";
@@ -118,7 +119,7 @@ export function ConsultationModal({
                 Book a Consultation
               </h3>
               <p className="text-slate-300 text-sm mt-2">
-                Engage directly with Dr. Tarun Rochwani for corporate strategy, advisory, or coaching.
+                For executive advisory, corporate capability development, professional education, speaking or collaboration.
               </p>
             </div>
 
@@ -172,8 +173,9 @@ export function ConsultationModal({
                   <option>Executive Coaching & Advisory</option>
                   <option>Corporate & Team Development</option>
                   <option>Negotiation Programmes</option>
-                  <option>Keynote Speaking Engagement</option>
-                  <option>Strategic Transaction Shadow Advisory</option>
+                  <option>Speaking &amp; Keynotes</option>
+                  <option>Research &amp; Collaboration</option>
+                  <option>Other enquiry</option>
                 </select>
               </div>
 
@@ -786,7 +788,7 @@ export function AudienceSection() {
             </p>
           </div>
           <p className="max-w-sm font-sans text-sm sm:text-base leading-relaxed text-slate-500">
-            Negotiation shapes commercial deals. It also shapes leadership, collaboration and change.
+            Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.
           </p>
         </div>
 
@@ -819,16 +821,16 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Heading & Context */}
           <div className="lg:col-span-7 flex flex-col justify-center">
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The founder</p>
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-white mb-6">
               Dr. Tarun L. Rochwani, DBA
             </h2>
             <p className="font-sans text-white text-xl leading-relaxed mb-5">
-              Bringing structure to complex negotiations. Keeping people at the centre.
+              A leadership perspective shaped by complex decisions, diverse stakeholders and human behaviour.
             </p>
             <div className="space-y-4 mb-7 font-sans text-slate-300 text-base leading-relaxed">
-              <p>More than 25 years leading and steering multidisciplinary teams across procurement, supply chain, construction, real estate and facilities management.</p>
-              <p>Direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
-              <p>Doctoral research into negotiation outcomes at Clermont Business School.</p>
+              <p>{source.home[21].text}</p>
+              <p>Combining executive leadership with doctoral research into negotiation outcomes, trust, and conflict resolution.</p>
             </div>
             <div>
               <Link
@@ -879,20 +881,7 @@ export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void
 // =========================================================================
 
 export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const programs = [
-    {
-      title: "Executive Coaching & Advisory",
-      desc: "Focused support to prepare for important conversations and strengthen personal capability.",
-    },
-    {
-      title: "Corporate & Team Development",
-      desc: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.",
-    },
-    {
-      title: "Negotiation Programmes",
-      desc: "Structured learning in strategic judgement, behavioural awareness and practical skill.",
-    },
-  ];
+  const programs = programmeOffers.map(item => ({ title: item.title, desc: item.description }));
 
   return (
     <section id="programs" className="w-full bg-white py-20 sm:py-28">
@@ -900,10 +889,10 @@ export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <SectionIntro
             title={<>Learn the System.<br />Apply It to What Matters.</>}
-            lede="From a single conversation to an entire team. Practical support for the situations that matter."
+            lede="From a single conversation to an entire team."
           />
           <div className="shrink-0">
-            <PrimaryButton onClick={onOpenConsult}>View All Programs</PrimaryButton>
+            <TextLink href="/programs">Explore advisory &amp; programmes</TextLink>
           </div>
         </div>
 
@@ -941,27 +930,31 @@ export function ResearchSection() {
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
           <div>
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The intellectual foundation</p>
             <SectionIntro
               dark
-              title="Grounded in Inquiry. Made Useful in Practice."
-              lede="Negotiation Architecture draws on doctoral research, established scholarship and professional experience."
+              title="The Science Behind Negotiation Architecture"
+              lede="A research-informed perspective considers the economic and behavioural dimensions of negotiation together."
             />
+            <p className="mt-5 max-w-2xl font-sans text-lg leading-relaxed text-white">{source.architecture[18].text}</p>
             <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-300">
-              Themes include the psychology of concessions, the sources of leverage and the challenge of aligning multiple interests.
+              Negotiation is not only about what people say at the table. It is also about the deeper layers beneath the surface that shape every decision and outcome.
             </p>
+            <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-300">{source.architecture[21].text}</p>
             <div className="mt-7">
               <TextLink dark href="/research">Explore the research</TextLink>
             </div>
           </div>
           <aside aria-labelledby="research-focus-heading" className="rounded-2xl border border-white/15 p-7 sm:p-9">
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">Doctoral research</p>
             <h3 id="research-focus-heading" className="font-serif text-2xl sm:text-3xl leading-tight text-white">
               What helps people move from disagreement towards collaboration?
             </h3>
             <p className="mt-5 font-sans text-base leading-relaxed text-slate-300">
-              Doctoral research examined negotiation outcomes in UAE supply chain relationships and facilities management. It explores trust, information sharing and conflict resolution.
+              {source.architecture[31].text}
             </p>
             <p className="mt-6 border-t border-white/15 pt-5 font-sans text-sm leading-relaxed text-slate-400">
-              Doctoral study, Clermont Business School. Methodology and findings appear on the Research page.
+              The study was conducted at Clermont Business School.
             </p>
           </aside>
         </div>
@@ -970,31 +963,34 @@ export function ResearchSection() {
   );
 }
 // =========================================================================
-// SECTION 10: SPEAKING & THOUGHT LEADERSHIP
+// SECTION 10: ADVISORY & PROGRAMMES
 // =========================================================================
 
-export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function AdvisoryIntroSection() {
   return (
     <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           {/* Left Column */}
           <div className="lg:col-span-6 flex flex-col justify-center">
+            <p className="mb-4 font-sans text-sm font-semibold tracking-wider uppercase text-[#A8741F]">
+              Advisory &amp; programmes
+            </p>
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-tight text-[#111827] mb-6">
-              Keynote Speaker<br />at Global Forums
+              Develop capability.<br />Apply it where it matters.
             </h2>
             <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-8">
-              Sharing practical insights on negotiation, strategy, leadership and human behaviour
-              at leading conferences and institutions worldwide.
+              For individuals, leaders and organisations seeking a more deliberate approach to consequential conversations.
             </p>
+            <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">Explore the engagement formats and find an approach suited to the situation, audience and capability objective.</p>
             <div>
-              <button
-                onClick={onOpenConsult}
+              <Link
+                href="/programs"
                 className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer shadow-sm text-white font-sans font-medium text-sm tracking-normal"
               >
-                <span>View Speaking Engagements</span>
+                <span>Explore advisory &amp; programmes</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -1017,52 +1013,33 @@ export function SpeakingSection({ onOpenConsult }: { onOpenConsult: () => void }
 }
 
 // =========================================================================
-// SECTION 12: CLIENT FEEDBACK (Testimonials)
+// SECTION 12: SCIENCE THEMES
 // =========================================================================
 
-export function TestimonialsSection() {
-  const testimonials = [
-    {
-      quote:
-        "Practical, insightful and immediately applicable. A unique blend of theory and real-world experience.",
-      author: "Global Procurement Leader",
-    },
-    {
-      quote:
-        "Exceptionally structured and research-driven. One of the most valuable negotiation programs I have attended.",
-      author: "Corporate Executive",
-    },
-    {
-      quote:
-        "Brings complex concepts to life with clarity and real-world examples. Highly recommended.",
-      author: "Business Leader",
-    },
-  ];
+export function ScienceThemesSection() {
+  const themes = scienceThemes;
 
   return (
     <section className="w-full bg-white py-12 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
         <div className="mb-7 sm:mb-14">
           <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
-            Trusted by Leaders and Organisations
+            Understand the forces that shape decisions, behaviour, value and agreement.
           </h2>
         </div>
 
-        {/* 3 Quote Cards */}
+        {/* Three dimensions of negotiation */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
-          {testimonials.map((t, idx) => (
+          {themes.map((t, idx) => (
             <div
               key={idx}
               className="bg-white rounded-2xl p-5 sm:p-8 border border-slate-200/90 flex flex-col justify-between">
-              <blockquote>
+              <div>
+                <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">{t.category}</p>
+                <h3 className="mb-4 font-serif text-2xl text-[#111827]">{t.title}</h3>
                 <p className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
-                  {t.quote}
+                  {t.description}
                 </p>
-              </blockquote>
-              <div className="mt-6">
-                <span className="font-sans font-medium text-sm text-slate-500 block">
-                  {t.author}
-                </span>
               </div>
             </div>
           ))}
@@ -1134,23 +1111,7 @@ export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void
 // =========================================================================
 
 export function LatestInsightsSection() {
-  const articles = [
-    {
-      title: "Negotiation in a Complex and Uncertain World",
-      description: "Separate what is known from what is assumed. Prepare for more than one path.",
-      date: "Strategy",
-    },
-    {
-      title: "The Role of Behaviour in Negotiation Outcomes",
-      description: "How listening, emotional awareness and the questions we ask can change a conversation.",
-      date: "Behaviour",
-    },
-    {
-      title: "Building Durable Value Through Negotiation",
-      description: "Look beyond the immediate agreement to the relationships and commitments that follow.",
-      date: "Long-term value",
-    },
-  ];
+  const articles = insightPreviews.map(item => ({ ...item, date: item.category }));
 
   return (
     <section id="insights" className="w-full bg-white py-20 sm:py-28">
@@ -1177,7 +1138,7 @@ export function LatestInsightsSection() {
               </h3>
               <p className="mt-3 mb-5 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{art.description}</p>
               <div className="mt-auto">
-                <TextLink href="/insights">Read more</TextLink>
+                <TextLink href="/contact">Suggest a topic or enquire</TextLink>
               </div>
             </article>
           ))}
@@ -1231,34 +1192,13 @@ export function GlobalPerspectiveSection() {
 }
 
 // =========================================================================
-// SECTION 16: FREQUENTLY ASKED QUESTIONS
+// SECTION 16: CAPABILITY LAYERS
 // =========================================================================
 
-export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function CapabilityLayersSection({ onOpenConsult }: { onOpenConsult: () => void }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
-    {
-      q: "What is Negotiation Architecture?",
-      a: "Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach. It helps people think clearly, act deliberately and seek outcomes that others understand, accept and sustain.",
-    },
-    {
-      q: "Who can benefit from these programs?",
-      a: "Leaders and teams navigating competing priorities, professionals preparing for agreements and partnerships, and people seeking constructive ways through everyday disagreement. The principles travel across roles, industries and relationships.",
-    },
-    {
-      q: "How is negotiation capability developed?",
-      a: "Four layers support each other: Mindset Foundations builds composure and self-awareness; Strategic Architecture develops preparation, interests and options; Tactical Execution focuses on language and influence; Mastery grows through reflection, adaptability and practice.",
-    },
-    {
-      q: "Do you offer personalised coaching?",
-      a: "Executive Coaching & Advisory offers focused support to prepare for important conversations and strengthen personal capability. Negotiation programmes and tailored team workshops provide further ways to learn and apply the approach.",
-    },
-    {
-      q: "Can the methodology be applied globally?",
-      a: "The principles apply across roles, industries and relationships, with room for human judgement in each situation. The founder brings experience overseeing portfolios across 26 countries and five continents.",
-    },
-  ];
+  const faqs = [9, 11, 13, 15].map(index => ({ q: source.architecture[index].text, a: source.architecture[index + 1].text }));
 
   return (
     <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
@@ -1267,18 +1207,17 @@ export function FaqSection({ onOpenConsult }: { onOpenConsult: () => void }) {
           {/* Left Column */}
           <div className="lg:col-span-5 flex flex-col justify-start">
             <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight mb-5">
-              Common Questions
+              Four layers. Each supports the next.
             </h2>
             <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">
-              Find answers to common questions about the methodology, programs and possible
-              engagement formats.
+              Five connected stages. Structure without making negotiation mechanical.
             </p>
             <div>
               <button
                 onClick={onOpenConsult}
                 className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
               >
-                <span>View All FAQs</span>
+                <span>Start a conversation</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -1369,24 +1308,6 @@ export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void })
 // SECTION 18: FOOTER
 // =========================================================================
 
-const FOOTER_SOCIALS = [
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com",
-    path: "M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z",
-  },
-  {
-    label: "X / Twitter",
-    href: "https://x.com",
-    path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z",
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com",
-    path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z",
-  },
-];
-
 const FOOTER_LINKS = {
   explore: [
     { label: "Home", href: "/" },
@@ -1402,8 +1323,6 @@ const FOOTER_LINKS = {
 };
 
 export function SiteFooter() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const year = new Date().getFullYear();
 
   return (
@@ -1430,32 +1349,17 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-4 max-w-[340px] font-sans text-sm leading-6 text-slate-300">
-              A research-informed approach to negotiation, influence and better decisions.
+              A research-informed approach to negotiation, influence and decision-making, designed for the complexity of human interaction.
             </p>
             <address className="mt-4 max-w-[340px] border-t border-white/10 pt-4 not-italic font-sans text-sm leading-relaxed">
-              <span className="block font-medium text-white">{OFFICE_NAME}</span>
+              <span className="block font-medium text-white">{OFFICE_NAME}</span><span className="block mt-2 text-slate-400">Registered in India</span>
               <span className="mt-2 block sm:max-w-[250px] leading-6 text-slate-400">{OFFICE_ADDRESS}</span>
               <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex max-w-full items-center gap-2 text-[#D9AB64] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
                 <span className="break-all">{CONTACT_EMAIL}</span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
               </a>
             </address>
-            <div className="mt-4 flex items-center gap-2">
-              {FOOTER_SOCIALS.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={social.label}
-                  className="flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-[#C89B59] hover:text-[#C89B59]"
-                >
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden>
-                    <path d={social.path} />
-                  </svg>
-                </a>
-              ))}
-            </div>
+
           </div>
 
           {/* Link groups */}
@@ -1488,52 +1392,12 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Newsletter */}
           <div className="col-span-2 min-w-0 lg:col-span-4">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
-              Subscribe for Insights
-            </h4>
-            <p className="font-sans text-sm leading-relaxed text-slate-400">
-              Articles on negotiation, influence and strategy, sent occasionally. No noise.
-            </p>
-            {subscribed ? (
-              <p className="mt-5 flex items-center gap-2 font-sans text-sm text-[#C89B59]">
-                <Check className="h-4 w-4" />
-                Send the subscription request in your email app.
-              </p>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (email) {
-                    window.location.href = enquiryEmailHref("Insights subscription request", `Please subscribe me to insights.\nEmail: ${email}`);
-                    setSubscribed(true);
-                  }
-                }}
-                className="mt-5 flex flex-col sm:flex-row gap-3"
-              >
-                <label htmlFor="footer-email" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="footer-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
-                  required
-                  className="min-w-0 w-full grow rounded-full border border-white/10 bg-[#0E1626] px-5 py-3 font-sans text-base sm:text-sm text-white placeholder-slate-500 focus:border-[#C89B59] focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C89B59] px-6 py-3 transition-colors hover:bg-[#D9AB64] cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
-                >
-                  Subscribe
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </form>
-            )}
-            <p className="mt-3 break-words font-sans text-xs leading-relaxed text-slate-400">Requests open in your email app for you to review and send to {CONTACT_EMAIL}.</p>
+            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">Ideas grounded in practice and inquiry.</h4>
+            <p className="font-sans text-sm leading-relaxed text-slate-400">{source.insights[16].text}</p>
+            <div className="mt-5"><TextLink dark href="/contact">Suggest a topic or enquire</TextLink></div>
+            <p className="mt-6 font-sans text-sm text-slate-400">Dubai · Mumbai</p>
+            <p className="mt-3 font-sans text-sm text-slate-400">Structure · Precision · Influence by Design</p>
           </div>
         </div>
 
@@ -1577,6 +1441,7 @@ export function NegotiationHome() {
       <WhatIsSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 5. The Methodology (5 Steps) */}
+      <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24"><div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid lg:grid-cols-2 gap-10"><SectionIntro dark title={source.home[14].text} lede={source.home[15].text} /><div><p className="font-sans text-base leading-relaxed text-slate-300 mb-6">{source.home[16].text}</p><TextLink dark href="/methodology">Explore Negotiation Architecture</TextLink></div></div></section>
       <MethodologySection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 6. Where It Applies (3 Contexts) */}
@@ -1586,16 +1451,14 @@ export function NegotiationHome() {
       <ExperienceSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 8. Programs & Coaching (3 Cards) */}
+      <AdvisoryIntroSection />
       <ProgramsSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 9. Research & Insights (3 Cards) */}
       <ResearchSection />
 
-      {/* 10. Speaking & Thought Leadership */}
-      <SpeakingSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 12. Client Feedback (Testimonials) */}
-      <TestimonialsSection />
+      {/* 12. Science Themes */}
+      <ScienceThemesSection />
 
       {/* 13. Outcome CTA Banner */}
       <OutcomeCtaSection onOpenConsult={() => setConsultOpen(true)} />
@@ -1606,8 +1469,8 @@ export function NegotiationHome() {
       {/* 15. A Global Perspective */}
       <GlobalPerspectiveSection />
 
-      {/* 16. Frequently Asked Questions */}
-      <FaqSection onOpenConsult={() => setConsultOpen(true)} />
+      {/* 16. Capability Layers */}
+      <CapabilityLayersSection onOpenConsult={() => setConsultOpen(true)} />
 
       {/* 17. Start a Conversation */}
       <ContactSection onOpenConsult={() => setConsultOpen(true)} />
