@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Version 13 navigation: research is part of Negotiation Architecture.
+  async redirects() {
+    return [
+      { source: "/methodology", destination: "/negotiation-architecture", permanent: true },
+      { source: "/research", destination: "/negotiation-architecture#science", permanent: true },
+      { source: "/programs", destination: "/advisory-programmes", permanent: true },
+    ];
+  },
   async headers() {
     return [{
       // Versioned assets can be reused across visits without revalidation.

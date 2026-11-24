@@ -2,100 +2,67 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Compass, MessagesSquare } from "lucide-react";
-import { useOpenConsult } from "./site-shell";
-import { PrimaryButton } from "./negotiation-home";
-import { CountUp } from "./count-up";
+import { ArrowRight } from "lucide-react";
 import { source } from "@/lib/negotiation-content";
 import styles from "./about-profile.module.css";
 
-const perspectives = [
-  { icon: BookOpen, title: "Research-informed", text: "Grounded in doctoral inquiry." },
-  { icon: Compass, title: "Human-centred", text: "Strategy that accounts for people, interests and relationships." },
-  { icon: MessagesSquare, title: "Practical by design", text: "Preparation, application and reflection. Never theory alone." },
-];
+// Version 13 founder narrative: The founder → Professional experience → Academic inquiry → The work.
+const about = source.about;
 
-export function AboutProfile() {
-  const openConsult = useOpenConsult();
+export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
+  const Title = embedded ? "h2" : "h1";
   return (
-    <div className={styles.page}>
+    <div id={embedded ? "about" : undefined} className={`${styles.page} ${embedded ? styles.embedded : ""}`}>
       <section className={`${styles.container} ${styles.hero}`}>
         <div className={styles.introduction}>
           <p className={styles.role}>The founder</p>
-          <h1>Dr. Tarun L. Rochwani<span className={styles.degree}>, DBA</span></h1>
-          <p className={styles.lead}>{source.about[1].text}</p>
-          <p className={styles.summary}>More than 25 years leading and steering multidisciplinary teams across procurement, supply chain, construction, real estate and facilities management.</p>
-          <div className={styles.actions}>
-            <PrimaryButton onClick={openConsult}>Book a Consultation</PrimaryButton>
-            <a href="#about-approach" className={styles.textLink}>Explore the approach <ArrowRight size={16} aria-hidden="true" /></a>
-          </div>
+          <Title className={styles.pageTitle}>Dr. Tarun L. Rochwani<span className={styles.degree}>, DBA</span></Title>
+          <p className={styles.lead}>{about[1].text}</p>
         </div>
         <figure className={styles.portrait}>
-          <Image src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG" alt="Dr. Tarun Rochwani beside the waterfront" width={1086} height={1448} sizes="(max-width: 800px) 100vw, 45vw" preload className={styles.portraitImage} />
+          <Image src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG" alt="Dr. Tarun Rochwani beside the waterfront" width={1086} height={1448} sizes="(max-width: 800px) 100vw, 45vw" preload={!embedded} className={styles.portraitImage} />
         </figure>
       </section>
 
-      <section id="about-approach" className={`${styles.container} ${styles.story}`}>
+      <section className={`${styles.container} ${styles.story}`}>
         <div>
-          <h2>{source.about[2].text}</h2>
-          <div className={styles.experience}>
-            <strong><CountUp value={25} /><span>+</span></strong>
-            <span>Years of professional<br />experience</span>
-          </div>
+          <p className={styles.role}>Professional experience</p>
+          <h2>{about[2].text}</h2>
         </div>
         <div className={styles.prose}>
-          <p>Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.</p>
-          <p>Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach. No one should rely on instinct alone when a conversation could shape their future.</p>
-          <p>Direct oversight of multi-billion-dollar (USD) portfolios across 26 countries and five continents.</p>
-          <p>{source.about[5].text}</p>
-          <Link href="/methodology" className={styles.textLink}>Discover the methodology <ArrowRight size={16} aria-hidden="true" /></Link>
-        </div>
-      </section>
-
-      <section className={styles.perspectives}>
-        <div className={styles.container}>
-          <div className={styles.sectionIntro}>
-            <h2>Better outcomes begin with better understanding.</h2>
-            <p>Combining executive leadership with doctoral research into negotiation outcomes, trust, and conflict resolution.</p>
-          </div>
-          <div className={styles.perspectiveGrid}>
-            {perspectives.map(({ icon: Icon, title, text }) => (
-              <article key={title}>
-                <Icon size={26} strokeWidth={1.5} aria-hidden="true" />
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.container} ${styles.teaching}`}>
-
-        <div className={styles.teachingCopy}>
-          <h2>{source.about[13].text}</h2>
-          <p>{source.about[14].text}</p>
-
-          <Link href="/programs" className={styles.textLink}>Explore programs and coaching <ArrowRight size={16} aria-hidden="true" /></Link>
+          {about.slice(3, 6).map(item => <p key={item.text}>{item.text}</p>)}
         </div>
       </section>
 
       <section className={`${styles.container} ${styles.story}`}>
-        <div><h2>{source.about[6].text}</h2></div>
+        <div>
+          <p className={styles.role}>Academic inquiry</p>
+          <h2>{about[6].text}</h2>
+        </div>
         <div className={styles.prose}>
-          {source.about.slice(7, 10).map(item => <p key={item.text}>{item.text}</p>)}<h3>Academic &amp; Executive Education</h3><p>Harvard University · Stanford University · INSEAD</p>
+          {about.slice(7, 10).map(item => <p key={item.text}>{item.text}</p>)}
+          <h3>Academic &amp; Executive Education</h3>
+          <p>{about[10].text}</p>
           <h3>AI &amp; Emerging Technologies</h3>
-          <p>Indian Institute of Technology Madras (IIT Madras)</p>
-          <p>Agentic AI &amp; Autonomous Systems</p>
+          <p>{about[11].text}</p>
+          <p>{about[12].text}</p>
         </div>
       </section>
-      <section className={styles.contact}>
-        <div className={`${styles.container} ${styles.contactInner}`}>
-          <div>
-            <h2>Prepare with intention.<br />Engage with clarity.</h2>
-            <p>Building your own capability, preparing for a conversation or strengthening a team? Begin with the situation that matters.</p>
+
+      <section className={`${styles.container} ${styles.story}`}>
+        <div>
+          <p className={styles.role}>The work</p>
+          <h2>{about[13].text}</h2>
+        </div>
+        <div className={styles.prose}>
+          <p>{about[14].text}</p>
+          <div className={styles.actions}>
+            <Link href="/contact" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors text-white font-sans font-medium text-sm">
+              <span>Start a conversation</span>
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+            <Link href="/negotiation-architecture" className={styles.textLink}>Explore Negotiation Architecture</Link>
           </div>
-          <PrimaryButton onClick={openConsult}>Book a Consultation</PrimaryButton>
         </div>
       </section>
     </div>

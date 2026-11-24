@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ProgramsPage } from "@/components/site-pages";
 
 export const metadata: Metadata = {
-  title: "Programs — Negotiation Architecture",
+  title: "Advisory & Programmes — Negotiation Architecture",
   description:
-    "Executive Coaching & Advisory, Negotiation Programmes, and Corporate & Team Development. Learn the system and apply it to what matters.",
+    "Apply negotiation thinking where it counts. Executive Coaching & Advisory, Negotiation Programmes and Corporate & Team Development.",
 };
 
 export default function Page() {

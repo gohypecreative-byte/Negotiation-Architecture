@@ -1,304 +1,23 @@
 "use client";
 
-import { source, programmeOffers, insightPreviews, scienceThemes } from "@/lib/negotiation-content";
-import React, { useState, useEffect, useRef } from "react";
+import { source } from "@/lib/negotiation-content";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS, enquiryEmailHref } from "@/lib/contact";
-import contactPortraitPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
+import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_REGISTRATION, OFFICE_ADDRESS_LINES } from "@/lib/contact";
 import boardroomPortraitPhoto from "../public/web-image/image.png";
-import heroPhoto from "../public/website pictures formal and informal/IMG_7043.jpeg";
 import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
-import procuretechPhoto from "../public/images/gallery/dr-tarun-02.jpg";
-import masterclassPhoto from "../public/website pictures formal and informal/present (1).jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
-import { GlobalMap } from "./global-map";
-import { CountUp } from "./count-up";
+import { AboutSections, ArchitectureSections, ProgrammesSections, InsightsSections, ContactSections } from "./home-v13-sections";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowRight,
-  Play,
-  BookOpen,
-  Wrench,
-  Building2,
-  Globe,
-  Users,
-  Lightbulb,
-  Package,
-  TrendingUp,
-  Compass,
-  Briefcase,
-  Award,
-  GraduationCap,
-  Scale,
-  Trophy,
-  Mic,
-  Plus,
-  Minus,
-  Check,
-  X,
-  Menu,
-} from "lucide-react";
-
-// =========================================================================
-// MODALS
-// =========================================================================
-
-export function ConsultationModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  const [submitted, setSubmitted] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!isOpen) return;
-    setSubmitted(false);
-    const previousFocus = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const frame = requestAnimationFrame(() => panelRef.current?.focus());
-    return () => {
-      cancelAnimationFrame(frame);
-      document.body.style.overflow = previousOverflow;
-      previousFocus?.focus();
-    };
-  }, [isOpen]);
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-md"
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="consultation-title"
-        tabIndex={-1}
-        onKeyDown={(event) => {
-          if (event.key === "Escape") onClose();
-          if (event.key !== "Tab") return;
-          const elements = panelRef.current?.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href]');
-          if (!elements?.length) return;
-          const first = elements[0];
-          const last = elements[elements.length - 1];
-          if (event.shiftKey && (document.activeElement === first || document.activeElement === panelRef.current)) {
-            event.preventDefault(); last.focus();
-          } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault(); first.focus();
-          }
-        }}
-        className="relative w-full max-w-lg max-h-[calc(100dvh-24px)] flex flex-col overflow-hidden bg-[#0C1322] border border-[#C89B59]/30 rounded-2xl text-white shadow-2xl outline-none"
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 flex h-11 w-11 items-center justify-center bg-[#0C1322] text-slate-300 hover:text-white rounded-full transition-colors"
-          aria-label="Close modal"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        <div data-lenis-prevent className="overflow-y-auto overscroll-contain p-5 pt-6 sm:p-8">
-        {!submitted ? (
-          <>
-            <div className="mb-5">
-              <h3 id="consultation-title" className="pr-10 font-serif text-2xl sm:text-3xl text-white mt-1">
-                Book a Consultation
-              </h3>
-              <p className="text-slate-300 text-sm mt-2">
-                For executive advisory, corporate capability development, professional education, speaking or collaboration.
-              </p>
-            </div>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const data = new FormData(e.currentTarget);
-                window.location.href = enquiryEmailHref(
-                  `Consultation enquiry: ${data.get("interest")}`,
-                  `Name: ${data.get("name")}\nEmail: ${data.get("email")}\nInterest: ${data.get("interest")}\n\n${data.get("message") || ""}`,
-                );
-                setSubmitted(true);
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <label htmlFor="consult-name" className="block text-sm font-medium text-slate-300 mb-1.5">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="consult-name"
-                  name="name"
-                  required
-                  autoComplete="name"
-                  placeholder="Your full name"
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="consult-email" className="block text-sm font-medium text-slate-300 mb-1.5">
-                  Corporate Email
-                </label>
-                <input
-                  type="email"
-                  id="consult-email"
-                  name="email"
-                  required
-                  autoComplete="email"
-                  placeholder="name@organization.com"
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="consult-interest" className="block text-sm font-medium text-slate-300 mb-1.5">
-                  Engagement Interest
-                </label>
-                <select id="consult-interest" name="interest" className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors">
-                  <option>Executive Coaching & Advisory</option>
-                  <option>Corporate & Team Development</option>
-                  <option>Negotiation Programmes</option>
-                  <option>Speaking &amp; Keynotes</option>
-                  <option>Research &amp; Collaboration</option>
-                  <option>Other enquiry</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="consult-message" className="block text-sm font-medium text-slate-300 mb-1.5">
-                  How can we help? (optional)
-                </label>
-                <textarea
-                  rows={3}
-                  id="consult-message"
-                  name="message"
-                  placeholder="Briefly describe your goals and timing."
-                  className="w-full bg-[#131E33] border border-white/10 rounded-lg min-w-0 px-3 py-2.5 text-base text-white focus:outline-none focus:border-[#C89B59] transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full mt-2 bg-[#C89B59] hover:bg-[#D9AB64] py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 text-white font-sans font-medium text-sm tracking-normal"
-              >
-                <span>Prepare Enquiry Email</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <p className="text-xs leading-relaxed text-slate-400">Review and send your enquiry in your email app to <a className="underline break-words" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
-            </form>
-          </>
-        ) : (
-          <div className="py-8 text-center space-y-4">
-            <div className="w-14 h-14 rounded-full bg-[#C89B59]/20 text-[#C89B59] flex items-center justify-center mx-auto">
-              <Check className="w-7 h-7" />
-            </div>
-            <h3 id="consultation-title" className="font-serif text-2xl text-white">Send Your Enquiry</h3>
-            <p className="text-slate-300 text-sm max-w-sm mx-auto">
-              Review and send the draft in your email app. If it did not open, email <a className="underline break-words" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.
-            </p>
-            <button
-              onClick={() => {
-                setSubmitted(false);
-                onClose();
-              }}
-              className="mt-4 px-6 py-2.5 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition-colors"
-            >
-              Close
-            </button>
-          </div>
-        )}
-        </div>
-      </motion.div>
-    </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function VideoModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-4xl bg-black border border-white/20 rounded-2xl overflow-hidden shadow-2xl aspect-video"
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-20 text-white/80 hover:text-white p-2 rounded-full bg-black/60 transition-colors"
-          aria-label="Close video"
-        >
-          <X className="w-5 h-5" />
-        </button>
-        <div className="relative w-full h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-[#080E1B] to-[#121E36] overflow-hidden">
-          <Image
-            src={heroPhoto}
-            alt="Dr. Tarun Rochwani"
-            fill
-            className="editorial-photo object-cover opacity-25 pointer-events-none"
-          />
-          <div className="absolute inset-0 bg-[#080E1B]/75 backdrop-blur-[2px] pointer-events-none" />
-          <div className="w-20 h-20 rounded-full bg-[#C89B59]/20 border border-[#C89B59]/50 flex items-center justify-center mb-6 relative z-10">
-            <Play className="w-8 h-8 text-[#C89B59] translate-x-0.5" />
-          </div>
-          <h3 className="font-serif text-3xl sm:text-4xl text-white mb-4">
-            The Architecture of Better Outcomes
-          </h3>
-          <p className="text-slate-300 text-sm sm:text-base max-w-lg mb-8">
-            An introduction to doctoral-grounded negotiation methodology, counterparty leverage construction, and executive decision-making.
-          </p>
-          <div className="flex gap-4">
-            <button
-              onClick={onClose}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] px-6 py-2.5 rounded-full transition-colors text-white font-sans font-medium text-sm tracking-normal"
-            >
-              Explore Framework
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
+import { ArrowRight, BookOpen, Menu, Users, Wrench, X } from "lucide-react";
 
 // =========================================================================
 // SECTION 1: HEADER & NAVIGATION
 // =========================================================================
 
-export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [withinHeroSequence, setWithinHeroSequence] = useState(false);
 
@@ -335,9 +54,8 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Methodology", href: "/methodology" },
-    { label: "Programs", href: "/programs" },
-    { label: "Research", href: "/research" },
+    { label: "Negotiation Architecture", href: "/negotiation-architecture" },
+    { label: "Advisory & Programmes", href: "/advisory-programmes" },
     { label: "Insights", href: "/insights" },
     { label: "Contact", href: "/contact" },
   ];
@@ -346,6 +64,7 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 
   return (
     <>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-5 focus:py-2.5 focus:text-sm focus:text-[#111827]">Skip to content</a>
       <header inert={hidden} data-hidden={hidden} className="site-header fixed top-0 left-0 w-full z-50 bg-[#080E1B]/85 backdrop-blur-md border-b border-white/[0.08]">
         <motion.div
           initial={{ y: -16, opacity: 0 }}
@@ -372,11 +91,12 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
               <span className="text-[#C89B59] font-sans font-bold text-xs sm:text-[13px] tracking-[0.14em] uppercase leading-tight">
                 Architecture<sup className="text-[9px] font-normal">®</sup>
               </span>
+              <small className="hidden xl:block mt-1 font-sans text-[10px] tracking-[0.08em] text-slate-400">Structure · Precision · Influence by Design</small>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-sans font-medium text-slate-200">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-sans font-medium text-slate-200">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
@@ -395,13 +115,12 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
 
           {/* Right Action CTA */}
           <div className="flex shrink-0 items-center gap-4">
-            <button
-              onClick={onOpenConsult}
-              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all hidden lg:flex whitespace-nowrap items-center gap-2 shadow-sm hover:shadow-md cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
+            <Link
+              href="/contact"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all hidden lg:flex whitespace-nowrap items-center gap-2 shadow-sm hover:shadow-md text-white font-sans font-medium text-sm tracking-normal"
             >
-              <span>Book a Consultation</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <span>Start a conversation</span>
+            </Link>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -440,16 +159,13 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
                   {link.label}
                 </Link>
               ))}
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  onOpenConsult();
-                }}
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
                 className="w-full mt-2 bg-[#C89B59] text-white font-medium py-3 rounded-full text-sm flex items-center justify-center gap-2"
               >
-                <span>Book a Consultation</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+                <span>Start a conversation</span>
+              </Link>
             </div>
           </motion.div>
         )}
@@ -458,63 +174,6 @@ export function SiteHeader({ onOpenConsult }: { onOpenConsult: () => void }) {
   );
 }
 
-// =========================================================================
-// SECTION 2: HERO SECTION
-// =========================================================================
-
-// =========================================================================
-// SECTION 3: KEY PILLARS RIBBON
-// =========================================================================
-
-export function PillarsBar() {
-  const pillars = [
-    {
-      title: "Research-informed",
-      subtitle: "Grounded in doctoral inquiry.",
-      icon: BookOpen,
-    },
-    {
-      title: "Human-centred",
-      subtitle: "Strategy that accounts for people, interests and relationships.",
-      icon: Users,
-    },
-    {
-      title: "Practical by design",
-      subtitle: "Preparation, application and reflection. Never theory alone.",
-      icon: Wrench,
-    },
-  ];
-
-  return (
-    <section className="relative z-20 w-full bg-white py-4 sm:py-7">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-10">
-        <div className="grid grid-cols-1 divide-y divide-slate-200/70 md:grid-cols-3 md:gap-6 md:divide-y-0 lg:gap-8">
-          {pillars.map((item) => {
-            const Icon = item.icon;
-            return (
-            <div
-              key={item.title}
-              className="flex min-w-0 items-start gap-3.5 py-5 md:px-4 md:py-3 lg:px-6"
-            >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#C89B59]/10 text-[#C89B59]">
-                <Icon className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-              <h4 className="font-sans text-base font-semibold leading-snug text-[#111827]">
-                {item.title}
-              </h4>
-              <p className="mt-1 font-sans text-sm leading-relaxed text-slate-600">
-                {item.subtitle}
-              </p>
-              </div>
-            </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // =========================================================================
 // SHARED SECTION PRIMITIVES
@@ -596,35 +255,74 @@ export function TextLink({
 }
 
 // =========================================================================
-// SECTION 4: WHAT IS NEGOTIATION ARCHITECTURE (ABOUT)
+// HOME SECTIONS — Version 13 approved copy (lib/source-content.json)
 // =========================================================================
 
-export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+const home = source.home;
+
+/** V13 trust strip shown directly below the hero. */
+export function PillarsBar() {
+  const pillars = [
+    {
+      title: "Research-informed",
+      subtitle: "Grounded in doctoral inquiry.",
+      icon: BookOpen,
+    },
+    {
+      title: "Human-centred",
+      subtitle: "Strategy that accounts for people, interests and relationships.",
+      icon: Users,
+    },
+    {
+      title: "Practical by design",
+      subtitle: "Preparation, application and reflection. Never theory alone.",
+      icon: Wrench,
+    },
+  ];
+
   return (
-    <section id="about" className="w-full bg-white py-20 sm:py-28">
+    <section className="relative z-20 w-full bg-white py-4 sm:py-7">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-10">
+        <div className="grid grid-cols-1 divide-y divide-slate-200/70 md:grid-cols-3 md:gap-6 md:divide-y-0 lg:gap-8">
+          {pillars.map((item) => {
+            const Icon = item.icon;
+            return (
+            <div
+              key={item.title}
+              className="flex min-w-0 items-start gap-3.5 py-5 md:px-4 md:py-3 lg:px-6"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#C89B59]/10 text-[#C89B59]">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+              <h4 className="font-sans text-base font-semibold leading-snug text-[#111827]">
+                {item.title}
+              </h4>
+              <p className="mt-1 font-sans text-sm leading-relaxed text-slate-600">
+                {item.subtitle}
+              </p>
+              </div>
+            </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+export function WhatIsSection() {
+  return (
+    <section id="why" className="w-full bg-white py-20 sm:py-28">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
-            <SectionIntro
-              title="Better Outcomes Begin with Better Understanding"
-              lede="No one should rely on instinct alone when a conversation could shape their future."
-            />
-            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
-              Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.
-            </p>
-            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
-              Negotiation Architecture brings preparation, strategic thinking and behavioural awareness into one connected approach.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Link href="/about" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors cursor-pointer text-white font-sans font-medium text-sm tracking-normal">
-                <span>Meet the founder</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <div className="font-sans text-sm">
-                <span className="block font-semibold text-[#111827]">Dr. Tarun L. Rochwani, DBA</span>
-                <span className="block text-slate-500">Founder, Negotiation Architecture</span>
-              </div>
-            </div>
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">Why Negotiation Architecture</p>
+            <SectionIntro title={home[4].text} lede={home[5].text} />
+            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">{home[6].text}</p>
+            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">{home[7].text}</p>
+            <div className="mt-7"><TextLink href="/negotiation-architecture#science">Explore the science behind Negotiation Architecture</TextLink></div>
           </div>
 
           <div className="lg:col-span-6">
@@ -640,15 +338,11 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
           </div>
         </div>
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { label: "Rigour", title: "Think clearly", description: "Question assumptions. Prepare carefully. Understand what is at stake." },
-            { label: "Intention", title: "Act deliberately", description: "Choose with purpose. Do not simply react to pressure." },
-            { label: "Durable value", title: "Build what lasts", description: "Seek outcomes that people understand, accept and sustain." },
-          ].map((principle) => (
-            <article key={principle.label} className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{principle.label}</p>
-              <h3 className="mt-5 font-serif text-2xl text-[#111827]">{principle.title}</h3>
-              <p className="mt-3 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{principle.description}</p>
+          {[[8, "Rigour"], [10, "Intention"], [12, "Durable value"]].map(([index, label]) => (
+            <article key={label} className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{label}</p>
+              <h3 className="mt-5 font-serif text-2xl text-[#111827]">{home[index as number].text}</h3>
+              <p className="mt-3 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{home[(index as number) + 1].text}</p>
             </article>
           ))}
         </div>
@@ -657,645 +351,80 @@ export function WhatIsSection({ onOpenConsult }: { onOpenConsult: () => void }) 
   );
 }
 
-// =========================================================================
-// SECTION 5: THE METHODOLOGY (5-Step Framework)
-// =========================================================================
-
-export function MethodologySection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const [activeStep, setActiveStep] = useState(0);
-  const details = [
-    { title: "Understand what is really happening.", text: "Start with the people and the situation. Separate stated positions from underlying interests. Define what a useful outcome means.", outcome: "The result: clarity before action." },
-    { title: "Analyse interests, choices and the economics.", text: "Look beneath the surface. Weigh priorities, alternatives, influence and dependencies. Then establish what the deal is truly worth.", outcome: "The result: a sharper view of your choices and the value at stake." },
-    { title: "Design your approach with intention.", text: "Shape objectives, options, sequence and trade-offs. Prepare for different responses. Stay open to new information.", outcome: "The result: a considered plan with room to adapt." },
-    { title: "Engage with clarity and awareness.", text: "Put preparation into practice. Listen closely. Ask purposeful questions. Respond to people and dynamics as they unfold.", outcome: "The result: a more deliberate, constructive exchange." },
-    { title: "Achieve an outcome that works.", text: "Clarify what was agreed, who is responsible and what happens next. Reflect, so experience strengthens future capability.", outcome: "The result: clear commitments, follow-through and learning." },
-  ];
-  const steps = [
-    { num: "01", title: "Understand", desc: "Understand the people and situation. Separate stated positions from underlying interests." },
-    { num: "02", title: "Analyse", desc: "Weigh priorities and alternatives. Use EXAMIN to identify value, quantify opportunity and test risks." },
-    { num: "03", title: "Design", desc: "Shape objectives, options and trade-offs. Prepare a considered plan with room to adapt." },
-    { num: "04", title: "Engage", desc: "Listen closely, ask purposeful questions and respond with clarity and awareness." },
-    { num: "05", title: "Achieve", desc: "Clarify commitments and next steps. Reflect so experience strengthens future capability." },
-  ];
-
+/** Concise teaser; the full methodology lives on /negotiation-architecture. */
+export function StructureTeaserSection() {
   return (
-    <section id="methodology" className="methodology-section w-full bg-white py-12 sm:py-32">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 sm:gap-8">
-          <SectionIntro
-            title={<>A Deliberate Process.<br />Room for Human Judgement.</>}
-            lede="Five connected stages. Structure without making negotiation mechanical."
-          />
-          <div className="shrink-0">
-            <TextLink href="/methodology">Explore the full methodology</TextLink>
-          </div>
+    <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid lg:grid-cols-2 gap-10">
+        <div>
+          <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The complete methodology</p>
+          <SectionIntro dark title={home[14].text} lede={home[15].text} />
         </div>
-
-        <div className="mt-7 grid items-stretch gap-5 sm:gap-8 sm:mt-14 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-10">
-        <ol aria-label="Choose a methodology stage" className="methodology-stages grid grid-cols-2 gap-2 sm:gap-1 sm:grid-cols-3 lg:grid-cols-1">
-          {steps.map((step, index) => (
-            <li key={step.num}>
-              <button type="button" onClick={() => setActiveStep(index)} aria-label={`Stage ${step.num}: ${step.title}`} aria-pressed={activeStep === index} aria-controls="methodology-detail" className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${activeStep === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}>
-              <span className="font-sans text-xs tabular-nums text-[#A8741F]">
-                {step.num}
-              </span>
-              <span className="font-sans text-lg sm:text-xl font-medium">{step.title}</span>
-              </button>
-            </li>
-          ))}
-        </ol>
-        <div id="methodology-detail" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-5 sm:pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
-          <div aria-live="polite" aria-atomic="true">
-            <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-wider text-[#A8741F] sm:hidden">{steps[activeStep].title}</p>
-            <h3 className="max-w-2xl font-serif text-2xl sm:text-3xl leading-tight text-[#111827]">{details[activeStep].title}</h3>
-            <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-slate-600">{details[activeStep].text}</p>
-            <p className="mt-5 font-sans text-sm leading-relaxed text-[#A8741F]">{details[activeStep].outcome}</p>
-          </div>
-          {activeStep === 1 && (
-            <div className="mt-7 border-t border-slate-200 pt-6">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">EXAMIN · Before you negotiate</p>
-              <p className="mt-3 font-sans text-base leading-relaxed text-slate-600">Examine the deal for its economic potential and impact before negotiating its terms.</p>
-              <ul className="mt-5 grid gap-5 sm:grid-cols-3">
-                {[
-                  ["Identify", "The drivers of value."],
-                  ["Quantify", "The opportunity, in economic terms."],
-                  ["Test", "Assumptions, costs, risks and trade-offs."],
-                ].map(([title, text]) => (
-                  <li key={title} className="font-sans text-sm leading-relaxed"><strong className="block text-[#111827]">{title}</strong><span className="text-slate-600">{text}</span></li>
-                ))}
-              </ul>
-            </div>
-          )}
+        <div className="lg:pt-3">
+          <p className="font-sans text-base leading-relaxed text-slate-300 mb-6">{home[16].text}</p>
+          <TextLink dark href="/negotiation-architecture">Explore Negotiation Architecture</TextLink>
         </div>
-        </div>
-        <section aria-labelledby="capability-heading" className="mt-16 border-t border-slate-200 pt-12 sm:mt-20 sm:pt-16">
-          <h3 id="capability-heading" className="max-w-3xl font-serif text-3xl sm:text-4xl leading-tight text-[#111827]">
-            Four layers. Each supports the next.
-          </h3>
-          <ol className="mt-9 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { title: "Mindset Foundations", text: "Composure, self-awareness and clear thinking under pressure." },
-              { title: "Strategic Architecture", text: "Interests, alternatives, stakeholders, options and preparation." },
-              { title: "Tactical Execution", text: "Language, influence, concessions and purposeful engagement." },
-              { title: "Mastery", text: "Reflection, adaptability and capability built through practice." },
-            ].map((layer, index) => (
-              <li key={layer.title} className="border-t border-[#C89B59]/60 pt-5">
-                <p className="font-sans text-xs font-semibold tracking-[0.14em] text-[#A8741F]">LAYER 0{index + 1}</p>
-                <h4 className="mt-4 font-serif text-xl text-[#111827]">{layer.title}</h4>
-                <p className="mt-2 font-sans text-base leading-relaxed text-slate-600">{layer.text}</p>
-              </li>
-            ))}
-          </ol>
-        </section>
       </div>
     </section>
   );
 }
 
-// =========================================================================
-// SECTION 6: WHO IT IS FOR
-// =========================================================================
-
-export function AudienceSection() {
-  const audiences = [
-    {
-      title: "Leadership & teams",
-      desc: "Navigate competing priorities. Influence decisions. Build alignment.",
-      icon: Users,
-    },
-    {
-      title: "Business & professional life",
-      desc: "Prepare for agreements, partnerships, stakeholder conversations and difficult discussions.",
-      icon: Briefcase,
-    },
-    {
-      title: "Everyday relationships",
-      desc: "Express interests. Manage disagreement. Find constructive ways forward.",
-      icon: Globe,
-    },
-  ];
-
+export function AdvisoryIntroSection() {
   return (
-    <section id="applications" aria-labelledby="applications-heading" className="w-full bg-white py-20 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-16">
-          <div className="max-w-2xl">
-            <h2 id="applications-heading" className="font-serif text-4xl sm:text-5xl font-normal leading-[1.1] text-[#111827]">
-              One Discipline.<br />Many Human Contexts.
-            </h2>
-            <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">
-              The principles travel across roles, industries and relationships.
-            </p>
-          </div>
-          <p className="max-w-sm font-sans text-sm sm:text-base leading-relaxed text-slate-500">
-            Negotiation is part of everyday life. It shapes leadership, business, partnerships, teams, careers and relationships.
-          </p>
+    <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div>
+          <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">Advisory &amp; programmes</p>
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-tight text-[#111827]">
+            {home[17].text}
+          </h2>
         </div>
-
-        <ul className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 sm:mt-12">
-          {audiences.map((aud) => {
-            const Icon = aud.icon;
-            return (
-              <li key={aud.title} className="rounded-2xl border border-slate-200 bg-white p-7">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#C89B59]/10 text-[#A8741F]">
-                  <Icon aria-hidden="true" className="h-5 w-5" />
-                </div>
-                <h3 className="mt-6 font-serif text-2xl text-[#111827] leading-snug">{aud.title}</h3>
-                <p className="mt-3 font-sans text-sm leading-relaxed text-slate-600">{aud.desc}</p>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="lg:pt-10">
+          <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-5">{home[18].text}</p>
+          <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">{home[19].text}</p>
+          <Link
+            href="/advisory-programmes"
+            className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group shadow-sm text-white font-sans font-medium text-sm tracking-normal"
+          >
+            <span>Explore advisory &amp; programmes</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
-// =========================================================================
-// SECTION 7: PROFESSIONAL EXPERIENCE
-// =========================================================================
 
-export function ExperienceSection({ onOpenConsult }: { onOpenConsult: () => void }) {
+export function PerspectiveSection() {
   return (
     <section id="founder" className="w-full bg-[#080E1B] text-white py-20 sm:py-24 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Heading & Context */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The founder</p>
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">Leadership experience</p>
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-white mb-6">
-              Dr. Tarun L. Rochwani, DBA
+              {home[20].text}
             </h2>
-            <p className="font-sans text-white text-xl leading-relaxed mb-5">
-              A leadership perspective shaped by complex decisions, diverse stakeholders and human behaviour.
-            </p>
-            <div className="space-y-4 mb-7 font-sans text-slate-300 text-base leading-relaxed">
-              <p>{source.home[21].text}</p>
-              <p>Combining executive leadership with doctoral research into negotiation outcomes, trust, and conflict resolution.</p>
+            <div className="space-y-4 mb-7 font-sans text-slate-300 text-base sm:text-lg leading-relaxed">
+              <p>{home[21].text}</p>
+              <p>{home[22].text}</p>
             </div>
             <div>
-              <Link
-                href="/about"
-                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
-              >
-                <span>Discover the founder’s story</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <TextLink dark href="/about">About the founder</TextLink>
             </div>
           </div>
 
-          {/* Center Column: Portrait of Dr. Tarun Rochwani */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+            <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
               <Image
                 src={seatedPortraitPhoto}
                 alt="Seated portrait of Dr. Tarun Rochwani"
                 fill
                 sizes="(max-width: 480px) calc(100vw - 48px), 420px"
-                className="editorial-photo object-cover transition-transform duration-700 group-hover:scale-105"
+                className="editorial-photo object-cover"
                 style={{ objectPosition: "50% 35%" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B]/80 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
-
-            </div>
-          </div>
-        </div>
-        <div className="mt-12 grid gap-8 border-t border-white/15 pt-8 md:grid-cols-2">
-          <div>
-            <h3 className="font-sans text-sm font-medium text-[#C89B59]">Academic & Executive Education</h3>
-            <p className="mt-3 font-sans text-base leading-relaxed text-slate-300">Harvard University · Stanford University · INSEAD</p>
-          </div>
-          <div>
-            <h3 className="font-sans text-sm font-medium text-[#C89B59]">AI & Emerging Technologies</h3>
-            <p className="mt-3 font-sans text-base leading-relaxed text-slate-300">Indian Institute of Technology Madras (IIT Madras)</p>
-            <p className="mt-1 font-sans text-sm leading-relaxed text-slate-400">Agentic AI & Autonomous Systems</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 8: PROGRAMS & COACHING
-// =========================================================================
-
-export function ProgramsSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const programs = programmeOffers.map(item => ({ title: item.title, desc: item.description }));
-
-  return (
-    <section id="programs" className="w-full bg-white py-20 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-          <SectionIntro
-            title={<>Learn the System.<br />Apply It to What Matters.</>}
-            lede="From a single conversation to an entire team."
-          />
-          <div className="shrink-0">
-            <TextLink href="/programs">Explore advisory &amp; programmes</TextLink>
-          </div>
-        </div>
-
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {programs.map((prog) => (
-            <article
-              key={prog.title}
-              className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C89B59]/60 transition-colors flex flex-col"
-            >
-
-              <div className="p-7 flex flex-col grow">
-                <h3 className="font-serif text-2xl text-[#111827]">{prog.title}</h3>
-                <p className="mt-2 mb-6 font-sans text-sm text-slate-600 leading-relaxed grow">
-                  {prog.desc}
-                </p>
-                <div>
-                  <TextLink onClick={onOpenConsult}>Learn more</TextLink>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 9: RESEARCH & INSIGHTS
-// =========================================================================
-
-export function ResearchSection() {
-  return (
-    <section id="research" className="w-full bg-[#070E1A] text-white py-20 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
-          <div>
-            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The intellectual foundation</p>
-            <SectionIntro
-              dark
-              title="The Science Behind Negotiation Architecture"
-              lede="A research-informed perspective considers the economic and behavioural dimensions of negotiation together."
-            />
-            <p className="mt-5 max-w-2xl font-sans text-lg leading-relaxed text-white">{source.architecture[18].text}</p>
-            <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-300">
-              Negotiation is not only about what people say at the table. It is also about the deeper layers beneath the surface that shape every decision and outcome.
-            </p>
-            <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-300">{source.architecture[21].text}</p>
-            <div className="mt-7">
-              <TextLink dark href="/research">Explore the research</TextLink>
-            </div>
-          </div>
-          <aside aria-labelledby="research-focus-heading" className="rounded-2xl border border-white/15 p-7 sm:p-9">
-            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">Doctoral research</p>
-            <h3 id="research-focus-heading" className="font-serif text-2xl sm:text-3xl leading-tight text-white">
-              What helps people move from disagreement towards collaboration?
-            </h3>
-            <p className="mt-5 font-sans text-base leading-relaxed text-slate-300">
-              {source.architecture[31].text}
-            </p>
-            <p className="mt-6 border-t border-white/15 pt-5 font-sans text-sm leading-relaxed text-slate-400">
-              The study was conducted at Clermont Business School.
-            </p>
-          </aside>
-        </div>
-      </div>
-    </section>
-  );
-}
-// =========================================================================
-// SECTION 10: ADVISORY & PROGRAMMES
-// =========================================================================
-
-export function AdvisoryIntroSection() {
-  return (
-    <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
-            <p className="mb-4 font-sans text-sm font-semibold tracking-wider uppercase text-[#A8741F]">
-              Advisory &amp; programmes
-            </p>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-tight text-[#111827] mb-6">
-              Develop capability.<br />Apply it where it matters.
-            </h2>
-            <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-8">
-              For individuals, leaders and organisations seeking a more deliberate approach to consequential conversations.
-            </p>
-            <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">Explore the engagement formats and find an approach suited to the situation, audience and capability objective.</p>
-            <div>
-              <Link
-                href="/programs"
-                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer shadow-sm text-white font-sans font-medium text-sm tracking-normal"
-              >
-                <span>Explore advisory &amp; programmes</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column: Stage Image with "NEGOTIATION STRATEGY By Tarun Rochwani" */}
-          <div className="lg:col-span-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
-              <Image
-                src={masterclassPhoto}
-                alt="Dr. Tarun Rochwani presenting Mastering Negotiations"
-                fill
-                sizes="(max-width: 768px) 100vw, 600px"
-                className="editorial-photo object-cover object-center transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 12: SCIENCE THEMES
-// =========================================================================
-
-export function ScienceThemesSection() {
-  const themes = scienceThemes;
-
-  return (
-    <section className="w-full bg-white py-12 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
-        <div className="mb-7 sm:mb-14">
-          <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight">
-            Understand the forces that shape decisions, behaviour, value and agreement.
-          </h2>
-        </div>
-
-        {/* Three dimensions of negotiation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
-          {themes.map((t, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl p-5 sm:p-8 border border-slate-200/90 flex flex-col justify-between">
-              <div>
-                <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">{t.category}</p>
-                <h3 className="mb-4 font-serif text-2xl text-[#111827]">{t.title}</h3>
-                <p className="font-sans text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
-                  {t.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 13: CALL TO ACTION BANNER (Ready to Design Better Outcomes?)
-// =========================================================================
-
-export function OutcomeCtaSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  return (
-    <section className="outcome-banner w-full bg-[#070D18] text-white py-10 sm:py-16 relative overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-10 lg:px-12">
-        <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-r from-[#080E1B] via-[#0E1A2F] to-[#12223F]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7 p-5 sm:p-12 lg:p-16 z-10">
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-4 leading-tight">
-                Prepare with Intention.<br />Engage with Clarity.
-              </h2>
-              <p className="font-sans text-slate-300 text-sm sm:text-base max-w-lg mb-8 leading-relaxed">
-                Building your capability, preparing for a conversation or strengthening a team?
-                Begin with the situation that matters.
-              </p>
-              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
-                <button
-                  onClick={onOpenConsult}
-                  className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all flex items-center justify-center min-h-12 gap-2 cursor-pointer shadow-md text-white font-sans font-medium text-sm tracking-normal"
-                >
-                  <span>Book a Consultation</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <Link
-                  href="/contact"
-                  className="border border-white/20 hover:border-white/50 bg-white/5 text-white font-sans font-medium text-sm px-6 py-3 rounded-full transition-all flex items-center justify-center min-h-12 gap-2 cursor-pointer"
-                >
-                  <span>Get in Touch</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Speaking photo, used only in this banner. */}
-            <div className="lg:col-span-5 relative lg:h-full lg:min-h-[340px]">
-              <Image
-                src={procuretechPhoto}
-                sizes="(max-width: 1024px) 100vw, 560px"
-                alt="Dr. Tarun Rochwani speaking at Procuretech"
-                className="editorial-photo block w-full h-auto lg:absolute lg:inset-0 lg:h-full lg:object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#080E1B] via-[#080E1B]/50 to-transparent lg:block hidden pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B] via-transparent to-transparent lg:hidden pointer-events-none" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 14: LATEST INSIGHTS
-// =========================================================================
-
-export function LatestInsightsSection() {
-  const articles = insightPreviews.map(item => ({ ...item, date: item.category }));
-
-  return (
-    <section id="insights" className="w-full bg-white py-20 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-          <SectionIntro
-            title="Insights for the Conversations Ahead"
-            lede="Perspectives on negotiation, behaviour and the choices that shape outcomes."
-          />
-          <div className="shrink-0">
-            <TextLink href="/insights">All insights</TextLink>
-          </div>
-        </div>
-
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {articles.map((art) => (
-            <article key={art.title} className="group flex flex-col">
-
-              <span className="mt-5 font-sans text-xs tracking-wider uppercase text-slate-500">
-                {art.date}
-              </span>
-              <h3 className="mt-2 font-serif text-xl sm:text-2xl text-[#111827] leading-snug group-hover:text-[#A8741F] transition-colors">
-                {art.title}
-              </h3>
-              <p className="mt-3 mb-5 font-sans text-sm sm:text-base leading-relaxed text-slate-600">{art.description}</p>
-              <div className="mt-auto">
-                <TextLink href="/contact">Suggest a topic or enquire</TextLink>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 15: A GLOBAL PERSPECTIVE
-// =========================================================================
-
-export function GlobalPerspectiveSection() {
-  const stats = [
-    { value: "26", label: "Countries", icon: Globe },
-    { value: "5", label: "Continents", icon: Building2 },
-    { value: "25+", label: "Years of experience", icon: Users },
-  ];
-
-  return (
-    <section className="global-perspective w-full bg-white text-[#111827] py-12 sm:py-28">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-10 lg:px-12 text-center">
-        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#111827] leading-[1.1]">
-          A Global Perspective
-        </h2>
-        <div className="mt-6 sm:mt-12">
-          <GlobalMap />
-        </div>
-
-        <dl className="mt-5 sm:mt-10 grid grid-cols-3 gap-0 sm:gap-5 max-w-5xl mx-auto text-center sm:text-left divide-x divide-slate-200 sm:divide-x-0 border-t border-slate-200 pt-5 sm:border-t-0 sm:pt-0">
-          {stats.map((st) => {
-            const Icon = st.icon;
-            const [number] = st.value.split("+");
-            return (
-              <div key={st.label} className="min-w-0 flex flex-col px-2 py-1 sm:block sm:px-7 sm:py-6">
-                <dt className="flex justify-center sm:justify-start items-center gap-2.5 font-sans text-sm font-medium text-slate-600">
-                  <Icon aria-hidden="true" className="hidden sm:block h-4 w-4 shrink-0 text-[#3779B5]" strokeWidth={1.8} />
-                  {st.label}
-                </dt>
-                <dd className="-order-1 mb-2 sm:mb-0 sm:mt-4 flex justify-center sm:justify-start items-baseline gap-1 font-sans text-3xl sm:text-5xl font-semibold tracking-tight tabular-nums leading-none text-[#183F6C]">
-                  <CountUp value={Number(number.replaceAll(",", ""))} /><span className="text-3xl font-normal text-[#3779B5]">{st.value.endsWith("+") ? "+" : ""}</span>
-                </dd>
-              </div>
-            );
-          })}
-        </dl>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 16: CAPABILITY LAYERS
-// =========================================================================
-
-export function CapabilityLayersSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const faqs = [9, 11, 13, 15].map(index => ({ q: source.architecture[index].text, a: source.architecture[index + 1].text }));
-
-  return (
-    <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14">
-          {/* Left Column */}
-          <div className="lg:col-span-5 flex flex-col justify-start">
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#111827] leading-tight mb-5">
-              Four layers. Each supports the next.
-            </h2>
-            <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">
-              Five connected stages. Structure without making negotiation mechanical.
-            </p>
-            <div>
-              <button
-                onClick={onOpenConsult}
-                className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-all inline-flex items-center gap-2 group cursor-pointer text-white font-sans font-medium text-sm tracking-normal"
-              >
-                <span>Start a conversation</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Accordions */}
-          <div className="lg:col-span-7 flex flex-col divide-y divide-slate-200">
-            {faqs.map((faq, idx) => {
-              const isOpen = openIndex === idx;
-              return (
-                <div key={idx} className="py-5">
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between text-left group cursor-pointer py-1"
-                  >
-                    <span className="font-sans font-semibold text-base sm:text-[17px] text-slate-900 group-hover:text-[#A8741F] transition-colors pr-4">
-                      {faq.q}
-                    </span>
-                    <span className="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 group-hover:border-[#A8741F] group-hover:text-[#A8741F] transition-colors shrink-0">
-                      {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                    </span>
-                  </button>
-
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <p className="font-sans text-sm sm:text-[15px] text-slate-600 mt-3 leading-relaxed">
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =========================================================================
-// SECTION 17: START A CONVERSATION
-// =========================================================================
-
-export function ContactSection({ onOpenConsult }: { onOpenConsult: () => void }) {
-  return (
-    <section id="contact" className="w-full bg-white py-20 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-6">
-            <p className="mb-4 font-sans text-sm font-semibold text-[#C89B59]">
-              Your next conversation
-            </p>
-            <SectionIntro
-              title="Prepare with intention. Engage with clarity."
-              lede="Building your own capability, preparing for a conversation or strengthening a team? Begin with the situation that matters."
-            />
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <PrimaryButton onClick={onOpenConsult}>Start a conversation</PrimaryButton>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="relative mx-auto w-full max-w-[440px] rounded-2xl overflow-hidden bg-slate-100">
-              <Image
-                src={contactPortraitPhoto}
-                alt="Dr. Tarun Rochwani standing in front of an abstract painting"
-                sizes="(max-width: 488px) calc(100vw - 48px), 440px"
-                className="editorial-photo block w-full h-auto"
-              />
             </div>
           </div>
         </div>
@@ -1312,15 +441,17 @@ const FOOTER_LINKS = {
   explore: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Methodology", href: "/methodology" },
-    { label: "Programs", href: "/programs" },
+    { label: "Negotiation Architecture", href: "/negotiation-architecture" },
   ],
-  resources: [
-    { label: "Research", href: "/research" },
+  engage: [
+    { label: "Advisory & Programmes", href: "/advisory-programmes" },
     { label: "Insights", href: "/insights" },
     { label: "Contact", href: "/contact" },
   ],
 };
+
+const footerHeading = "font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5";
+const footerLink = "inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -1328,89 +459,57 @@ export function SiteFooter() {
   return (
     <footer className="w-full bg-[#050A14] text-white">
       <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-5 sm:gap-x-10 gap-y-7 sm:gap-y-8 py-8 sm:py-12">
-          {/* Brand */}
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-5 sm:gap-x-10 gap-y-8 py-10 sm:py-14">
           <div className="col-span-2 min-w-0 lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3.5 group">
-              <Image
-                src="/images/brand/na-monogram-white.png"
-                alt="NA Monogram"
-                width={36}
-                height={36}
-                className="object-contain"
-              />
-              <span className="flex flex-col leading-tight">
-                <span className="text-white font-sans font-bold text-sm tracking-[0.14em] uppercase group-hover:text-[#C89B59] transition-colors">
-                  Negotiation
-                </span>
-                <span className="text-[#C89B59] font-sans font-bold text-xs tracking-[0.14em] uppercase">
-                  Architecture<sup className="text-[9px] font-normal">®</sup>
-                </span>
+              <Image src="/images/brand/na-monogram-white.png" alt="NA Monogram" width={36} height={36} className="object-contain" />
+              <span className="font-sans font-bold text-sm tracking-[0.14em] uppercase text-white group-hover:text-[#C89B59] transition-colors">
+                Negotiation <span className="text-[#C89B59]">Architecture</span><sup className="text-[9px] font-normal">®</sup>
               </span>
             </Link>
             <p className="mt-4 max-w-[340px] font-sans text-sm leading-6 text-slate-300">
               A research-informed approach to negotiation, influence and decision-making, designed for the complexity of human interaction.
             </p>
-            <address className="mt-4 max-w-[340px] border-t border-white/10 pt-4 not-italic font-sans text-sm leading-relaxed">
-              <span className="block font-medium text-white">{OFFICE_NAME}</span><span className="block mt-2 text-slate-400">Registered in India</span>
-              <span className="mt-2 block sm:max-w-[250px] leading-6 text-slate-400">{OFFICE_ADDRESS}</span>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex max-w-full items-center gap-2 text-[#D9AB64] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
-                <span className="break-all">{CONTACT_EMAIL}</span>
-                <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              </a>
+          </div>
+
+          <nav aria-label="Explore" className="min-w-0 lg:col-span-2">
+            <h4 className={footerHeading}>Explore</h4>
+            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
+              {FOOTER_LINKS.explore.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
+            </ul>
+          </nav>
+          <nav aria-label="Engage" className="min-w-0 lg:col-span-2">
+            <h4 className={footerHeading}>Engage</h4>
+            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
+              {FOOTER_LINKS.engage.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
+            </ul>
+          </nav>
+          <div className="min-w-0 lg:col-span-2">
+            <h4 className={footerHeading}>Contact</h4>
+            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
+              <li><a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} break-all`}>{CONTACT_EMAIL}</a></li>
+              <li>Dubai · Mumbai</li>
+            </ul>
+          </div>
+          <div className="min-w-0 lg:col-span-2">
+            <h4 className={footerHeading}>India Office</h4>
+            <address className="not-italic">
+              <strong className="block font-sans text-sm font-medium text-white">{OFFICE_NAME}</strong>
+              <ul className="mt-2 space-y-1 text-sm font-sans text-slate-400">
+                <li>{OFFICE_REGISTRATION}</li>
+                {OFFICE_ADDRESS_LINES.map(line => <li key={line}>{line}</li>)}
+              </ul>
             </address>
-
-          </div>
-
-          {/* Link groups */}
-          <div className="min-w-0 lg:col-span-2">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
-              Explore
-            </h4>
-            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
-              {FOOTER_LINKS.explore.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="min-w-0 lg:col-span-2">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">
-              Resources
-            </h4>
-            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
-              {FOOTER_LINKS.resources.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="col-span-2 min-w-0 lg:col-span-4">
-            <h4 className="font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5">Ideas grounded in practice and inquiry.</h4>
-            <p className="font-sans text-sm leading-relaxed text-slate-400">{source.insights[16].text}</p>
-            <div className="mt-5"><TextLink dark href="/contact">Suggest a topic or enquire</TextLink></div>
-            <p className="mt-6 font-sans text-sm text-slate-400">Dubai · Mumbai</p>
-            <p className="mt-3 font-sans text-sm text-slate-400">Structure · Precision · Influence by Design</p>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-sans text-sm text-slate-400 text-center sm:text-left">
-          <p>© {year} Negotiation Architecture. All rights reserved.</p>
+        <div className="border-t border-white/10 py-6 flex flex-col lg:flex-row items-center justify-between gap-3 font-sans text-sm text-slate-400 text-center lg:text-left">
+          <span>© {year} Negotiation Architecture. All rights reserved.</span>
+          <span>Structure · Precision · Influence by Design</span>
           <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
-            <Link href="/privacy-policy" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
-              Terms
-            </Link>
+            <Link href="/privacy-policy" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors">Terms</Link>
+            <TextLink dark href="/contact">Start a conversation</TextLink>
           </div>
         </div>
       </div>
@@ -1423,70 +522,25 @@ export function SiteFooter() {
 // =========================================================================
 
 export function NegotiationHome() {
-  const [consultOpen, setConsultOpen] = useState(false);
-  const [videoOpen, setVideoOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-[#080E1B] text-[#111827]">
-      {/* 1. Header */}
-      <SiteHeader onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 2. Hero */}
-      <BaseHeroBanner />
-
-      {/* 3. 4 Pillars Bar */}
-      <PillarsBar />
-
-      {/* 4. What is Negotiation Architecture */}
-      <WhatIsSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 5. The Methodology (5 Steps) */}
-      <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24"><div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid lg:grid-cols-2 gap-10"><SectionIntro dark title={source.home[14].text} lede={source.home[15].text} /><div><p className="font-sans text-base leading-relaxed text-slate-300 mb-6">{source.home[16].text}</p><TextLink dark href="/methodology">Explore Negotiation Architecture</TextLink></div></div></section>
-      <MethodologySection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 6. Where It Applies (3 Contexts) */}
-      <AudienceSection />
-
-      {/* 7. Professional Experience */}
-      <ExperienceSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 8. Programs & Coaching (3 Cards) */}
-      <AdvisoryIntroSection />
-      <ProgramsSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 9. Research & Insights (3 Cards) */}
-      <ResearchSection />
-
-      {/* 12. Science Themes */}
-      <ScienceThemesSection />
-
-      {/* 13. Outcome CTA Banner */}
-      <OutcomeCtaSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 14. Latest Insights */}
-      <LatestInsightsSection />
-
-      {/* 15. A Global Perspective */}
-      <GlobalPerspectiveSection />
-
-      {/* 16. Capability Layers */}
-      <CapabilityLayersSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 17. Start a Conversation */}
-      <ContactSection onOpenConsult={() => setConsultOpen(true)} />
-
-      {/* 18. Footer */}
+      <SiteHeader />
+      <main id="main">
+        <h1 className="sr-only">{home[0].text}</h1>
+        <BaseHeroBanner />
+        <PillarsBar />
+        <WhatIsSection />
+        <StructureTeaserSection />
+        <AdvisoryIntroSection />
+        <PerspectiveSection />
+        {/* The rest of the V13 one-page site, in the order of NegotiationArchitect_Version_13_SEO.html. */}
+        <AboutSections />
+        <ArchitectureSections />
+        <ProgrammesSections />
+        <InsightsSections />
+        <ContactSections />
+      </main>
       <SiteFooter />
-
-      {/* Interactive Modals */}
-      <ConsultationModal
-        isOpen={consultOpen}
-        onClose={() => setConsultOpen(false)}
-      />
-      <VideoModal
-        isOpen={videoOpen}
-        onClose={() => setVideoOpen(false)}
-      />
     </div>
   );
 }

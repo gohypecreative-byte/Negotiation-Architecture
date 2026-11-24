@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { SiteShell } from "./site-shell";
-import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS } from "@/lib/contact";
+import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_REGISTRATION, OFFICE_ADDRESS_LINES } from "@/lib/contact";
 
 export function LegalPage({ title, introduction, children }: { title: string; introduction: string; children: ReactNode }) {
   return <SiteShell>
@@ -17,7 +17,7 @@ export function LegalPage({ title, introduction, children }: { title: string; in
           <section>
             <h2>Contact</h2>
             <p>For questions about this page, contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
-            <address className="mt-4 not-italic">{OFFICE_NAME}<br />{OFFICE_ADDRESS}</address>
+            <address className="mt-4 not-italic">{OFFICE_NAME}<br />{OFFICE_REGISTRATION}<br />{OFFICE_ADDRESS_LINES.map(line => <span key={line}>{line}<br /></span>)}</address>
           </section>
         </div>
       </div>

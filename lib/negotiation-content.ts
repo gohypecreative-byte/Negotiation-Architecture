@@ -18,3 +18,11 @@ export const scienceThemes = [22, 24, 26].map((index, position) => ({
   title: source.architecture[index].text,
   description: source.architecture[index + 1].text,
 }));
+
+// One closing call to action, used wherever a page ends with the standard invitation.
+export const closingCta = {
+  title: source.architecture[41].text,
+  text: source.architecture[42].text,
+  action: "Start a conversation",
+  href: "/contact",
+};
