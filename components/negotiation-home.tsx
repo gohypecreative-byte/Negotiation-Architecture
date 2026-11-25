@@ -16,6 +16,20 @@ import { ArrowRight, BookOpen, Mail, MapPin, Menu, Users, Wrench, X } from "luci
 // SECTION 1: HEADER & NAVIGATION
 // =========================================================================
 
+// Single source of truth for site navigation — used by the header (desktop +
+// mobile) and the footer so the menus can never drift apart.
+const NAV_LINKS = [
+  { label: "Home", href: "/", group: "explore" },
+  { label: "About", href: "/about", group: "explore" },
+  { label: "Methodology", href: "/negotiation-architecture", group: "explore" },
+  { label: "Programmes & Advisory", href: "/advisory-programmes", group: "engage" },
+  { label: "The Founder", href: "/founder", group: "explore" },
+  { label: "Insights", href: "/insights", group: "engage" },
+  { label: "Contact", href: "/contact", group: "engage" },
+] as const;
+
+const TAGLINE = "Structure · Precision · Influence by Design";
+
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [withinHeroSequence, setWithinHeroSequence] = useState(false);
@@ -50,21 +64,14 @@ export function SiteHeader() {
 
   const hidden = withinHeroSequence && !mobileOpen;
 
-  const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Methodology", href: "/negotiation-architecture" },
-    { label: "Programmes & Advisory", href: "/advisory-programmes" },
-    { label: "The Founder", href: "/founder" },
-    { label: "Contact", href: "/contact" },
-  ];
+  const navLinks = NAV_LINKS;
   const pathname = usePathname();
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-5 focus:py-2.5 focus:text-sm focus:text-[#111827]">Skip to content</a>
-      <header inert={hidden} data-hidden={hidden} className="site-header fixed top-0 left-0 w-full z-50 bg-[#080E1B]/85 backdrop-blur-md border-b border-white/[0.08]">
+      <header inert={hidden} data-hidden={hidden} className="site-header fixed top-0 left-0 w-full z-50 bg-[#080E1B] border-b border-white/[0.08]">
         <motion.div
           initial={{ y: -16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -90,12 +97,12 @@ export function SiteHeader() {
               <span className="text-[#C89B59] font-sans font-bold text-xs sm:text-[13px] tracking-[0.14em] uppercase leading-tight">
                 Architecture<sup className="text-[9px] font-normal">®</sup>
               </span>
-              <small className="hidden xl:block mt-1 font-sans text-[10px] tracking-[0.08em] text-slate-400">Structure · Precision · Influence by Design</small>
+              <small className="mt-1 whitespace-nowrap font-sans text-[9px] sm:text-[10px] tracking-[0.06em] sm:tracking-[0.08em] text-slate-400">{TAGLINE}</small>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm font-sans font-medium text-slate-200">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-sans font-medium text-slate-200">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
@@ -116,7 +123,7 @@ export function SiteHeader() {
           <div className="flex shrink-0 items-center gap-4">
             <Link
               href="/contact"
-              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all hidden lg:flex whitespace-nowrap items-center gap-2 shadow-sm hover:shadow-md text-white font-sans font-medium text-sm tracking-normal"
+              className="bg-[#C89B59] hover:bg-[#D9AB64] px-5 sm:px-6 py-2.5 rounded-full transition-all hidden xl:flex whitespace-nowrap items-center gap-2 shadow-sm hover:shadow-md text-white font-sans font-medium text-sm tracking-normal"
             >
               <span>Start a conversation</span>
             </Link>
@@ -488,17 +495,8 @@ export function PerspectiveSection() {
 // =========================================================================
 
 const FOOTER_LINKS = {
-  explore: [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Methodology", href: "/negotiation-architecture" },
-    { label: "The Founder", href: "/founder" },
-  ],
-  engage: [
-    { label: "Advisory & Programmes", href: "/advisory-programmes" },
-    { label: "Insights", href: "/insights" },
-    { label: "Contact", href: "/contact" },
-  ],
+  explore: NAV_LINKS.filter((link) => link.group === "explore"),
+  engage: NAV_LINKS.filter((link) => link.group === "engage"),
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms of Service", href: "/terms" },
