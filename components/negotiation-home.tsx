@@ -441,7 +441,8 @@ const FOOTER_LINKS = {
   explore: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Negotiation Architecture", href: "/negotiation-architecture" },
+    { label: "Methodology", href: "/negotiation-architecture" },
+    { label: "The Founder", href: "/founder" },
   ],
   engage: [
     { label: "Advisory & Programmes", href: "/advisory-programmes" },
@@ -468,7 +469,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-4 max-w-[340px] font-sans text-sm leading-6 text-slate-300">
-              A research-informed approach to negotiation, influence and decision-making, designed for the complexity of human interaction.
+              Advancing the science and practice of negotiation.
             </p>
           </div>
 
@@ -488,7 +489,7 @@ export function SiteFooter() {
             <h4 className={footerHeading}>Contact</h4>
             <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
               <li><a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} break-all`}>{CONTACT_EMAIL}</a></li>
-              <li>Dubai · Mumbai</li>
+              <li>Mumbai, India</li>
             </ul>
           </div>
           <div className="min-w-0 lg:col-span-2">

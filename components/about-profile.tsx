@@ -49,18 +49,20 @@ export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
         </div>
       </section>
 
-      <section className={`${styles.container} ${styles.story}`}>
-        <div>
-          <p className={styles.role}>Our purpose</p>
-          <h2>Better agreements are designed, not left to instinct or chance.</h2>
-        </div>
-        <div className={styles.prose}>
-          <div className={styles.actions}>
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors text-white font-sans font-medium text-sm">
+      <section className={styles.conviction} aria-labelledby="about-conviction">
+        <div className={`${styles.container} ${styles.convictionInner}`}>
+          <h2 id="about-conviction" className={styles.convictionStatement}>
+            Better agreements are designed, not left to instinct or chance.
+          </h2>
+          <div className={styles.convictionActions}>
+            <Link href="/contact" className="group inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-colors text-white font-sans font-medium text-sm shadow-sm">
               <span>Start a conversation</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+            <Link href="/founder" className={styles.convictionLink}>
+              Meet the founder
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-            <Link href="/founder" className={styles.textLink}>Meet the founder</Link>
           </div>
         </div>
       </section>

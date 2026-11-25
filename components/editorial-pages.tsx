@@ -203,7 +203,7 @@ export function InsightsContent({ embedded = false }: EmbedProps) {
   return <PageRoot id="insights" embedded={embedded}>
     <section className={`${styles.container} ${styles.insightsHero}`}>
       <Eyebrow>Ideas to take forward</Eyebrow>
-      <div className={styles.insightsIntro}><PageTitle embedded={embedded}>{source.insights[0].text}</PageTitle><p>{source.insights[1].text}</p></div>
+      <div className={styles.insightsIntro}><PageTitle embedded={embedded}>{source.insights[0].text}</PageTitle><p>{source.insights[1].text}</p><p>A practical space for examining how people prepare, make decisions, manage disagreement and create value through negotiation.</p></div>
     </section>
     <section aria-label="Insight topics" className={`${styles.container} ${styles.insightsSection}`}>
       <div className={styles.insightGrid}>
