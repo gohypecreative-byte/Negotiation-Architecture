@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
   return <LegalPage title="Privacy Policy" introduction="This policy explains what personal data we collect when you use this website or work with us, how we use and protect it, and the rights you have.">
     <section>
       <h2>1. Who we are</h2>
-      <p>Negotiation Architecture® is operated by {OFFICE_NAME}, registered in India (“we”, “us”, “our”). We are responsible for the personal data described in this policy. We process personal data in line with India’s Digital Personal Data Protection Act, 2023 and, where they apply to you, other data protection laws such as the EU and UK General Data Protection Regulation (GDPR).</p>
+      <p>Negotiation Architecture® is operated by {OFFICE_NAME}, registered in Mumbai (“we”, “us”, “our”). We are responsible for the personal data described in this policy. We process personal data in line with India’s Digital Personal Data Protection Act, 2023 and, where they apply to you, other data protection laws such as the EU and UK General Data Protection Regulation (GDPR).</p>
     </section>
     <section>
       <h2>2. Personal data we collect</h2>

@@ -11,7 +11,7 @@ export default function TermsPage() {
   return <LegalPage title="Terms of Service" introduction="These terms govern your use of this website and, together with any proposal or engagement agreement, the coaching, advisory and learning services we provide.">
     <section>
       <h2>1. About these terms</h2>
-      <p>This website and the Negotiation Architecture® services are provided by {OFFICE_NAME}, registered in India (“we”, “us”, “our”). By using this website or booking our services, you (“you”, “client”) agree to these terms. If you are booking on behalf of an organisation, you confirm that you are authorised to accept these terms for it.</p>
+      <p>This website and the Negotiation Architecture® services are provided by {OFFICE_NAME}, registered in Mumbai (“we”, “us”, “our”). By using this website or booking our services, you (“you”, “client”) agree to these terms. If you are booking on behalf of an organisation, you confirm that you are authorised to accept these terms for it.</p>
       <p>Where a written proposal, engagement letter or agreement is signed for a specific engagement, its terms take priority over these terms if there is any conflict.</p>
     </section>
     <section>

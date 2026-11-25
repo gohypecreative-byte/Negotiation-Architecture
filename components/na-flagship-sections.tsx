@@ -1261,12 +1261,12 @@ export function PathwaysSection() {
             </h3>
             <p className="text-sm text-stone-600 leading-relaxed mb-6">
               Three certification levels, each gated by a live, assessed capstone — from structured
-              negotiator to complete negotiation architect.
+              negotiator to practitioner of Negotiation Architecture.
             </p>
             <ul className="space-y-2 text-xs md:text-sm text-stone-600 mb-8">
               <li>• Level I: Foundation Dynamics</li>
-              <li>• Level II: Strategic Negotiation Architect</li>
-              <li>• Level III: Advanced Negotiation Architect</li>
+              <li>• Level II: Strategic Negotiation Architecture</li>
+              <li>• Level III: Advanced Negotiation Architecture</li>
             </ul>
           </div>
           <a
@@ -1332,7 +1332,7 @@ export function CertificationCurriculumSection() {
     { code: "P5", title: "Multi-Issue Value Creation", desc: "Deal Unbundling: deadlocks into multi-variable agreements." },
     { code: "P6", title: "Momentum Architecture", desc: "Anti-stall systems, the commitment ladder, decision velocity." },
     { code: "P7", title: "Closing Architecture", desc: "Commitment engineering and implementation design." },
-    { code: "P8", title: "Strategic Negotiation Architect Capstone", desc: "The live deal: strategised, executed, debriefed, defended." },
+    { code: "P8", title: "Strategic Negotiation Architecture Capstone", desc: "The live deal: strategised, executed, debriefed, defended." },
   ];
 
   const level3Modules = [
@@ -1394,7 +1394,7 @@ export function CertificationCurriculumSection() {
               <span className="text-[10px] font-bold tracking-widest text-[#152540] uppercase block mb-1">
                 Level II
               </span>
-              <h3 className="font-serif text-2xl font-bold text-[#152540] mb-2">Strategic Negotiation Architect</h3>
+              <h3 className="font-serif text-2xl font-bold text-[#152540] mb-2">Strategic Negotiation Architecture</h3>
               <p className="text-xs font-serif italic text-stone-500 mb-4">
                 Structured negotiator → <b>strategic negotiation designer</b>
               </p>
@@ -1414,7 +1414,7 @@ export function CertificationCurriculumSection() {
               <span className="text-[10px] font-bold tracking-widest text-[#A8741F] uppercase block mb-1">
                 Level III
               </span>
-              <h3 className="font-serif text-2xl font-bold text-[#152540] mb-2">Advanced Negotiation Architect</h3>
+              <h3 className="font-serif text-2xl font-bold text-[#152540] mb-2">Advanced Negotiation Architecture</h3>
               <p className="text-xs font-serif italic text-stone-500 mb-4">
                 Strategic negotiator → <b>organisational capability builder</b>
               </p>
@@ -1470,7 +1470,7 @@ export function CertificationCurriculumSection() {
                   Level II Curriculum
                 </span>
                 <span className="font-serif text-xl font-bold text-[#152540]">
-                  Strategic Negotiation Architect — Eight Modules
+                  Strategic Negotiation Architecture — Eight Modules
                 </span>
               </div>
               <span className="text-2xl font-bold text-stone-400">{openLevel === 2 ? "−" : "+"}</span>
@@ -1498,7 +1498,7 @@ export function CertificationCurriculumSection() {
                   Level III Curriculum
                 </span>
                 <span className="font-serif text-xl font-bold text-[#152540]">
-                  Advanced Negotiation Architect — Eight Modules
+                  Advanced Negotiation Architecture — Eight Modules
                 </span>
               </div>
               <span className="text-2xl font-bold text-stone-400">{openLevel === 3 ? "−" : "+"}</span>
@@ -1608,8 +1608,8 @@ export function InstitutionalFooter({ theme = "vellum" }: FlagshipProps) {
             <ul className="space-y-2 text-stone-600">
               <li><a href="#certification" className="hover:text-[#A8741F]">Certification Pathway</a></li>
               <li><a href="#certification" className="hover:text-[#A8741F]">Foundation Dynamics</a></li>
-              <li><a href="#certification" className="hover:text-[#A8741F]">Strategic Architect</a></li>
-              <li><a href="#certification" className="hover:text-[#A8741F]">Advanced Architect</a></li>
+              <li><a href="#certification" className="hover:text-[#A8741F]">Strategic Negotiation Architecture</a></li>
+              <li><a href="#certification" className="hover:text-[#A8741F]">Advanced Negotiation Architecture</a></li>
             </ul>
           </div>
           <div>

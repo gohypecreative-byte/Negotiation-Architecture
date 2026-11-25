@@ -2,6 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Use **Negotiation Architecture** as the product name in all interface copy, page
+titles, metadata, and marketing content. Do not shorten it to “Negotiation
+Architect” or spell it “Negotiation Architech”.
+
 ## Contact email
 
 The contact form posts to `/api/contact` and sends enquiries to

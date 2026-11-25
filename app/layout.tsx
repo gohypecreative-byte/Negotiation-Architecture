@@ -4,7 +4,7 @@ import "./globals.css";
 import { SmoothScrollProvider } from "@/components/smooth-scroll";
 
 // SEO metadata from NegotiationArchitect_Version_13_SEO.html.
-const SITE_URL = "https://negotiationarchitect.com";
+const SITE_URL = "https://negotiationarchitecture.com";
 const OG_IMAGE = { url: `${SITE_URL}/assets/images/og-negotiation-architecture.jpg`, alt: "Negotiation Architecture by Dr. Tarun L. Rochwani" };
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Dr. Tarun L. Rochwani | Negotiation Architecture",
     description: "Negotiation is more than a conversation. It is a system. Discover the methodology, advisory and programmes.",
     images: [OG_IMAGE],
-    siteName: "NegotiationArchitect.com",
+    siteName: "Negotiation Architecture",
     locale: "en_IN",
   },
   twitter: {
@@ -42,7 +42,7 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
-      name: "NegotiationArchitect.com",
+      name: "Negotiation Architecture",
       inLanguage: "en-IN",
       publisher: { "@id": `${SITE_URL}/#person` },
     },

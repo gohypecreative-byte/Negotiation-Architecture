@@ -24,7 +24,6 @@ const NAV_LINKS = [
   { label: "Methodology", href: "/negotiation-architecture", group: "explore" },
   { label: "Programmes & Advisory", href: "/advisory-programmes", group: "engage" },
   { label: "The Founder", href: "/founder", group: "explore" },
-  { label: "Insights", href: "/insights", group: "engage" },
   { label: "Contact", href: "/contact", group: "engage" },
 ] as const;
 
