@@ -204,11 +204,11 @@
 .processLayout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 40px; }
 .methodology .stepNav { display: flex; flex-direction: column; gap: 4px; align-self: start; }
 .methodology .stepNav button { flex: none; justify-content: start; min-height: 62px; padding: 16px; border-left: 2px solid transparent; border-radius: 0; color: #64748b; font-size: 19px; }
-.methodology .stepNav button[aria-pressed="true"] { border-color: #c89b59; background: #faf8f4; color: #111827; }
-.methodology .stepNav button:hover { background: #faf8f4; color: #111827; }
+.methodology .stepNav button[aria-pressed="true"] { border-color: #c89b59; background: transparent; color: #111827; }
+.methodology .stepNav button:hover { background: transparent; color: #111827; }
 .methodology .stepNav button span { color: #a8741f; opacity: 1; }
 .methodology .stageFlag { margin-left: auto; font-size: 9px; }
-.processPanel { min-width: 0; padding: 24px 0 24px 40px; border-left: 1px solid #e2e8f0; }
+.processPanel { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 24px 0 24px 48px; border-left: 1px solid #e2e8f0; }
 .methodology .stepDetail { display: block; min-height: 0; margin-top: 0; max-width: 700px; }
 .methodology .result { color: #966820; font-size: 14px; margin-top: 24px; }
 .methodology .examin { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; padding-top: 24px; }

@@ -63,7 +63,7 @@ function ScienceContent() {
         </div>
       </div>
       <div className={styles.scienceCards}>{scienceThemes.map(theme => <article key={theme.title}>
-        <Eyebrow>{theme.category}</Eyebrow>
+        
         <h3>{theme.title}</h3><p>{theme.description}</p>
       </article>)}</div>
       <div className={styles.scienceFooter}>
@@ -75,8 +75,8 @@ function ScienceContent() {
       </div>
     </section>
     <section className={styles.doctoralSection}><div className={`${styles.container} ${styles.doctoralGrid}`}>
-      <div><Eyebrow>Doctoral research</Eyebrow><h2>{source.architecture[28].text}</h2></div>
-      <article className={styles.researchPanel}><Eyebrow>Research focus</Eyebrow><h3>{source.architecture[30].text}</h3><p>{source.architecture[31].text}</p><p className={styles.researchNote}>{source.architecture[32].text}</p></article>
+      <div><h2>{source.architecture[28].text}</h2></div>
+      <article className={styles.researchPanel}><h3>{source.architecture[30].text}</h3><p>{source.architecture[31].text}</p><p className={styles.researchNote}>{source.architecture[32].text}</p></article>
     </div></section>
   </>;
 }
@@ -108,7 +108,7 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
   return <PageRoot id="negotiation-architecture" embedded={embedded} className={styles.methodology}>
     <section className={`${styles.container} ${styles.hero} ${styles.wideHero} ${styles.methodHero}`}>
       <div>
-        <Eyebrow>The proprietary methodology</Eyebrow>
+        
         <PageTitle embedded={embedded}>{source.architecture[0].text}</PageTitle>
         <p className={styles.lead}>{source.architecture[1].text}</p>
         <p>Negotiation Architecture is a system for leading high-stakes conversations, navigating complexity, engineering optimal outcomes and shaping superior commercial agreements.</p>
@@ -119,14 +119,14 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
       </div>
     </section>
     <section id="framework" className={styles.tint}><div className={styles.container}>
-      <div className={styles.sectionHeading}><div><Eyebrow>The five-stage process</Eyebrow><h2>{source.architecture[3].text}</h2></div><p>{source.architecture[4].text}</p></div>
+      <div className={styles.sectionHeading}><div><h2>{source.architecture[3].text}</h2></div><p>{source.architecture[4].text}</p></div>
       <div className={styles.processLayout}>
       <div className={styles.stepNav} role="group" aria-label="Five-stage process">{steps.map((item, index) => <button key={item.name} type="button" aria-pressed={active === index} aria-controls="stage-detail" onClick={() => setActive(index)}>
         <span>{`0${index + 1}`}</span>{item.name}{item.examin && <em className={styles.stageFlag}>EXAMIN</em>}
       </button>)}</div>
       <div id="stage-detail" className={styles.processPanel} aria-live="polite" aria-atomic="true">
         <div className={styles.stepDetail}>
-          <div><Eyebrow>{`Stage 0${active + 1} / 05`}</Eyebrow><h3>{step.question}</h3><p>{step.text}</p></div>
+          <div><h3>{step.question}</h3><p>{step.text}</p></div>
           <p className={styles.result}>{step.result}</p>
         </div>
         <div className={styles.examin} hidden={!step.examin}>
@@ -150,7 +150,7 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
     <ScienceContent />
     <section aria-labelledby="contexts-heading" className={`${styles.container} ${styles.contextsSection}`}>
       <div className={styles.contextsHeading}>
-        <Eyebrow>Where it applies</Eyebrow>
+        
         <h2 id="contexts-heading">{source.architecture[33].text}</h2>
         <p>{source.architecture[34].text}</p>
       </div>
@@ -162,7 +162,7 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
       </div>
     </section>
     <section className={styles.closing}><div className={`${styles.container} ${styles.closingInner}`}>
-      <div><Eyebrow>From understanding to application</Eyebrow><h2>Science informs the system. Practice tests it.</h2><p>Negotiation Architecture translates research-informed thinking into a structured approach to preparation, engagement and outcomes.</p></div>
+      <div><h2>Science informs the system. Practice tests it.</h2><p>Negotiation Architecture translates research-informed thinking into a structured approach to preparation, engagement and outcomes.</p></div>
       <div className={styles.actions}><Action href="#framework">Explore Negotiation Architecture</Action></div>
     </div></section>
   </PageRoot>;
