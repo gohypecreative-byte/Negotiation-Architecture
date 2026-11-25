@@ -60,7 +60,7 @@ export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
               <span>Start a conversation</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-            <Link href="/#about" className={styles.textLink}>Meet the founder</Link>
+            <Link href="/founder" className={styles.textLink}>Meet the founder</Link>
           </div>
         </div>
       </section>

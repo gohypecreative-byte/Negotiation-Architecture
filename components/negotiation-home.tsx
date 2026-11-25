@@ -56,7 +56,7 @@ export function SiteHeader() {
     { label: "About", href: "/about" },
     { label: "Methodology", href: "/negotiation-architecture" },
     { label: "Programmes & Advisory", href: "/advisory-programmes" },
-    { label: "The Founder", href: "/insights" },
+    { label: "The Founder", href: "/founder" },
     { label: "Contact", href: "/contact" },
   ];
   const pathname = usePathname();
@@ -410,7 +410,7 @@ export function PerspectiveSection() {
               <p>{home[22].text}</p>
             </div>
             <div>
-              <TextLink dark href="/about">About the founder</TextLink>
+              <TextLink dark href="/founder">About the founder</TextLink>
             </div>
           </div>
 
