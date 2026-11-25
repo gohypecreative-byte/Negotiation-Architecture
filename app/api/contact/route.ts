@@ -47,7 +47,6 @@ export async function POST(request: Request) {
     const result = await transport.sendMail({
       from: { name: "Negotiation Architecture Website", address: SMTP_USER },
       to: CONTACT_EMAIL,
-      cc: "kshitijsharma1152004@gmail.com",
       replyTo: { name: values.name, address: values.email },
       subject: `Website enquiry — ${values.interest}`,
       text: `Name: ${values.name}\nOrganisation: ${values.organisation || "Not provided"}\nEmail: ${values.email}\nArea of interest: ${values.interest}\n\n${values.message}`,

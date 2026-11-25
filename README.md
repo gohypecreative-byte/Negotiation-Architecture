@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Contact email
 
 The contact form posts to `/api/contact` and sends enquiries to
-`t@negotiationarchitecture.com`, with `kshitijsharma1152004@gmail.com` in CC.
+`t@negotiationarchitecture.com`.
 Replies go to the visitor's email address.
 
 Set these server-only environment variables in `.env.local` for local development
