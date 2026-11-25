@@ -1,6 +1,6 @@
 "use client";
 
-import { source } from "@/lib/negotiation-content";
+import { source, stages, examinComponents } from "@/lib/negotiation-content";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_REGISTRATION, OFFICE_ADDRESS_LINES } from "@/lib/contact";
@@ -9,9 +9,8 @@ import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
-import { AboutSections, ArchitectureSections, ProgrammesSections, InsightsSections, ContactSections } from "./home-v13-sections";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, BookOpen, Menu, Users, Wrench, X } from "lucide-react";
+import { ArrowRight, BookOpen, Mail, MapPin, Menu, Users, Wrench, X } from "lucide-react";
 
 // =========================================================================
 // SECTION 1: HEADER & NAVIGATION
@@ -322,7 +321,7 @@ export function WhatIsSection() {
             <SectionIntro title={home[4].text} lede={home[5].text} />
             <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">{home[6].text}</p>
             <p className="mt-5 font-sans text-base sm:text-lg leading-relaxed text-slate-600">{home[7].text}</p>
-            <div className="mt-7"><TextLink href="/negotiation-architecture#science">Explore the science behind Negotiation Architecture</TextLink></div>
+            <div className="mt-7"><TextLink href="/negotiation-architecture#science">Explore the science behind negotiation</TextLink></div>
           </div>
 
           <div className="lg:col-span-6">
@@ -351,37 +350,78 @@ export function WhatIsSection() {
   );
 }
 
-/** Concise teaser; the full methodology lives on /negotiation-architecture. */
+/** The five connected stages, in the site's original process-section design. */
 export function StructureTeaserSection() {
+  const [active, setActive] = useState(0);
+  const stage = stages[active];
   return (
-    <section className="w-full bg-[#080E1B] text-white py-20 sm:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid lg:grid-cols-2 gap-10">
-        <div>
-          <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">The complete methodology</p>
-          <SectionIntro dark title={home[14].text} lede={home[15].text} />
+    <section id="framework" className="w-full scroll-mt-20 border-t border-slate-200 bg-white py-16 sm:py-28">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
+        <div className="flex flex-col gap-5 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">The system</p>
+            <SectionIntro title={home[14].text} lede={home[15].text} />
+          </div>
+          <div className="shrink-0"><TextLink href="/negotiation-architecture">Explore the full architecture</TextLink></div>
         </div>
-        <div className="lg:pt-3">
-          <p className="font-sans text-base leading-relaxed text-slate-300 mb-6">{home[16].text}</p>
-          <TextLink dark href="/negotiation-architecture">Explore Negotiation Architecture</TextLink>
+
+        <div className="mt-8 grid items-stretch gap-5 sm:mt-14 sm:gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10">
+          <ol aria-label="Choose a stage" className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-1 lg:grid-cols-1">
+            {stages.map((item, index) => (
+              <li key={item.name}>
+                <button
+                  type="button"
+                  onClick={() => setActive(index)}
+                  aria-pressed={active === index}
+                  aria-controls="home-stage-panel"
+                  className={`flex w-full cursor-pointer items-center gap-4 border-l-2 px-4 py-5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8741F] ${active === index ? "border-[#C89B59] text-[#111827]" : "border-transparent text-slate-500 hover:text-[#111827]"}`}
+                >
+                  <span className="font-sans text-xs tabular-nums text-[#A8741F]">{`0${index + 1}`}</span>
+                  <span className="font-sans text-lg font-medium sm:text-xl">{item.name}</span>
+                  {item.examin && <span className="ml-auto rounded-full border border-[#C89B59]/60 px-2.5 py-0.5 font-sans text-[10px] font-semibold tracking-[0.1em] text-[#A8741F]">EXAMIN</span>}
+                </button>
+              </li>
+            ))}
+          </ol>
+          <div id="home-stage-panel" aria-live="polite" className="flex min-w-0 flex-col justify-center border-t border-slate-200 pt-5 sm:pt-8 lg:border-t-0 lg:border-l lg:py-6 lg:pl-12">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{`Stage 0${active + 1} / 05`}</p>
+            <h3 className="mt-4 max-w-2xl font-serif text-2xl leading-tight text-[#111827] sm:text-3xl">{stage.title}</h3>
+            <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-slate-600">{stage.text}</p>
+            <p className="mt-5 font-sans text-sm leading-relaxed text-[#A8741F]">{stage.result}</p>
+            <div hidden={!stage.examin} className="mt-7 border-t border-slate-200 pt-6">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">EXAMIN · Examine the deal before negotiating its terms</p>
+              <p className="mt-3 font-sans text-base leading-relaxed text-slate-600">{source.architecture[7].text}</p>
+              <ul className="mt-5 grid gap-5 sm:grid-cols-3">
+                {examinComponents.map(([term, text]) => (
+                  <li key={term} className="font-sans text-sm leading-relaxed"><strong className="block text-[#111827]">{term}</strong><span className="text-slate-600">{text}</span></li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+const ENGAGE_OFFERS = [
+  { tag: "Individual", title: "Executive Coaching & Advisory", text: "Focused support to prepare for important conversations and strengthen personal capability.", link: "Explore advisory" },
+  { tag: "Learning pathway", title: "Negotiation Programmes", text: "Structured learning in strategic judgement, behavioural awareness and practical skill.", link: "Explore programmes" },
+  { tag: "Organisations", title: "Corporate & Team Development", text: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.", link: "Explore team learning" },
+];
+
 export function AdvisoryIntroSection() {
   return (
     <section className="w-full bg-[#FFFFFF] py-20 sm:py-24">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
         <div>
-          <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">Advisory &amp; programmes</p>
+          <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">Ways to engage</p>
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-tight text-[#111827]">
             {home[17].text}
           </h2>
         </div>
         <div className="lg:pt-10">
-          <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-5">{home[18].text}</p>
-          <p className="font-sans text-slate-600 text-base leading-relaxed mb-8">{home[19].text}</p>
+          <p className="font-sans text-slate-600 text-base sm:text-[17px] leading-relaxed mb-8">{home[18].text}</p>
           <Link
             href="/advisory-programmes"
             className="bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2 group shadow-sm text-white font-sans font-medium text-sm tracking-normal"
@@ -391,31 +431,41 @@ export function AdvisoryIntroSection() {
           </Link>
         </div>
       </div>
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {ENGAGE_OFFERS.map((offer) => (
+          <article key={offer.title} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 transition-colors hover:border-[#C89B59]/60">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{offer.tag}</p>
+            <h3 className="mt-5 font-serif text-2xl text-[#111827]">{offer.title}</h3>
+            <p className="mt-3 mb-6 grow font-sans text-sm sm:text-base leading-relaxed text-slate-600">{offer.text}</p>
+            <TextLink href="/advisory-programmes">{offer.link}</TextLink>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
 
 export function PerspectiveSection() {
   return (
-    <section id="founder" className="w-full bg-[#080E1B] text-white py-20 sm:py-24 relative overflow-hidden">
+    <section id="founder" className="w-full bg-[#F6F2EA] text-[#111827] py-20 sm:py-24 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#C89B59]">Leadership experience</p>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-white mb-6">
+            <p className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-[#A8741F]">The founder</p>
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.1] text-[#111827] mb-6">
               {home[20].text}
             </h2>
-            <div className="space-y-4 mb-7 font-sans text-slate-300 text-base sm:text-lg leading-relaxed">
+            <div className="space-y-4 mb-7 font-sans text-slate-600 text-base sm:text-lg leading-relaxed">
               <p>{home[21].text}</p>
               <p>{home[22].text}</p>
             </div>
             <div>
-              <TextLink dark href="/founder">About the founder</TextLink>
+              <TextLink href="/founder">About the founder</TextLink>
             </div>
           </div>
 
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-[#E4DFD5] shadow-xl">
               <Image
                 src={seatedPortraitPhoto}
                 alt="Seated portrait of Dr. Tarun Rochwani"
@@ -424,7 +474,7 @@ export function PerspectiveSection() {
                 className="editorial-photo object-cover"
                 style={{ objectPosition: "50% 35%" }}
               />
-              <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-2xl pointer-events-none" />
             </div>
           </div>
         </div>
@@ -449,69 +499,81 @@ const FOOTER_LINKS = {
     { label: "Insights", href: "/insights" },
     { label: "Contact", href: "/contact" },
   ],
+  legal: [
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms of Service", href: "/terms" },
+  ],
 };
 
-const footerHeading = "font-sans font-semibold text-sm text-[#C89B59] mb-3 sm:mb-5";
-const footerLink = "inline-flex min-h-11 sm:min-h-0 items-center hover:text-white transition-colors";
+const footerHeading = "mb-4 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#C89B59] sm:mb-5";
+const footerLink = "inline-flex min-h-11 items-center transition-colors hover:text-white sm:min-h-0";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#050A14] text-white">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-5 sm:gap-x-10 gap-y-8 py-10 sm:py-14">
-          <div className="col-span-2 min-w-0 lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3.5 group">
+    <footer className="w-full border-t border-white/[0.06] bg-[#050A14] text-white">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-10 lg:px-12">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-14 sm:gap-x-10 sm:py-20 lg:grid-cols-12">
+          {/* Brand */}
+          <div className="col-span-2 min-w-0 lg:col-span-5 lg:pr-12">
+            <Link href="/" className="group inline-flex items-center gap-3.5">
               <Image src="/images/brand/na-monogram-white.png" alt="NA Monogram" width={36} height={36} className="object-contain" />
-              <span className="font-sans font-bold text-sm tracking-[0.14em] uppercase text-white group-hover:text-[#C89B59] transition-colors">
+              <span className="font-sans text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors group-hover:text-[#C89B59]">
                 Negotiation <span className="text-[#C89B59]">Architecture</span><sup className="text-[9px] font-normal">®</sup>
               </span>
             </Link>
-            <p className="mt-4 max-w-[340px] font-sans text-sm leading-6 text-slate-300">
-              Advancing the science and practice of negotiation.
-            </p>
+            <p className="mt-6 max-w-sm font-serif text-xl leading-snug text-white">Advancing the science and practice of negotiation.</p>
+            <p className="mt-3 font-sans text-xs uppercase tracking-[0.14em] text-slate-500">Structure · Precision · Influence by Design</p>
+            <Link
+              href="/contact"
+              className="group mt-8 inline-flex items-center gap-2 rounded-full border border-[#C89B59]/60 px-6 py-3 font-sans text-sm font-medium text-white transition-colors hover:border-[#C89B59] hover:bg-[#C89B59] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]"
+            >
+              Start a conversation
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
           </div>
 
           <nav aria-label="Explore" className="min-w-0 lg:col-span-2">
             <h4 className={footerHeading}>Explore</h4>
-            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
+            <ul className="space-y-1 font-sans text-sm text-slate-400 sm:space-y-3">
               {FOOTER_LINKS.explore.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
             </ul>
           </nav>
           <nav aria-label="Engage" className="min-w-0 lg:col-span-2">
             <h4 className={footerHeading}>Engage</h4>
-            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
+            <ul className="space-y-1 font-sans text-sm text-slate-400 sm:space-y-3">
               {FOOTER_LINKS.engage.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
             </ul>
           </nav>
-          <div className="min-w-0 lg:col-span-2">
+
+          <div className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-3">
             <h4 className={footerHeading}>Contact</h4>
-            <ul className="space-y-1 sm:space-y-3 text-sm font-sans text-slate-400">
-              <li><a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} break-all`}>{CONTACT_EMAIL}</a></li>
-              <li>Mumbai, India</li>
+            <ul className="space-y-3 font-sans text-sm text-slate-400">
+              <li>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} gap-2.5 break-all`}>
+                  <Mail className="h-4 w-4 shrink-0 text-[#C89B59]" aria-hidden="true" />
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <MapPin className="h-4 w-4 shrink-0 text-[#C89B59]" aria-hidden="true" />
+                Mumbai, India
+              </li>
             </ul>
-          </div>
-          <div className="min-w-0 lg:col-span-2">
-            <h4 className={footerHeading}>India Office</h4>
-            <address className="not-italic">
-              <strong className="block font-sans text-sm font-medium text-white">{OFFICE_NAME}</strong>
-              <ul className="mt-2 space-y-1 text-sm font-sans text-slate-400">
-                <li>{OFFICE_REGISTRATION}</li>
-                {OFFICE_ADDRESS_LINES.map(line => <li key={line}>{line}</li>)}
-              </ul>
+            <address className="mt-6 border-t border-white/10 pt-5 font-sans text-sm not-italic leading-relaxed text-slate-400">
+              <strong className="block font-medium text-slate-200">{OFFICE_NAME}</strong>
+              {OFFICE_REGISTRATION}
+              {OFFICE_ADDRESS_LINES.map(line => <span key={line} className="block">{line}</span>)}
             </address>
           </div>
         </div>
 
-        <div className="border-t border-white/10 py-6 flex flex-col lg:flex-row items-center justify-between gap-3 font-sans text-sm text-slate-400 text-center lg:text-left">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-center font-sans text-sm text-slate-500 sm:flex-row sm:text-left">
           <span>© {year} Negotiation Architecture. All rights reserved.</span>
-          <span>Structure · Precision · Influence by Design</span>
-          <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1">
-            <Link href="/privacy-policy" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="inline-flex min-h-11 sm:min-h-0 items-center text-slate-300 hover:text-[#C89B59] transition-colors">Terms</Link>
-            <TextLink dark href="/contact">Start a conversation</TextLink>
-          </div>
+          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-6">
+            {FOOTER_LINKS.legal.map((link) => <Link key={link.href} href={link.href} className={footerLink}>{link.label}</Link>)}
+          </nav>
         </div>
       </div>
     </footer>
@@ -534,12 +596,6 @@ export function NegotiationHome() {
         <StructureTeaserSection />
         <AdvisoryIntroSection />
         <PerspectiveSection />
-        {/* The rest of the V13 one-page site, in the order of NegotiationArchitect_Version_13_SEO.html. */}
-        <AboutSections />
-        <ArchitectureSections />
-        <ProgrammesSections />
-        <InsightsSections />
-        <ContactSections />
       </main>
       <SiteFooter />
     </div>

@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import styles from "./editorial-pages.module.css";
 import { useEnquiryForm } from "@/hooks/use-enquiry-form";
 import { CONTACT_EMAIL } from "@/lib/contact";
-import { source, programmeOffers, insightPreviews, scienceThemes, closingCta } from "@/lib/negotiation-content";
+import { source, programmeOffers, insightPreviews, scienceThemes, closingCta, stages as steps, examinComponents } from "@/lib/negotiation-content";
 
 function SourceCopy({ items }: { items: { tag: string; text: string }[] }) {
   return <>{items.map((item) => item.tag === "h2" ? <h2 key={item.text}>{item.text}</h2> : item.tag === "h3" ? <h3 key={item.text}>{item.text}</h3> : <p key={item.text}>{item.text}</p>)}</>;
@@ -81,20 +81,6 @@ function ScienceContent() {
   </>;
 }
 
-const examinComponents = [
-  ["Identify", "the drivers of value."],
-  ["Quantify", "the opportunity, in economic terms."],
-  ["Test", "assumptions, costs, risks and trade-offs."],
-];
-
-const steps = [
-  { name: "Understand", question: "Understand what is really happening.", text: "Start with the people and the situation. Separate stated positions from underlying interests. Define what a useful outcome means.", result: "The result: clarity before action." },
-  { name: "Analyse", question: "Analyse interests, choices and the economics.", text: "Look beneath the surface. Weigh priorities, alternatives, influence and dependencies. Then establish what the deal is truly worth.", result: "The result: a sharper view of your choices and the value at stake.", examin: true },
-  { name: "Design", question: "Design your approach with intention.", text: "Shape objectives, options, sequence and trade-offs. Prepare for different responses. Stay open to new information.", result: "The result: a considered plan with room to adapt." },
-  { name: "Engage", question: "Engage with clarity and awareness.", text: "Put preparation into practice. Listen closely. Ask purposeful questions. Respond to people and dynamics as they unfold.", result: "The result: a more deliberate, constructive exchange." },
-  { name: "Achieve", question: "Achieve an outcome that works.", text: "Clarify what was agreed, who is responsible and what happens next. Reflect, so experience strengthens future capability.", result: "The result: clear commitments, follow-through and learning." },
-];
-
 const layers = [
   ["Mindset Foundations", "Composure, self-awareness and clear thinking under pressure."],
   ["Strategic Architecture", "Interests, alternatives, stakeholders, options and preparation."],
@@ -126,7 +112,7 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
       </button>)}</div>
       <div id="stage-detail" className={styles.processPanel} aria-live="polite" aria-atomic="true">
         <div className={styles.stepDetail}>
-          <div><h3>{step.question}</h3><p>{step.text}</p></div>
+          <div><h3>{step.title}</h3><p>{step.text}</p></div>
           <p className={styles.result}>{step.result}</p>
         </div>
         <div className={styles.examin} hidden={!step.examin}>

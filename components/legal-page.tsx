@@ -1,25 +1,29 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { SiteShell } from "./site-shell";
+import styles from "./legal-page.module.css";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_REGISTRATION, OFFICE_ADDRESS_LINES } from "@/lib/contact";
+
+/** Date shown on every policy page; update it whenever a policy changes. */
+export const POLICIES_UPDATED = "25 November 2026";
 
 export function LegalPage({ title, introduction, children }: { title: string; introduction: string; children: ReactNode }) {
   return <SiteShell>
-    <article className="bg-white px-6 pb-16 pt-32 sm:px-10 sm:pb-24 sm:pt-40">
-      <div className="mx-auto max-w-3xl">
-        <header className="border-b border-slate-200 pb-8 sm:pb-10">
-          <Link href="/" className="text-sm font-medium text-[#A8741F] hover:underline">Negotiation Architecture</Link>
-          <h1 className="mt-5 text-4xl sm:text-5xl text-[#111827]">{title}</h1>
-          <p className="mt-5 text-lg leading-relaxed text-slate-600">{introduction}</p>
-        </header>
-        <div className="mt-10 space-y-9 text-base leading-relaxed text-slate-600 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:text-[#111827] [&_p+p]:mt-4 [&_a]:text-[#A8741F] [&_a]:underline [&_a]:break-words">
-          {children}
-          <section>
-            <h2>Contact</h2>
-            <p>For questions about this page, contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
-            <address className="mt-4 not-italic">{OFFICE_NAME}<br />{OFFICE_REGISTRATION}<br />{OFFICE_ADDRESS_LINES.map(line => <span key={line}>{line}<br /></span>)}</address>
-          </section>
-        </div>
+    <header className={styles.hero}>
+      <div className={styles.inner}>
+        <p className={styles.eyebrow}>Legal &amp; policies</p>
+        <h1>{title}</h1>
+        <p className={styles.intro}>{introduction}</p>
+        <p className={styles.updated}>Last updated: {POLICIES_UPDATED}</p>
+      </div>
+    </header>
+    <article className={styles.body}>
+      <div className={`${styles.inner} ${styles.content}`}>
+        {children}
+        <section>
+          <h2>Contact</h2>
+          <p>Negotiation Architecture® is operated by {OFFICE_NAME}. For questions about this page, contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+          <address>{OFFICE_NAME}<br />{OFFICE_REGISTRATION}<br />{OFFICE_ADDRESS_LINES.map(line => <span key={line}>{line}<br /></span>)}</address>
+        </section>
       </div>
     </article>
   </SiteShell>;
