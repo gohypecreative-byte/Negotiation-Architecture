@@ -2,6 +2,28 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+## Contact email
+
+The contact form posts to `/api/contact` and sends enquiries to
+`t@negotiationarchitecture.com`, with `kshitijsharma1152004@gmail.com` in CC.
+Replies go to the visitor's email address.
+
+Set these server-only environment variables in `.env.local` for local development
+and in the hosting provider's environment settings for production:
+
+```dotenv
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=465
+SMTP_USER=t@negotiationarchitecture.com
+SMTP_PASSWORD=<mailbox password>
+```
+
+Never commit the password or prefix these variables with `NEXT_PUBLIC_`.
+Restart the server after changing them. Deployment requires a Node.js server with
+outbound SMTP access; a static export cannot process form submissions.
+
+## Local development
+
 First, run the development server:
 
 ```bash

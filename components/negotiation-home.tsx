@@ -54,9 +54,9 @@ export function SiteHeader() {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Negotiation Architecture", href: "/negotiation-architecture" },
-    { label: "Advisory & Programmes", href: "/advisory-programmes" },
-    { label: "Insights", href: "/insights" },
+    { label: "Methodology", href: "/negotiation-architecture" },
+    { label: "Programmes & Advisory", href: "/advisory-programmes" },
+    { label: "The Founder", href: "/insights" },
     { label: "Contact", href: "/contact" },
   ];
   const pathname = usePathname();

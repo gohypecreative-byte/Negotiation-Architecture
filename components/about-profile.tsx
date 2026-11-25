@@ -3,11 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { source } from "@/lib/negotiation-content";
 import styles from "./about-profile.module.css";
 
-// Version 13 founder narrative: The founder → Professional experience → Academic inquiry → The work.
-const about = source.about;
+// About copy from Negotiation_Architecture_Website_Final_Pravartak.html#about.
 
 export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
   const Title = embedded ? "h2" : "h1";
@@ -15,9 +13,9 @@ export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
     <div id={embedded ? "about" : undefined} className={`${styles.page} ${embedded ? styles.embedded : ""}`}>
       <section className={`${styles.container} ${styles.hero}`}>
         <div className={styles.introduction}>
-          <p className={styles.role}>The founder</p>
-          <Title className={styles.pageTitle}>Dr. Tarun L. Rochwani<span className={styles.degree}>, DBA</span></Title>
-          <p className={styles.lead}>{about[1].text}</p>
+          <p className={styles.role}>About Negotiation Architecture</p>
+          <Title className={styles.pageTitle}>Advancing the science and practice of negotiation.</Title>
+          <p className={styles.lead}>A negotiation science, professional education and executive advisory platform dedicated to advancing how individuals and organisations negotiate, influence decisions, resolve conflicts and create economic value.</p>
         </div>
         <figure className={styles.portrait}>
           <Image src="/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG" alt="Dr. Tarun Rochwani beside the waterfront" width={1086} height={1448} sizes="(max-width: 800px) 100vw, 45vw" preload={!embedded} className={styles.portraitImage} />
@@ -26,42 +24,43 @@ export function AboutProfile({ embedded = false }: { embedded?: boolean }) {
 
       <section className={`${styles.container} ${styles.story}`}>
         <div>
-          <p className={styles.role}>Professional experience</p>
-          <h2>{about[2].text}</h2>
+          <p className={styles.role}>Our philosophy</p>
+          <h2>Beyond instinct. Towards deliberate design.</h2>
         </div>
         <div className={styles.prose}>
-          {about.slice(3, 6).map(item => <p key={item.text}>{item.text}</p>)}
+          <p>Grounded in academic research, applied psychology, human behaviour and commercial economics, Negotiation Architecture brings a structured and deliberate approach to negotiations.</p>
+          <p>Our philosophy moves beyond conventional bargaining towards a deeper understanding of interests, relationships, opportunities and value creation.</p>
         </div>
       </section>
 
       <section className={`${styles.container} ${styles.story}`}>
         <div>
-          <p className={styles.role}>Academic inquiry</p>
-          <h2>{about[6].text}</h2>
+          <p className={styles.role}>Our purpose</p>
+          <h2>Clarity, confidence and commercial intelligence.</h2>
         </div>
         <div className={styles.prose}>
-          {about.slice(7, 10).map(item => <p key={item.text}>{item.text}</p>)}
-          <h3>Academic &amp; Executive Education</h3>
-          <p>{about[10].text}</p>
-          <h3>AI &amp; Emerging Technologies</h3>
-          <p>{about[11].text}</p>
-          <p>{about[12].text}</p>
+          <p>Through executive coaching, professional development programmes and strategic advisory, Negotiation Architecture seeks to empower individuals and organisations to navigate complexity.</p>
+          <h3>Executive coaching</h3>
+          <p>Develop judgement and confidence in consequential conversations.</p>
+          <h3>Professional education</h3>
+          <p>Build negotiation capability through structured learning.</p>
+          <h3>Strategic advisory</h3>
+          <p>Apply negotiation thinking to complex commercial decisions.</p>
         </div>
       </section>
 
       <section className={`${styles.container} ${styles.story}`}>
         <div>
-          <p className={styles.role}>The work</p>
-          <h2>{about[13].text}</h2>
+          <p className={styles.role}>Our purpose</p>
+          <h2>Better agreements are designed, not left to instinct or chance.</h2>
         </div>
         <div className={styles.prose}>
-          <p>{about[14].text}</p>
           <div className={styles.actions}>
             <Link href="/contact" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors text-white font-sans font-medium text-sm">
               <span>Start a conversation</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-            <Link href="/negotiation-architecture" className={styles.textLink}>Explore Negotiation Architecture</Link>
+            <Link href="/#about" className={styles.textLink}>Meet the founder</Link>
           </div>
         </div>
       </section>

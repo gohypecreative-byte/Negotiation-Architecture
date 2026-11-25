@@ -187,6 +187,65 @@
 @media (prefers-reduced-motion: reduce) { .button { transition: none; } }
 
 .methodHero .photo { aspect-ratio: 5 / 4; }
+/* Methodology follows the homepage's restrained type and vertical process. */
+.methodology .container { width: min(100% - 96px, 1304px); }
+.methodology p { line-height: 1.75; }
+.methodology h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 500; }
+.methodology h3 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; }
+.methodology .eyebrow { font-size: 12px; letter-spacing: .12em; margin-bottom: 16px; }
+.methodology .methodHero { padding-block: 152px 64px; border-bottom: 1px solid #e2e8f0; }
+.methodology .pageTitle { max-width: 850px; font-size: clamp(38px, 4.5vw, 60px); font-weight: 500; letter-spacing: -.04em; }
+.methodology .methodHero .lead { max-width: 760px; margin-top: 24px; font-size: 20px; }
+.methodology .methodHero p:not(.eyebrow):not(.lead) { max-width: 820px; margin-top: 16px; font-size: 16px; }
+.methodology .tint { padding-block: 64px; }
+.methodology .sectionHeading { display: block; margin-bottom: 36px; }
+.methodology .sectionHeading h2 { max-width: 720px; }
+.methodology .sectionHeading > p { max-width: 680px; margin-top: 16px; }
+.processLayout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 40px; }
+.methodology .stepNav { display: flex; flex-direction: column; gap: 4px; align-self: start; }
+.methodology .stepNav button { flex: none; justify-content: start; min-height: 62px; padding: 16px; border-left: 2px solid transparent; border-radius: 0; color: #64748b; font-size: 19px; }
+.methodology .stepNav button[aria-pressed="true"] { border-color: #c89b59; background: #faf8f4; color: #111827; }
+.methodology .stepNav button:hover { background: #faf8f4; color: #111827; }
+.methodology .stepNav button span { color: #a8741f; opacity: 1; }
+.methodology .stageFlag { margin-left: auto; font-size: 9px; }
+.processPanel { min-width: 0; padding: 24px 0 24px 40px; border-left: 1px solid #e2e8f0; }
+.methodology .stepDetail { display: block; min-height: 0; margin-top: 0; max-width: 700px; }
+.methodology .result { color: #966820; font-size: 14px; margin-top: 24px; }
+.methodology .examin { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; padding-top: 24px; }
+.methodology .examin h3 { font-size: 18px; }
+.methodology .examinSub { letter-spacing: 0; text-transform: none; font-weight: 400; font-size: 15px; }
+.methodology .researchSection { padding-block: 48px 64px; border-top: 1px solid #e2e8f0; }
+.methodology .split { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+.methodology .split article { padding-top: 0; }
+.methodology .split h3 { font-size: 22px; }
+.methodology .scienceSection { padding-block: 40px 64px; }
+.methodology .scienceProse { padding-top: 0; }
+.methodology .scienceStatement { font-size: 18px; }
+.methodology .scienceCards { gap: 32px; margin-top: 40px; }
+.methodology .scienceCards article { border: 0; border-top: 1px solid #c89b59; border-radius: 0; padding: 24px 0 0; }
+.methodology .doctoralSection { background: #070e1a; padding-block: 64px; }
+.methodology .researchPanel { border: 0; border-left: 1px solid #394357; border-radius: 0; background: transparent; padding: 0 0 0 40px; }
+.methodology .contextsHeading { display: block; }
+.methodology .contextsHeading > p { max-width: 680px; margin-top: 16px; }
+.methodology .closing { background: #f8f9fa; padding-block: 56px; }
+@media (max-width: 900px) {
+  .methodology .container { width: calc(100% - 48px); }
+  .processLayout { grid-template-columns: 220px minmax(0, 1fr); gap: 24px; }
+  .processPanel { padding-left: 24px; }
+  .methodology .split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .methodology .researchPanel { padding: 24px 0 0; border-left: 0; border-top: 1px solid #394357; }
+}
+@media (max-width: 600px) {
+  .methodology .methodHero { padding-block: 128px 40px; }
+  .methodology .methodHero .lead { font-size: 18px; }
+  .processLayout { grid-template-columns: 1fr; }
+  .methodology .stepNav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .methodology .stepNav button { min-height: 48px; padding: 10px 8px; font-size: 16px; gap: 8px; }
+  .methodology .stepNav button .stageFlag { font-size: 8px; padding: 2px 4px; margin-left: 0; }
+  .processPanel { border-left: 0; border-top: 1px solid #e2e8f0; padding: 24px 0 0; }
+  .methodology .split, .methodology .scienceCards { grid-template-columns: 1fr; }
+  .methodology .tint, .methodology .scienceSection, .methodology .researchSection { padding-block: 40px; }
+}
 .methodPractice { align-items: center; }
 .methodPractice h2 { margin-bottom: 24px; }
 @media (max-width: 800px) { .methodHero .photo { aspect-ratio: 4 / 3; } }
@@ -234,4 +293,36 @@
   .scienceCards { grid-template-columns: 1fr; margin-top: 36px; }
   .scienceIntro .button { width: 100%; white-space: normal; text-align: center; }
   .doctoralSection { padding-block: 56px; }
+}
+
+/* Balanced science introduction with a single, focused reading panel. */
+.scienceOverview { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: end; }
+.scienceOverview h2 { margin: 0; }
+.methodology .scienceOverview .scienceSummary { margin-top: 18px; max-width: 540px; font-size: 18px; }
+.scienceContext { max-width: 570px; padding-bottom: 2px; font-size: 16px; }
+.scienceLens { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; margin-top: 36px; padding: 36px; background: #f8f9fa; }
+.methodology .scienceLens h3 { max-width: 440px; font-size: clamp(24px, 2.5vw, 32px); line-height: 1.3; }
+.scienceExplanation { min-width: 0; }
+.methodology .scienceExplanation .scienceStatement { margin: 0 0 16px; font-size: 18px; line-height: 1.65; }
+.scienceExplanation > p:last-child { font-size: 15px; margin: 0; }
+.methodology .scienceSection .scienceCards { margin-top: 32px; gap: 32px; }
+.methodology .scienceSection .scienceCards h3 { font-size: 23px; margin-bottom: 12px; }
+.methodology .scienceSection .scienceCards p:not(.eyebrow) { font-size: 15px; }
+.scienceFooter { display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-top: 36px; padding-top: 28px; border-top: 1px solid #e2e8f0; }
+.scienceFooter > p { max-width: 480px; font-size: 15px; }
+.scienceFooter .actions { margin-top: 0; flex-shrink: 0; gap: 24px; }
+@media (max-width: 1100px) {
+  .scienceFooter { align-items: start; flex-direction: column; gap: 24px; }
+  .scienceFooter > p { max-width: 680px; }
+}
+@media (max-width: 800px) {
+  .scienceOverview, .scienceLens { grid-template-columns: 1fr; gap: 24px; }
+  .scienceContext { max-width: 680px; }
+  .scienceLens { margin-top: 28px; padding: 28px 24px; }
+  .methodology .scienceLens h3 { max-width: 600px; }
+}
+@media (max-width: 480px) {
+  .scienceLens { padding: 24px 20px; }
+  .scienceFooter .actions { width: 100%; align-items: start; flex-direction: column; gap: 20px; }
+  .scienceFooter .button { width: 100%; padding-inline: 18px; }
 }

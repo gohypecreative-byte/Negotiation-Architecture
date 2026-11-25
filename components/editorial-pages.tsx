@@ -1,11 +1,12 @@
 "use client";
 
 // Inner-page content, matched section by section to NegotiationArchitect_Version_13_SEO.html.
-import { useState, useEffect, useRef, type FormEvent, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import styles from "./editorial-pages.module.css";
-import { CONTACT_EMAIL, enquiryEmailHref } from "@/lib/contact";
+import { useEnquiryForm } from "@/hooks/use-enquiry-form";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { source, programmeOffers, insightPreviews, scienceThemes, closingCta } from "@/lib/negotiation-content";
 
 function SourceCopy({ items }: { items: { tag: string; text: string }[] }) {
@@ -15,8 +16,8 @@ function SourceCopy({ items }: { items: { tag: string; text: string }[] }) {
 type EmbedProps = { embedded?: boolean };
 
 /** Root wrapper; when embedded in the one-page home it gets an anchor id and an h2 title. */
-function PageRoot({ id, embedded, children }: { id: string; embedded?: boolean; children: ReactNode }) {
-  return <div id={embedded ? id : undefined} className={`${styles.page} ${embedded ? styles.embedded : ""}`}>{children}</div>;
+function PageRoot({ id, embedded, children, className = "" }: { id: string; embedded?: boolean; children: ReactNode; className?: string }) {
+  return <div id={embedded ? id : undefined} className={`${styles.page} ${embedded ? styles.embedded : ""} ${className}`}>{children}</div>;
 }
 
 function PageTitle({ embedded, children }: { embedded?: boolean; children: ReactNode }) {
@@ -45,33 +46,45 @@ function Closing({ eyebrow, title, text, secondary }: { eyebrow: string; title: 
 function ScienceContent() {
   return <>
     <section id="science" className={`${styles.container} ${styles.scienceSection}`}>
-      <div className={styles.scienceIntro}>
+      <div className={styles.scienceOverview}>
         <header>
-          <Eyebrow>The intellectual foundation</Eyebrow>
-          <h2>{source.architecture[17].text}</h2>
+          <h2>Negotiation Science.</h2>
           <p className={styles.scienceSummary}>{source.architecture[18].text}</p>
         </header>
-        <div className={styles.scienceProse}>
+        <p className={styles.scienceContext}>{source.architecture[20].text}</p>
+      </div>
+      <div className={styles.scienceLens}>
+        <div>
+          <h3>Look beneath positions.<br />Understand what drives the exchange.</h3>
+        </div>
+        <div className={styles.scienceExplanation}>
           <p className={styles.scienceStatement}>{source.architecture[19].text}</p>
-          <SourceCopy items={source.architecture.slice(20, 22)} />
+          <p>This perspective asks what each party values, what alternatives exist, how information is shared, where uncertainty sits and how decisions are influenced by relationships and context.</p>
         </div>
       </div>
       <div className={styles.scienceCards}>{scienceThemes.map(theme => <article key={theme.title}>
         <Eyebrow>{theme.category}</Eyebrow>
         <h3>{theme.title}</h3><p>{theme.description}</p>
       </article>)}</div>
+      <div className={styles.scienceFooter}>
+        <p>The objective is to replace assumptions with inquiry and reaction with deliberate judgement.</p>
+        <div className={styles.actions}>
+          <Action href="#framework">See how the science is applied</Action>
+          <Action href="/insights" secondary>Explore insights</Action>
+        </div>
+      </div>
     </section>
     <section className={styles.doctoralSection}><div className={`${styles.container} ${styles.doctoralGrid}`}>
-      <div><Eyebrow>Doctoral research</Eyebrow><h2>{source.architecture[28].text}</h2><p className={styles.doctoralSummary}>{source.architecture[29].text}</p></div>
+      <div><Eyebrow>Doctoral research</Eyebrow><h2>{source.architecture[28].text}</h2></div>
       <article className={styles.researchPanel}><Eyebrow>Research focus</Eyebrow><h3>{source.architecture[30].text}</h3><p>{source.architecture[31].text}</p><p className={styles.researchNote}>{source.architecture[32].text}</p></article>
     </div></section>
   </>;
 }
 
 const examinComponents = [
-  ["Identify", "The drivers of value."],
-  ["Quantify", "The opportunity, in economic terms."],
-  ["Test", "Assumptions, costs, risks and trade-offs."],
+  ["Identify", "the drivers of value."],
+  ["Quantify", "the opportunity, in economic terms."],
+  ["Test", "assumptions, costs, risks and trade-offs."],
 ];
 
 const steps = [
@@ -92,32 +105,33 @@ const layers = [
 export function MethodologyContent({ embedded = false }: EmbedProps) {
   const [active, setActive] = useState(0);
   const step = steps[active];
-  return <PageRoot id="negotiation-architecture" embedded={embedded}>
+  return <PageRoot id="negotiation-architecture" embedded={embedded} className={styles.methodology}>
     <section className={`${styles.container} ${styles.hero} ${styles.wideHero} ${styles.methodHero}`}>
       <div>
         <Eyebrow>The proprietary methodology</Eyebrow>
         <PageTitle embedded={embedded}>{source.architecture[0].text}</PageTitle>
         <p className={styles.lead}>{source.architecture[1].text}</p>
-        <p>{source.architecture[2].text}</p>
+        <p>Negotiation Architecture is a system for leading high-stakes conversations, navigating complexity, engineering optimal outcomes and shaping superior commercial agreements.</p>
         <div className={styles.actions}>
           <Action href="/advisory-programmes">Apply the system</Action>
-          <Action href="#science" secondary>Read the science behind it</Action>
+          <Action href="#science" secondary>Explore Negotiation Science</Action>
         </div>
       </div>
     </section>
     <section id="framework" className={styles.tint}><div className={styles.container}>
       <div className={styles.sectionHeading}><div><Eyebrow>The five-stage process</Eyebrow><h2>{source.architecture[3].text}</h2></div><p>{source.architecture[4].text}</p></div>
+      <div className={styles.processLayout}>
       <div className={styles.stepNav} role="group" aria-label="Five-stage process">{steps.map((item, index) => <button key={item.name} type="button" aria-pressed={active === index} aria-controls="stage-detail" onClick={() => setActive(index)}>
         <span>{`0${index + 1}`}</span>{item.name}{item.examin && <em className={styles.stageFlag}>EXAMIN</em>}
       </button>)}</div>
-      <div id="stage-detail" aria-live="polite" aria-atomic="true">
+      <div id="stage-detail" className={styles.processPanel} aria-live="polite" aria-atomic="true">
         <div className={styles.stepDetail}>
           <div><Eyebrow>{`Stage 0${active + 1} / 05`}</Eyebrow><h3>{step.question}</h3><p>{step.text}</p></div>
           <p className={styles.result}>{step.result}</p>
         </div>
         <div className={styles.examin} hidden={!step.examin}>
           <div>
-            <h3>EXAMIN <span className={styles.examinSub}>Before you negotiate</span></h3>
+            <h3>EXAMIN <span className={styles.examinSub}>Examine the deal before negotiating its terms.</span></h3>
             <p>{source.architecture[7].text}</p>
           </div>
           <ul className={styles.examinList}>
@@ -125,11 +139,12 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
           </ul>
         </div>
       </div>
+      </div>
     </div></section>
     <section className={`${styles.container} ${styles.researchSection}`}>
-      <div className={styles.sectionHeading}><div><Eyebrow>Capability architecture</Eyebrow><h2>{source.architecture[8].text}</h2></div></div>
+      <div className={styles.sectionHeading}><div><h2>{source.architecture[8].text}</h2></div></div>
       <div className={styles.split}>
-        {layers.map(([title, text], index) => <article key={title} className={styles.prose}><Eyebrow>{`Layer 0${index + 1}`}</Eyebrow><h3>{title}</h3><p>{text}</p></article>)}
+        {layers.map(([title, text]) => <article key={title} className={styles.prose}><h3>{title}</h3><p>{text}</p></article>)}
       </div>
     </section>
     <ScienceContent />
@@ -146,7 +161,10 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
         </article>)}
       </div>
     </section>
-    <Closing eyebrow="Your next conversation" title={closingCta.title} text={closingCta.text} secondary={{ href: "/advisory-programmes", label: "Explore advisory & programmes" }} />
+    <section className={styles.closing}><div className={`${styles.container} ${styles.closingInner}`}>
+      <div><Eyebrow>From understanding to application</Eyebrow><h2>Science informs the system. Practice tests it.</h2><p>Negotiation Architecture translates research-informed thinking into a structured approach to preparation, engagement and outcomes.</p></div>
+      <div className={styles.actions}><Action href="#framework">Explore Negotiation Architecture</Action></div>
+    </div></section>
   </PageRoot>;
 }
 
@@ -204,7 +222,7 @@ export function InsightsContent({ embedded = false }: EmbedProps) {
 }
 
 export function ContactContent({ embedded = false }: EmbedProps) {
-  const [prepared, setPrepared] = useState(false);
+  const { sending, status, submitEnquiry } = useEnquiryForm();
   const interestRef = useRef<HTMLSelectElement>(null);
   useEffect(() => {
     const interest = new URLSearchParams(window.location.search).get("interest");
@@ -213,14 +231,6 @@ export function ContactContent({ embedded = false }: EmbedProps) {
       select.value = interest;
     }
   }, []);
-  function prepareEmail(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const subject = "Website enquiry — Negotiation Architecture";
-    const body = `Name: ${data.get("name")}\nOrganisation: ${data.get("organisation")}\nEmail: ${data.get("email")}\nArea of interest: ${data.get("interest")}\n\n${data.get("message")}`;
-    window.location.href = enquiryEmailHref(subject, body);
-    setPrepared(true);
-  }
   return <PageRoot id="contact" embedded={embedded}>
     <section className={`${styles.container} ${styles.contactHero}`}>
       <div className={styles.contactIntro}>
@@ -235,7 +245,8 @@ export function ContactContent({ embedded = false }: EmbedProps) {
           <p className={styles.email}><strong>Email</strong> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
         </div>
       </div>
-      <form className={styles.form} onSubmit={prepareEmail}>
+      <form className={styles.form} onSubmit={submitEnquiry}>
+        <div hidden aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <h3>{source.contact[6].text}</h3>
         <div className={styles.formRow}>
           <label htmlFor="enquiry-name">Your name<input id="enquiry-name" name="name" autoComplete="name" required maxLength={120} /></label>
@@ -253,8 +264,8 @@ export function ContactContent({ embedded = false }: EmbedProps) {
           </select></label>
         </div>
         <label htmlFor="enquiry-message">How can we help?<textarea id="enquiry-message" name="message" rows={4} required maxLength={4000} /></label>
-        <button className={styles.button} type="submit">Send enquiry <ArrowRight size={16} aria-hidden="true" /></button>
-        <p role="status" className={styles.status} hidden={!prepared}>Your email client should open with your enquiry details. If it did not, please email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.</p>
+        <button className={styles.button} type="submit" disabled={sending} aria-busy={sending}>{sending ? "Sending…" : "Send enquiry"} <ArrowRight size={16} aria-hidden="true" /></button>
+        <p role="status" className={styles.status} hidden={!status}>{status}</p>
       </form>
     </section>
   </PageRoot>;

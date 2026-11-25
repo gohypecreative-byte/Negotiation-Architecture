@@ -2,12 +2,13 @@
 
 // One-page home: the V13 About, Negotiation Architecture, Advisory & Programmes,
 // Insights and Contact content, in the home page's card-and-photo design.
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { ArrowRight, Briefcase, Globe, Users } from "lucide-react";
 import { source, programmeOffers, insightPreviews, scienceThemes, closingCta } from "@/lib/negotiation-content";
-import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS_LINES, enquiryEmailHref } from "@/lib/contact";
+import { useEnquiryForm } from "@/hooks/use-enquiry-form";
+import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS_LINES } from "@/lib/contact";
 import { SectionIntro, TextLink } from "./negotiation-home";
 const founderPhoto = "/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG";
 import programmesPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
@@ -418,14 +419,7 @@ const field = "mt-2 w-full rounded-lg border border-slate-300 bg-white px-3.5 py
 const labelCls = "block font-sans text-sm text-slate-700";
 
 export function ContactSections() {
-  const [prepared, setPrepared] = useState(false);
-  function prepareEmail(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const body = `Name: ${data.get("name")}\nOrganisation: ${data.get("organisation")}\nEmail: ${data.get("email")}\nArea of interest: ${data.get("interest")}\n\n${data.get("message")}`;
-    window.location.href = enquiryEmailHref("Website enquiry — Negotiation Architecture", body);
-    setPrepared(true);
-  }
+  const { sending, status, submitEnquiry } = useEnquiryForm();
   return (
     <section id="contact" className="w-full bg-white py-20 sm:py-28 border-t border-slate-200 scroll-mt-20">
       <div className={`${container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20`}>
@@ -451,7 +445,8 @@ export function ContactSections() {
           </div>
         </div>
         <div>
-            <form onSubmit={prepareEmail} className="grid gap-5">
+            <form onSubmit={submitEnquiry} className="grid gap-5">
+              <div hidden aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
               <h3 className="font-serif text-2xl sm:text-3xl text-[#111827]">{contact[6].text}</h3>
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className={labelCls}>Your name<input name="name" autoComplete="name" required maxLength={120} className={field} /></label>
@@ -470,12 +465,12 @@ export function ContactSections() {
               </div>
               <label className={labelCls}>How can we help?<textarea name="message" rows={4} required maxLength={4000} className={field} /></label>
               <div>
-                <button type="submit" className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors cursor-pointer text-white font-sans font-medium text-sm">
-                  <span>Send enquiry</span><ArrowRight className="w-4 h-4" aria-hidden="true" />
+                <button type="submit" disabled={sending} aria-busy={sending} className="inline-flex items-center gap-2 bg-[#C89B59] hover:bg-[#D9AB64] px-7 py-3 rounded-full transition-colors cursor-pointer text-white font-sans font-medium text-sm">
+                  <span>{sending ? "Sending?" : "Send enquiry"}</span><ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
-              <p role="status" hidden={!prepared} className="font-sans text-sm text-[#111827]">
-                Your email client should open with your enquiry details. If it did not, please email <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#A8741F]">{CONTACT_EMAIL}</a> directly.
+              <p role="status" hidden={!status} className="font-sans text-sm text-[#111827]">
+                {status}
               </p>
             </form>
         </div>

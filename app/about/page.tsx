@@ -4,7 +4,7 @@ import { AboutPage } from "@/components/site-pages";
 export const metadata: Metadata = {
   title: "About — Negotiation Architecture",
   description:
-    "Dr. Tarun L. Rochwani, DBA: more than 25 years of experience, oversight across 26 countries and doctoral research into negotiation outcomes.",
+    "A negotiation science, professional education and executive advisory platform dedicated to advancing how individuals and organisations negotiate, influence decisions, resolve conflicts and create economic value.",
 };
 
 export default function Page() {
