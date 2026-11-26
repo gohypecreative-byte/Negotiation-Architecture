@@ -1,11 +1,13 @@
 "use client";
 
-import { source, stages, examinComponents } from "@/lib/negotiation-content";
+import { source, stages, examinComponents, closingCta } from "@/lib/negotiation-content";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS_LINES } from "@/lib/contact";
 import boardroomPortraitPhoto from "../public/web-image/image.png";
-import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
+import founderPortraitPhoto from "../public/web-image/8253e3b9-d903-499a-8011-4716bd34e5b7.jpg";
+import keynotePhoto from "../public/images/gallery/dr-tarun-02.jpg";
+import masterclassPhoto from "../public/images/gallery/present (1).jpg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BaseHeroBanner } from "./base-hero-banner";
@@ -27,13 +29,14 @@ const NAV_LINKS = [
   { label: "Contact", href: "/contact", group: "engage" },
 ] as const;
 
-const TAGLINE = "Structure · Precision · Influence by Design";
+const TAGLINE = "Structure. Precision. Influence by Design.";
 
-export function SiteHeader() {
+export function SiteHeader({ hideDuringHero = false }: { hideDuringHero?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [withinHeroSequence, setWithinHeroSequence] = useState(false);
 
   useEffect(() => {
+    if (!hideDuringHero) return;
     const hero = document.getElementById("hero");
     if (!hero) return;
 
@@ -41,8 +44,12 @@ export function SiteHeader() {
     const updateVisibility = () => {
       frame = 0;
       const bounds = hero.getBoundingClientRect();
-      // Match the sequence's start/start → end/end scroll range.
-      setWithinHeroSequence(bounds.top < -24 && bounds.bottom > window.innerHeight + 1);
+      // Show navigation at the start and end of the desktop scroll sequence.
+      // The mobile video has no pinned scroll runway, so reveal it after the hero.
+      const sequenceEnd = window.matchMedia("(min-width: 768px)").matches
+        ? window.innerHeight + 1
+        : 0;
+      setWithinHeroSequence(bounds.top < -24 && bounds.bottom > sequenceEnd);
     };
     const scheduleUpdate = () => {
       if (!frame) frame = requestAnimationFrame(updateVisibility);
@@ -59,7 +66,7 @@ export function SiteHeader() {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
     };
-  }, []);
+  }, [hideDuringHero]);
 
   const hidden = withinHeroSequence && !mobileOpen;
 
@@ -260,7 +267,7 @@ export function TextLink({
 }
 
 // =========================================================================
-// HOME SECTIONS — Version 13 approved copy (lib/source-content.json)
+// HOME SECTIONS — Final Pravartak approved copy (lib/source-content.json)
 // =========================================================================
 
 const home = source.home;
@@ -411,9 +418,9 @@ export function StructureTeaserSection() {
 }
 
 const ENGAGE_OFFERS = [
-  { tag: "Individual", title: "Executive Coaching & Advisory", text: "Focused support to prepare for important conversations and strengthen personal capability.", link: "Explore advisory" },
-  { tag: "Learning pathway", title: "Negotiation Programmes", text: "Structured learning in strategic judgement, behavioural awareness and practical skill.", link: "Explore programmes" },
-  { tag: "Organisations", title: "Corporate & Team Development", text: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.", link: "Explore team learning" },
+  { tag: "Individual", title: "Executive Coaching & Advisory", text: "Focused support to prepare for important conversations and strengthen personal capability.", link: "Explore advisory", photo: "/website pictures formal and informal/2004f87a-a0bb-4ec7-81d7-04ad0daf9f54 (1).JPG", alt: "Dr. Tarun Rochwani beside the waterfront" },
+  { tag: "Learning pathway", title: "Negotiation Programmes", text: "Structured learning in strategic judgement, behavioural awareness and practical skill.", link: "Explore programmes", photo: masterclassPhoto, alt: "Dr. Tarun Rochwani presenting Mastering Negotiations: Skills & Techniques" },
+  { tag: "Organisations", title: "Corporate & Team Development", text: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.", link: "Explore team learning", photo: keynotePhoto, alt: "Dr. Tarun Rochwani speaking at the Middle East Procuretech Summit" },
 ];
 
 export function AdvisoryIntroSection() {
@@ -437,13 +444,19 @@ export function AdvisoryIntroSection() {
           </Link>
         </div>
       </div>
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
         {ENGAGE_OFFERS.map((offer) => (
-          <article key={offer.title} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 transition-colors hover:border-[#C89B59]/60">
+          <article key={offer.title} className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-colors hover:border-[#C89B59]/60">
+            {/* Restore the original engagement photographs without replacing approved copy. */}
+            <div className="relative w-full aspect-[4/3] bg-slate-100">
+              <Image src={offer.photo} alt={offer.alt} fill sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1400px) 33vw, 420px" className="editorial-photo object-cover object-center" />
+            </div>
+            <div className="flex grow flex-col p-7">
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">{offer.tag}</p>
             <h3 className="mt-5 font-serif text-2xl text-[#111827]">{offer.title}</h3>
             <p className="mt-3 mb-6 grow font-sans text-sm sm:text-base leading-relaxed text-slate-600">{offer.text}</p>
             <TextLink href="/advisory-programmes">{offer.link}</TextLink>
+            </div>
           </article>
         ))}
       </div>
@@ -462,8 +475,10 @@ export function PerspectiveSection() {
               {home[20].text}
             </h2>
             <div className="space-y-4 mb-7 font-sans text-slate-600 text-base sm:text-lg leading-relaxed">
+              <p>Bringing structure to complex negotiations. Keeping people at the centre.</p>
               <p>{home[21].text}</p>
               <p>{home[22].text}</p>
+              <p>Indian Institute of Technology Madras (IIT Madras Pravartak)<br />Agentic AI &amp; Autonomous Systems</p>
             </div>
             <div>
               <TextLink href="/founder">About the founder</TextLink>
@@ -473,8 +488,8 @@ export function PerspectiveSection() {
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[420px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden border border-[#E4DFD5] shadow-xl">
               <Image
-                src={seatedPortraitPhoto}
-                alt="Seated portrait of Dr. Tarun Rochwani"
+                src={founderPortraitPhoto}
+                alt="Dr. Tarun Rochwani standing in a suit in front of a painting"
                 fill
                 sizes="(max-width: 480px) calc(100vw - 48px), 420px"
                 className="editorial-photo object-cover"
@@ -490,11 +505,11 @@ export function PerspectiveSection() {
 }
 
 // =========================================================================
-// SECTION 18: FOOTER
+// FOOTER
 // =========================================================================
 
 const FOOTER_LINKS = {
-  explore: NAV_LINKS.filter((link) => link.group === "explore"),
+  explore: [...NAV_LINKS.filter((link) => link.group === "explore"), { label: "Insights", href: "/insights" }],
   engage: NAV_LINKS.filter((link) => link.group === "engage"),
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },
@@ -506,7 +521,7 @@ const footerHeading = "mb-4 font-sans text-sm font-semibold uppercase tracking-[
 const footerLink = "inline-flex min-h-11 items-center text-white decoration-[#C89B59] underline-offset-8 transition-colors hover:text-[#E2BD82] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]";
 
 export function SiteFooter() {
-  const year = new Date().getFullYear();
+  const year = 2026;
 
   return (
     <footer className="w-full border-t border-white/15 bg-[#050A14] text-white">
@@ -521,7 +536,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-6 max-w-sm font-serif text-xl leading-snug text-white">Advancing the science and practice of negotiation.</p>
-            <p className="mt-4 max-w-sm font-sans text-sm leading-relaxed tracking-[0.06em] text-[#D8BE96]">Structure · Precision · Influence by Design</p>
+            <p className="mt-4 max-w-sm font-sans text-sm leading-relaxed tracking-[0.06em] text-[#D8BE96]">{TAGLINE}</p>
             <Link
               href="/contact"
               className="group mt-7 inline-flex min-h-12 items-center rounded-full border border-[#C89B59]/70 px-6 py-3 font-sans text-sm font-semibold text-white transition-colors hover:border-[#E2BD82] hover:bg-[#C89B59]/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]"
@@ -582,7 +597,7 @@ export function SiteFooter() {
 export function NegotiationHome() {
   return (
     <div className="min-h-screen bg-[#080E1B] text-[#111827]">
-      <SiteHeader />
+      <SiteHeader hideDuringHero />
       <main id="main">
         <h1 className="sr-only">{home[0].text}</h1>
         <BaseHeroBanner />
@@ -591,6 +606,21 @@ export function NegotiationHome() {
         <StructureTeaserSection />
         <AdvisoryIntroSection />
         <PerspectiveSection />
+        <section aria-labelledby="home-closing-heading" className="relative overflow-hidden border-t border-[#080E1B]/10 bg-white py-16 text-[#080E1B] sm:py-24">
+          <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-6 sm:px-10 lg:grid-cols-[1.2fr_1fr] lg:gap-20 lg:px-12">
+            <div>
+              <p className="mb-6 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[#A8741F]">Your next conversation</p>
+              <h2 id="home-closing-heading" className="font-serif text-4xl font-normal leading-[1.12] tracking-tight sm:text-5xl lg:text-[56px]">
+                Prepare with intention.<br />
+                <span className="text-[#A8741F]">Engage with clarity.</span>
+              </h2>
+            </div>
+            <div className="border-t border-[#080E1B]/20 pt-8 lg:border-t-0 lg:border-l lg:py-2 lg:pl-12">
+              <p className="max-w-lg font-sans text-base leading-relaxed text-[#283344] sm:text-lg">{closingCta.text}</p>
+              <Link href={closingCta.href} className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#C89B59] px-8 py-3.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-[#D9AB64] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#A8741F] sm:w-auto">{closingCta.action}</Link>
+            </div>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </div>

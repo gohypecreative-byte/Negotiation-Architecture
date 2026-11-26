@@ -664,6 +664,11 @@ html.lenis body {
   object-fit: contain;
   object-position: center;
 }
+@media (min-width: 768px) {
+  .sequence-visual img, .sequence-visual canvas {
+    object-fit: cover;
+  }
+}
 /* Shared editorial hierarchy, overriding the previous per-section type scales. */
 h1,
 h2,
@@ -743,7 +748,7 @@ div:has(> img:is(.editorial-photo, [src*="formal"], [src*="gallery"])):not(#hero
 /* Phones play the film in normal page flow, without a scroll runway. */
 .mobile-hero-video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; object-position: center; background: #000; }
 @media (max-width: 767px) {
-  .sequence-hero { height: 100svh; min-height: 320px; padding-top: 80px; box-sizing: border-box; }
+  .sequence-hero { height: 100svh; min-height: 320px; box-sizing: border-box; }
   .sequence-pin { position: relative; height: 100%; min-height: 0; }
   .mobile-hero-video { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; }
 }

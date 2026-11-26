@@ -120,7 +120,7 @@ export default function TermsPage() {
       <h2>17. Certification and credentials</h2>
       <p>Where offered, Foundation, Practitioner and Master certification levels are subject to the specific programme rules supplied before enrolment. Those rules must state assessment and pass criteria, credential validity, re-sit and appeal procedures, permitted use of credential marks, and fair grounds and procedures for suspension or revocation. Payment or attendance alone does not guarantee certification.</p>
       <p>Any proposed suspension or revocation will be explained, with a reasonable opportunity to respond and access the applicable appeal procedure. A credential does not grant a licence to teach, certify others or commercially use our intellectual property.</p>
-      <p>Founder qualifications are distinct from programme accreditation. References to Harvard, Stanford, INSEAD, IIT Madras or other institutions do not imply their accreditation, endorsement or sponsorship of our programmes.</p>
+      <p>Founder qualifications are distinct from programme accreditation. References to Harvard, Stanford, INSEAD, Indian Institute of Technology Madras (IIT Madras Pravartak) or other institutions do not imply their accreditation, endorsement or sponsorship of our programmes.</p>
     </section>
     <section>
       <h2>18. Conduct and participation</h2>

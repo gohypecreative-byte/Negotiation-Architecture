@@ -1,0 +1,56 @@
+FINAL WEBSITE CONTENT CORRECTIONS — 26 NOVEMBER 2026
+Reference: Negotiation_Architecture_Website_Final_Pravartak.html
+Status: implemented and verified in the local checkout; not deployed.
+
+SUBSEQUENT USER CORRECTION
+The user requested removal of the visible homepage introduction shown in their
+screenshot. That text section has been removed; the existing hero media remains.
+The page heading is retained for screen readers. The earlier verification of
+visible homepage introduction copy below describes the version before removal.
+
+COMPLETED
+- Restored all five approved homepage messages as visible HTML alongside the
+  existing hero media, using existing typography, colours and responsive styles.
+- Restored the founder tagline, added the approved IIT Madras Pravartak credential
+  and Agentic AI & Autonomous Systems to the homepage, and retained the correct
+  AED/USD portfolio description. Corrected stale credential text in the shared
+  content snapshot and the institution name in the existing terms disclaimer.
+- Compared all five shared interactive stages and EXAMIN text with Final Pravartak:
+  all 26 heading, sentence, result and component fragments matched.
+- Homepage methodology/advisory summaries match Final Pravartak. Restored the
+  approved closing invitation on the homepage and methodology page.
+- Restored Economics, Behaviour, Relationships, Doctoral research, Research focus
+  and From understanding to application labels; retained corrected science prose.
+- Both requested Insights sentences were already present and remain rendered.
+- Added Insights to the shared footer. All ten generated pages, including 404,
+  have an identical footer with Founder, Insights, Privacy Policy, Terms of Service,
+  business name, existing office address, email, Mumbai, India and exact 2026
+  copyright/trademark wording.
+- About, Founder and Programmes & Advisory substantive content is unchanged.
+  Existing legal policies remain intact apart from the requested IIT name correction.
+  Previously recorded legal publication decisions still apply; see legal handover.
+
+VERIFICATION
+- npm run build passed, including TypeScript and generation of all routes.
+- Generated HTML assertions passed for homepage messages/credentials, science
+  labels, methodology closing, Insights sentences and footer equality/links.
+- git diff --check passed.
+- All six approved enquiry options are present: Executive Coaching & Advisory,
+  Negotiation Programmes, Corporate & Team Development, Speaking & Keynotes,
+  Research & Collaboration, Other enquiry.
+- One clearly labelled test enquiry was posted through the production-mode local
+  /api/contact endpoint. HTTP 200 with success:true confirms SMTP acceptance for
+  t@negotiationarchitecture.com; inbox/spam-folder receipt is not independently
+  verified. The existing route reports success only after SMTP recipient acceptance.
+- No legacy HTML versions were found under public/. Archived legal drafts remain
+  outside public/ and are not website routes. Existing unrelated image deletions
+  in the working tree were left untouched.
+
+CLOSURE LIMITS
+- No deployment was performed; the deployed website and removal of any older
+  hosted versions cannot be confirmed from this checkout.
+- Existing responsive layouts were retained and new text uses responsive styles.
+  Desktop/mobile browser interaction, overflow and real-device visual checks are
+  still outstanding; no browser automation package was available in the project.
+- Confirm receipt of the labelled test message in the designated mailbox and
+  repeat the contact check against the deployed production environment.

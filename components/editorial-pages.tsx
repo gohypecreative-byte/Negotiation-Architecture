@@ -1,6 +1,6 @@
 "use client";
 
-// Inner-page content, matched section by section to NegotiationArchitect_Version_13_SEO.html.
+// Inner-page content aligned with Final Pravartak and subsequent approved science corrections.
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -63,11 +63,12 @@ function ScienceContent() {
         </div>
       </div>
       <div className={styles.scienceCards}>{scienceThemes.map(theme => <article key={theme.title}>
-        
+        <Eyebrow>{theme.category}</Eyebrow>
         <h3>{theme.title}</h3><p>{theme.description}</p>
       </article>)}</div>
       <div className={styles.scienceFooter}>
-        <p>The objective is to replace assumptions with inquiry and reaction with deliberate judgement.</p>
+        <div><Eyebrow>From understanding to application</Eyebrow>
+        <p>The objective is to replace assumptions with inquiry and reaction with deliberate judgement.</p></div>
         <div className={styles.actions}>
           <Action href="#framework">See how the science is applied</Action>
           <Action href="/insights" secondary>Explore insights</Action>
@@ -75,8 +76,8 @@ function ScienceContent() {
       </div>
     </section>
     <section className={styles.doctoralSection}><div className={`${styles.container} ${styles.doctoralGrid}`}>
-      <div><h2>{source.architecture[28].text}</h2></div>
-      <article className={styles.researchPanel}><h3>{source.architecture[30].text}</h3><p>{source.architecture[31].text}</p><p className={styles.researchNote}>{source.architecture[32].text}</p></article>
+      <div><Eyebrow>Doctoral research</Eyebrow><h2>{source.architecture[28].text}</h2></div>
+      <article className={styles.researchPanel}><Eyebrow>Research focus</Eyebrow><h3>{source.architecture[30].text}</h3><p>{source.architecture[31].text}</p><p className={styles.researchNote}>{source.architecture[32].text}</p></article>
     </div></section>
   </>;
 }
@@ -151,6 +152,7 @@ export function MethodologyContent({ embedded = false }: EmbedProps) {
       <div><h2>Science informs the system. Practice tests it.</h2><p>Negotiation Architecture translates research-informed thinking into a structured approach to preparation, engagement and outcomes.</p></div>
       <div className={styles.actions}><Action href="#framework">Explore Negotiation Architecture</Action></div>
     </div></section>
+    <Closing eyebrow="Your next conversation" title={closingCta.title} text={closingCta.text} />
   </PageRoot>;
 }
 

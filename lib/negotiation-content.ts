@@ -1,6 +1,6 @@
 import source from "./source-content.json";
 
-// Text-only snapshot of NegotiationArchitect_Version_13_SEO.html.
+// Approved content aligned with Final Pravartak and subsequent corrections.
 // Presentation, images and interactions remain owned by this project.
 export { source };
 export const programmeOffers = [5, 7, 9].map(index => ({
