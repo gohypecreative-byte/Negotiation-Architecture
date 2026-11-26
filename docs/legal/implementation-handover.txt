@@ -1,0 +1,97 @@
+LEGAL PAGE IMPLEMENTATION — 26 NOVEMBER 2026
+Source: https://docs.google.com/document/d/1HQxM5TqzsFgO8-ELvnvEb-PDmMhbRRi8AcWEpfRhFII/edit
+Status: local review draft, not published or legally approved.
+
+The existing /privacy-policy and /terms pages retain their layout. No separate
+guidelines page was added because the brief explicitly prohibits additional
+policy pages. Editable prior versions are in archive/2026-11-25; these are
+repository snapshots, not evidence of prior approval or publication.
+
+BRIEF CHECKLIST
+1–3: Operator name retained; unsupported registration wording removed from legal
+pages and footer. Existing business email/address retained pending owner approval.
+4: Replaced GST/VAT collection wording with the supplied applicable-tax wording.
+Actual tax status still requires owner confirmation.
+5: Indian trademark wording added to terms/footer; legal metadata uses ®.
+6–7: Added learning, assessment, certification and acceptance-record categories;
+qualified legal bases and territorial/commencement scope per the supplied brief.
+8–9: Added AI permission safeguards, recording/transcription permissions and
+personal/commercial confidentiality. These are proposed commitments; actual AI
+tools, settings, contracts and practices must be confirmed before publication.
+10: Provider categories retained. No provider identities, processing locations,
+adequacy decisions or contractual transfer mechanisms were invented.
+11: Retained 24-month enquiries and engagement-plus-three-year periods. Financial
+retention now follows applicable law rather than asserting a universal eight-year
+period. Confirm whether eight years applies and set acceptance-record retention.
+12: Retained privacy email and 30-day response target, subject to shorter mandatory
+deadlines. Designated grievance person, monitoring and acknowledgement SLA pending.
+13: Source inspection completed; fresh-browser/scanner audit remains outstanding.
+14–15: Existing reasonable-security and adults-only provisions retained. Actual
+controls and age eligibility need owner confirmation.
+16–18: Expanded service scope and outcomes disclaimer; strengthened owned/licensed
+IP coverage and licensing restrictions while retaining client ownership.
+19: Added certification framework and non-endorsement statement. Exact criteria,
+validity, re-sits, appeals and marks require programme rules before enrolment.
+20–21: Added conduct, proportionate sanctions and conflict safeguards.
+22: Preserved advance payment, 14-day corporate payment, 48-hour session notice,
+30+/14–29/<14-day programme refund bands, 10% administration fee, package rules
+and 14-business-day provider cancellation refunds. Clarified free initiatives.
+23: Retained 14-day breach remedy; other termination and unused-fee decisions must
+be stated in the engagement agreement. No new amounts or notice periods invented.
+24–26: Preserved fees-paid cap for paid work, mandatory rights and Mumbai/Indian
+law subject to consumer remedies. Complimentary liability wording needs approval.
+27: Added severability, entire agreement, non-waiver, assignment and notices;
+existing force majeure and signed-agreement priority retained. Future website
+amendments do not automatically change existing contracts.
+28–30: There is only an enquiry form/API in this checkout, no paid booking,
+enrolment or proposal acceptance flow. Added purpose and privacy notice beside
+the enquiry form. Do not treat an enquiry as contract acceptance. No unnecessary
+terms checkbox or marketing opt-in was added to this non-contractual form.
+Before paid services launch, implement mandatory unticked terms acceptance with
+client/server enforcement in the actual transaction system; separate optional
+permissions; secure versioned acceptance records; export and client confirmation.
+Those flows, retention rules, staging tests and sample email remain outstanding.
+31–32: Updated copyright/operator/trademark footer; legal links have 44px minimum
+height and keyboard focus styling. Added a shared-footer 404 page.
+33: Source search of app/components/hooks/lib (excluding legacy source-content
+data) found no unintended visible Negotiation Architect/domain spelling. Legacy
+source import filename in layout comment is not public branding.
+34: Existing negotiationarchitecture.com domain retained, not independently
+confirmed. Both policy pages have distinct canonical and Open Graph URLs and
+descriptions. Site-wide sitemap, social image and commercial-content audit remain
+outside this focused page update and need final verification.
+35: Both pages show version 2026-11-26 and last-updated date. On approval, archive
+the approved wording, effective date and written approval before publication.
+36: Existing responsive layout preserved and footer tap targets improved.
+Real iPhone Safari/Android Chrome checks at 360/390/430px, landscape checks and
+screenshots have not been completed. No browser automation package was installed.
+
+SOURCE-LEVEL TRACKING INVENTORY (NOT A LIVE AUDIT)
+- Active home route renders NegotiationHome; no analytics/tag manager dependency
+  or active tracking pixel was found in inspected application source.
+- Contact form posts to /api/contact; the server sends enquiry fields through
+  Nodemailer using runtime SMTP configuration. Provider identity/region unknown;
+  secrets were not inspected. No enquiry database is implemented in this route.
+- Fonts use a system font stack; no external font fetch found in globals.css.
+- components/ui/sidebar.tsx contains a sidebar_state preference cookie (7 days).
+  No active page import was found; reassess if this component is activated.
+- components/base-showreel.tsx has a stream.mux.com HLS URL, referenced by the
+  unused CodropsHome component, not the active home route. Check if enabled later.
+- Hosting/CDN/security cookies and request processing cannot be established from
+  source alone. Confirm deployment provider and inspect fresh-browser network,
+  storage and cookie activity with DevTools plus an independent scanner.
+- No consent banner added without evidence that non-essential tracking is active.
+
+PUBLICATION DECISIONS STILL REQUIRED
+Approve final wording; business correspondence and grievance contacts; primary
+domain; trademark/copyright ownership; tax status; all provider names, locations,
+AI practices and transfer safeguards; retention and response periods; age policy;
+certification rules; early termination/unused fees; complimentary-service liability.
+The source brief requires written approval before publication. This handover is
+implementation evidence, not a compliance certification.
+
+VERIFICATION
+TypeScript: npx tsc --noEmit passed after policy/form/footer/404 edits.
+Production build: npm run build passed; all routes generated successfully.
+Generated HTML: privacy-policy, terms, contact and _not-found contain both legal
+links; both policy pages contain version 2026-11-26. git diff --check passed.

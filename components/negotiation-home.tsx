@@ -3,7 +3,7 @@
 import { source, stages, examinComponents } from "@/lib/negotiation-content";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_REGISTRATION, OFFICE_ADDRESS_LINES } from "@/lib/contact";
+import { CONTACT_EMAIL, OFFICE_NAME, OFFICE_ADDRESS_LINES } from "@/lib/contact";
 import boardroomPortraitPhoto from "../public/web-image/image.png";
 import seatedPortraitPhoto from "../public/images/gallery/dr-tarun-03.jpg";
 import Link from "next/link";
@@ -502,55 +502,54 @@ const FOOTER_LINKS = {
   ],
 };
 
-const footerHeading = "mb-4 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#C89B59] sm:mb-5";
-const footerLink = "inline-flex min-h-11 items-center transition-colors hover:text-white sm:min-h-0";
+const footerHeading = "mb-4 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-[#C89B59] sm:mb-5";
+const footerLink = "inline-flex min-h-11 items-center text-white decoration-[#C89B59] underline-offset-8 transition-colors hover:text-[#E2BD82] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-white/[0.06] bg-[#050A14] text-white">
+    <footer className="w-full border-t border-white/15 bg-[#050A14] text-white">
       <div className="mx-auto max-w-[1400px] px-5 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-14 sm:gap-x-10 sm:py-20 lg:grid-cols-12">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:gap-x-8 sm:py-16 lg:grid-cols-12">
           {/* Brand */}
-          <div className="col-span-2 min-w-0 lg:col-span-5 lg:pr-12">
-            <Link href="/" className="group inline-flex items-center gap-3.5">
+          <div className="col-span-2 min-w-0 lg:col-span-4 lg:pr-8">
+            <Link href="/" className="group inline-flex max-w-full items-center gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]">
               <Image src="/images/brand/na-monogram-white.png" alt="NA Monogram" width={36} height={36} className="object-contain" />
-              <span className="font-sans text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors group-hover:text-[#C89B59]">
+              <span className="font-sans text-sm font-bold uppercase tracking-[0.08em] text-white sm:tracking-[0.14em]">
                 Negotiation <span className="text-[#C89B59]">Architecture</span><sup className="text-[9px] font-normal">®</sup>
               </span>
             </Link>
             <p className="mt-6 max-w-sm font-serif text-xl leading-snug text-white">Advancing the science and practice of negotiation.</p>
-            <p className="mt-3 font-sans text-xs uppercase tracking-[0.14em] text-slate-500">Structure · Precision · Influence by Design</p>
+            <p className="mt-4 max-w-sm font-sans text-sm leading-relaxed tracking-[0.06em] text-[#D8BE96]">Structure · Precision · Influence by Design</p>
             <Link
               href="/contact"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full border border-[#C89B59]/60 px-6 py-3 font-sans text-sm font-medium text-white transition-colors hover:border-[#C89B59] hover:bg-[#C89B59] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]"
+              className="group mt-7 inline-flex min-h-12 items-center rounded-full border border-[#C89B59]/70 px-6 py-3 font-sans text-sm font-semibold text-white transition-colors hover:border-[#E2BD82] hover:bg-[#C89B59]/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C89B59]"
             >
               Start a conversation
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Link>
           </div>
 
           <nav aria-label="Explore" className="min-w-0 lg:col-span-2">
             <h4 className={footerHeading}>Explore</h4>
-            <ul className="space-y-1 font-sans text-sm text-slate-400 sm:space-y-3">
+            <ul className="space-y-1 font-sans text-base text-white">
               {FOOTER_LINKS.explore.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
             </ul>
           </nav>
           <nav aria-label="Engage" className="min-w-0 lg:col-span-2">
             <h4 className={footerHeading}>Engage</h4>
-            <ul className="space-y-1 font-sans text-sm text-slate-400 sm:space-y-3">
+            <ul className="space-y-1 font-sans text-base text-white">
               {FOOTER_LINKS.engage.map((link) => <li key={link.href}><Link href={link.href} className={footerLink}>{link.label}</Link></li>)}
             </ul>
           </nav>
 
-          <div className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-3">
+          <div className="col-span-2 min-w-0 lg:col-span-4 lg:border-l lg:border-white/15 lg:pl-8">
             <h4 className={footerHeading}>Contact</h4>
-            <ul className="space-y-3 font-sans text-sm text-slate-400">
+            <ul className="space-y-2 font-sans text-base text-white">
               <li>
-                <a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} gap-2.5 break-all`}>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={`${footerLink} max-w-full gap-2.5`}>
                   <Mail className="h-4 w-4 shrink-0 text-[#C89B59]" aria-hidden="true" />
-                  {CONTACT_EMAIL}
+                  <span className="min-w-0 break-words [overflow-wrap:anywhere]">{CONTACT_EMAIL}</span>
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
@@ -558,17 +557,16 @@ export function SiteFooter() {
                 Mumbai, India
               </li>
             </ul>
-            <address className="mt-6 border-t border-white/10 pt-5 font-sans text-sm not-italic leading-relaxed text-slate-400">
-              <strong className="block font-medium text-slate-200">{OFFICE_NAME}</strong>
-              {OFFICE_REGISTRATION}
+            <address className="mt-5 border-t border-white/15 pt-5 font-sans text-base not-italic leading-relaxed text-white">
+              <strong className="mb-2 block font-semibold text-white">{OFFICE_NAME}</strong>
               {OFFICE_ADDRESS_LINES.map(line => <span key={line} className="block">{line}</span>)}
             </address>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-center font-sans text-sm text-slate-500 sm:flex-row sm:text-left">
-          <span>© {year} Negotiation Architecture. All rights reserved.</span>
-          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-6">
+        <div className="flex flex-col gap-4 border-t border-white/20 py-6 font-sans text-sm leading-relaxed text-white lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+          <span className="max-w-3xl">© {year} {OFFICE_NAME}. All rights reserved. Negotiation Architecture® is a registered trademark in India.</span>
+          <nav aria-label="Legal" className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-1">
             {FOOTER_LINKS.legal.map((link) => <Link key={link.href} href={link.href} className={footerLink}>{link.label}</Link>)}
           </nav>
         </div>

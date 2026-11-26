@@ -250,6 +250,7 @@ export function ContactContent({ embedded = false }: EmbedProps) {
           </select></label>
         </div>
         <label htmlFor="enquiry-message">How can we help?<textarea id="enquiry-message" name="message" rows={4} required maxLength={4000} /></label>
+        <p>We use your details to respond to your enquiry and discuss relevant services. Please read our <Link href="/privacy-policy" className="underline underline-offset-4">Privacy Policy</Link>. Please do not include sensitive personal or confidential third-party deal information.</p>
         <button className={styles.button} type="submit" disabled={sending} aria-busy={sending}>{sending ? "Sending…" : "Send enquiry"} <ArrowRight size={16} aria-hidden="true" /></button>
         <p role="status" className={styles.status} hidden={!status}>{status}</p>
       </form>
