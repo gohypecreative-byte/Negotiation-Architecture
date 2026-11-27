@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import styles from "./founder.module.css";
 import { SiteShell } from "@/components/site-shell";
 import founderPortrait from "@/public/web-image/WhatsApp Image 2026-11-26 at 6.48.44 PM.jpeg";
 
@@ -27,25 +27,25 @@ const facts = [
 export default function FounderPage() {
   return (
     <SiteShell>
-      <div className="bg-white text-[#111827]">
+      <div className={`${styles.page} bg-white text-[#111827]`}>
         {/* Hero */}
-        <section className="pt-32 pb-20 sm:pt-40 sm:pb-28">
-          <div className={`${container} grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16`}>
-            <div className="lg:col-span-7">
+        <section className={styles.hero}>
+          <div className={`${container} ${styles.heroGrid}`}>
+            <div className={styles.introduction}>
               <p className={eyebrow}>The founder</p>
-              <h1 className="font-serif text-5xl font-normal leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                Dr. Tarun L. Rochwani<span className="text-2xl text-slate-500 sm:text-3xl">, DBA</span>
+              <h1 className={styles.name}>
+                <span>Dr. Tarun L.</span><br />Rochwani
               </h1>
-              <p className={`${body} mt-6 max-w-xl`}>
+              <p className={styles.credential}>DBA · Founder, Negotiation Architecture</p>
+              <p className={styles.statement}>
                 Bringing structure to complex negotiations. Keeping people at the centre.
               </p>
-              <div className="mt-8">
+              <div className={styles.actions}>
                 <Link href="/contact" className={button}>
                   Start a conversation
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
               </div>
-              <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-slate-200 pt-8">
+              <dl className={styles.facts}>
                 {facts.map(([value, label]) => (
                   <div key={label} className="flex flex-col gap-1">
                     <dt className="font-sans text-sm text-slate-500">{label}</dt>
@@ -54,12 +54,12 @@ export default function FounderPage() {
                 ))}
               </dl>
             </div>
-            <div className="flex lg:col-span-5 lg:justify-end">
-              <div className="relative mx-auto w-full max-w-[340px] overflow-hidden rounded-2xl bg-[#080E1B] lg:mx-0">
+            <figure className={styles.portraitPanel}>
+              <div className={styles.portrait}>
                 <Image
                   src={founderPortrait}
                   alt="Dr. Tarun L. Rochwani in a black suit against a marble background"
-                  sizes="(max-width: 388px) calc(100vw - 48px), 340px"
+                  sizes="(max-width: 368px) calc(100vw - 48px), 320px"
                   preload
                   // Preserve the small source JPEG without another lossy encode.
                   unoptimized
@@ -71,12 +71,12 @@ export default function FounderPage() {
                   style={{ background: "radial-gradient(ellipse at 54% 53%, transparent 30%, rgba(8, 14, 27, 0.08) 65%, rgba(8, 14, 27, 0.18) 100%)" }}
                 />
               </div>
-            </div>
+            </figure>
           </div>
         </section>
 
         {/* Professional experience */}
-        <section className="border-t border-slate-100 py-20 sm:py-24">
+        <section id="experience" className={`${styles.experience} border-t border-slate-100 py-20 sm:py-24`}>
           <div className={`${container} grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16`}>
             <div>
               <p className={eyebrow}>Professional experience</p>
@@ -121,13 +121,13 @@ export default function FounderPage() {
             </div>
           </div>
           <div className={`${container} mt-14 grid grid-cols-1 gap-6 md:grid-cols-2`}>
-            <article className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8">
+            <article className={styles.education}>
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">
                 Academic &amp; Executive Education
               </p>
               <h3 className="mt-5 font-serif text-2xl text-[#111827]">Harvard University · Stanford University · INSEAD</h3>
             </article>
-            <article className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8">
+            <article className={styles.education}>
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-[#A8741F]">
                 AI &amp; Emerging Technologies
               </p>
@@ -166,7 +166,6 @@ export default function FounderPage() {
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
               <Link href="/negotiation-architecture" className={button}>
                 Explore Negotiation Architecture
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
               <Link
                 href="/contact"
