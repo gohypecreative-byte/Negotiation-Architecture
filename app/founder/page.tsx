@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
+import founderPortrait from "@/public/web-image/WhatsApp Image 2026-11-26 at 6.48.44 PM.jpeg";
 
 export const metadata: Metadata = {
   title: "The Founder — Negotiation Architecture",
@@ -54,14 +55,20 @@ export default function FounderPage() {
               </dl>
             </div>
             <div className="flex lg:col-span-5 lg:justify-end">
-              <div className="relative aspect-[956/1280] w-full max-w-[440px] overflow-hidden rounded-2xl bg-slate-100">
+              <div className="relative mx-auto w-full max-w-[340px] overflow-hidden rounded-2xl bg-[#080E1B] lg:mx-0">
                 <Image
-                  src="/web-image/image.png"
-                  alt="Dr. Tarun L. Rochwani standing in a boardroom overlooking the city"
-                  fill
-                  sizes="(max-width: 1024px) calc(100vw - 48px), 440px"
+                  src={founderPortrait}
+                  alt="Dr. Tarun L. Rochwani in a black suit against a marble background"
+                  sizes="(max-width: 388px) calc(100vw - 48px), 340px"
                   preload
-                  className="object-cover"
+                  // Preserve the small source JPEG without another lossy encode.
+                  unoptimized
+                  className="h-auto w-full"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{ background: "radial-gradient(ellipse at 54% 53%, transparent 30%, rgba(8, 14, 27, 0.08) 65%, rgba(8, 14, 27, 0.18) 100%)" }}
                 />
               </div>
             </div>

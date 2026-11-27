@@ -418,7 +418,7 @@ export function StructureTeaserSection() {
 }
 
 const ENGAGE_OFFERS = [
-  { tag: "Individual", title: "Executive Coaching & Advisory", text: "Focused support to prepare for important conversations and strengthen personal capability.", link: "Explore advisory", photo: "/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG", alt: "Dr. Tarun Rochwani beside the waterfront" },
+  { tag: "Individual", title: "Executive Coaching & Advisory", text: "Focused support to prepare for important conversations and strengthen personal capability.", link: "Explore advisory", photo: "/website pictures formal and informal/7e8a09bf-3dc9-4a13-a50d-6531d9f916e2 (1).JPG", alt: "Dr. Tarun Rochwani seated in an executive chair" },
   { tag: "Learning pathway", title: "Negotiation Programmes", text: "Structured learning in strategic judgement, behavioural awareness and practical skill.", link: "Explore programmes", photo: masterclassPhoto, alt: "Dr. Tarun Rochwani presenting Mastering Negotiations: Skills & Techniques" },
   { tag: "Organisations", title: "Corporate & Team Development", text: "Workshops and tailored learning that strengthen how teams prepare, communicate and decide.", link: "Explore team learning", photo: keynotePhoto, alt: "Dr. Tarun Rochwani speaking at the Middle East Procuretech Summit" },
 ];
