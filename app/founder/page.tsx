@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./founder.module.css";
 import { SiteShell } from "@/components/site-shell";
-import founderPortrait from "@/public/web-image/WhatsApp Image 2026-11-26 at 6.48.44 PM.jpeg";
+import founderPortrait from "@/public/WhatsApp Image 2026-11-27 at 8.27.58 PM.jpeg";
 
 export const metadata: Metadata = {
   title: "The Founder — Negotiation Architecture",
@@ -58,10 +58,10 @@ export default function FounderPage() {
               <div className={styles.portrait}>
                 <Image
                   src={founderPortrait}
-                  alt="Dr. Tarun L. Rochwani in a black suit against a marble background"
+                  alt="Dr. Tarun L. Rochwani in a black suit in a bright architectural interior"
                   sizes="(max-width: 368px) calc(100vw - 48px), 320px"
                   preload
-                  // Preserve the small source JPEG without another lossy encode.
+                  // Preserve the source JPEG without another lossy encode.
                   unoptimized
                   className="h-auto w-full"
                 />
